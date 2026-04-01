@@ -298,7 +298,7 @@
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <!-- TLAČÍTKO SPRÁVA REZERVACÍ - ODKAZUJE NA https://4ucentreapartments.xo.je/admin.html -->
+                <!-- TLAČÍTKO SPRÁVA REZERVACÍ - OPRAVENÉ PŘESMĚROVÁNÍ -->
                 <button class="admin-login-toggle" id="adminRedirectBtn">🔒 správa rezervací</button>
             </div>
         </div>
@@ -307,7 +307,7 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE – TLAČÍTKO SPRÁVA REZERVACÍ OTEVÍRÁ admin.html
+    //  KONFIGURACE – ABSOLUTNÍ URL PRO ADMINA
     // ============================================================
     const ADMIN_URL = 'https://4ucentreapartments.xo.je/admin.html';
     const API_URL = 'https://4ucentreapartments.xo.je/api.php';
@@ -425,12 +425,12 @@
         return ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'][m];
     }
 
-    function toggleDate(dateStr) {
+    window.toggleDate = function(dateStr) {
         const idx = selectedDates.indexOf(dateStr);
         if (idx === -1) { selectedDates.push(dateStr); selectedDates.sort(); }
         else selectedDates.splice(idx, 1);
         updateSelectedUI(); renderCalendar(); updatePricePreview();
-    }
+    };
 
     function updateSelectedUI() {
         const c = document.getElementById('selectedDatesList');
@@ -524,12 +524,18 @@
     });
     
     // ============================================================
-    //  TLAČÍTKO SPRÁVA REZERVACÍ - PŘESMĚRUJE NA admin.html
-    //  ADRESA: https://4ucentreapartments.xo.je/admin.html
+    //  TLAČÍTKO SPRÁVA REZERVACÍ - POUŽÍVÁ ABSOLUTNÍ URL S window.location.replace
+    //  Toto řešení je spolehlivější pro přesměrování na jinou doménu
     // ============================================================
-    document.getElementById('adminRedirectBtn')?.addEventListener('click', function() {
-        window.location.href = 'https://4ucentreapartments.xo.je/admin.html';
-    });
+    const adminBtn = document.getElementById('adminRedirectBtn');
+    if (adminBtn) {
+        adminBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // Použijeme window.location.replace - vymaže historii a přesměruje
+            window.location.replace('https://4ucentreapartments.xo.je/admin.html');
+        });
+    }
 
     // ============================================================
     //  MOBILNÍ MENU
