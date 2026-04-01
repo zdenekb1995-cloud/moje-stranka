@@ -532,5 +532,43 @@
         }
     })();
 </script>
+<script>
+const BACKEND_URL = 'https://4ucentreapartments.xo.je';
+
+async function handleAdminLogin(){
+  const user = document.getElementById('adminUser').value.trim();
+  const pass = document.getElementById('adminPass').value;
+  const err  = document.getElementById('adminError');
+
+  err.textContent = '';
+
+  if (!user || !pass){
+    err.textContent = 'Vyplňte uživatelské jméno i heslo.';
+    return;
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append('login', '1');
+    formData.append('username', user);
+    formData.append('password', pass);
+
+    const res = await fetch(`${BACKEND_URL}/admin.php`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const text = await res.text();
+
+    if (text.trim() === '4U_ADMIN_OK'){
+      window.location.href = `${BACKEND_URL}/admin.php`;
+    } else {
+      err.textContent = 'Nesprávné přihlašovací údaje.';
+    }
+  } catch(e){
+    err.textContent = 'Chyba připojení k serveru.';
+  }
+}
+</script>
 </body>
 </html>
