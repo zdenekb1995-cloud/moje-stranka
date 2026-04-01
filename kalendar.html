@@ -298,7 +298,7 @@
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <button class="admin-login-toggle" id="adminRedirectBtn">&#128274; správa rezervací</button>
+                <button class="admin-login-toggle" id="adminRedirectBtn">🔒 správa rezervací</button>
             </div>
         </div>
     </div>
@@ -306,8 +306,7 @@
 
 <script>
     // ============================================================
-    //  !! JEDINÉ MÍSTO KDE MĚNIT URL !!
-    //  Sem vložte přesnou adresu vašeho InfinityFree serveru.
+    //  KONFIGURACE – URL PRO SPRÁVU REZERVACÍ
     // ============================================================
     const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
     const ADMIN_URL        = INFINITYFREE_URL + '/admin.html';
@@ -349,7 +348,7 @@
                 const ago = Math.round((Date.now() - new Date(data.last_sync)) / 60000);
                 text.textContent = `Dostupnost aktuální · poslední sync: před ${ago < 1 ? 'méně než minutou' : ago + ' min'}`;
             } else {
-                text.textContent = 'Dostupnost načtena · synchronizace zatím nepřeproběhla';
+                text.textContent = 'Dostupnost načtena · synchronizace zatím neproběhla';
             }
             dot.className = 'sync-dot ok';
         } catch(e) {
@@ -438,7 +437,7 @@
         const c = document.getElementById('selectedDatesList');
         if (!c) return;
         if (selectedDates.length === 0) {
-            c.innerHTML = '<span class="date-badge">&#128235; Zatím žádné termíny</span>';
+            c.innerHTML = '<span class="date-badge">📅 Zatím žádné termíny</span>';
         } else {
             c.innerHTML = [...selectedDates].sort().map(d =>
                 `<span class="date-badge">${d.split('-')[2]}.${d.split('-')[1]}.${d.split('-')[0]}</span>`
@@ -524,6 +523,11 @@
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
+    
+    // ============================================================
+    //  TLAČÍTKO PRO PŘESMĚROVÁNÍ NA SPRÁVU REZERVACÍ
+    //  Odkazuje na: https://4ucentreapartments.xo.je/admin.html
+    // ============================================================
     document.getElementById('adminRedirectBtn')?.addEventListener('click', () => {
         window.location.href = ADMIN_URL;
     });
