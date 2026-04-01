@@ -309,7 +309,7 @@
     //  !! JEDINÉ MÍSTO KDE MĚNIT URL !!
     //  Sem vložte přesnou adresu vašeho InfinityFree serveru.
     // ============================================================
-    const INFINITYFREE_URL = 'https://4ucentreapartments.infinityfreeapp.com';
+    const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
     const ADMIN_URL        = INFINITYFREE_URL + '/admin.html';
     // ============================================================
 
@@ -327,12 +327,16 @@
     async function loadDates() {
         const dot  = document.getElementById('syncDot');
         const text = document.getElementById('syncText');
+        dot.className = 'sync-dot warn';
+        text.textContent = 'Načítám dostupnost…';
         try {
-            const resp = await fetch(API + '?action=get_all', { cache: 'no-store' });
+            const controller = new AbortController();
+            const tid = setTimeout(() => controller.abort(), 10000);
+            const resp = await fetch(API + '?action=get_all', { cache: 'no-store', signal: controller.signal });
+            clearTimeout(tid);
             if (!resp.ok) throw new Error('HTTP ' + resp.status);
             const data = await resp.json();
 
-            // Sloučíme ručně blokované + synchronizované z Booking/Airbnb
             const mergeApt = apt => {
                 const b = data.blocked?.[apt] || [];
                 const s = data.synced?.[apt]  || [];
@@ -341,18 +345,19 @@
             bookedDates.A = mergeApt('A');
             bookedDates.B = mergeApt('B');
 
-            // Zobrazíme info o poslední sync
             if (data.last_sync) {
                 const ago = Math.round((Date.now() - new Date(data.last_sync)) / 60000);
                 text.textContent = `Dostupnost aktuální · poslední sync: před ${ago < 1 ? 'méně než minutou' : ago + ' min'}`;
             } else {
-                text.textContent = 'Dostupnost načtena · synchronizace zatím neproběhla';
+                text.textContent = 'Dostupnost načtena · synchronizace zatím nepřeproběhla';
             }
             dot.className = 'sync-dot ok';
         } catch(e) {
-            console.warn('Načítání obsazenosti selhalo:', e);
+            console.warn('Načtání obsazenosti selhalo:', e.message);
             dot.className = 'sync-dot err';
-            text.textContent = 'Nepodařilo se načíst dostupnost – zkuste obnovit stránku';
+            text.textContent = e.name === 'AbortError'
+                ? 'Časový limit překročen – server neodpovídá. Zkuste obnovit stránku.'
+                : 'Nepodařilo se načíst dostupnost – zkuste obnovit stránku';
         }
         renderCalendar();
     }
