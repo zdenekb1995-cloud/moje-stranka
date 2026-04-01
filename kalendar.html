@@ -288,10 +288,10 @@
         </div>
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
 
-        <!-- Tlačítko správce → přesměruje na externí admin přihlašovací stránku -->
+        <!-- Tlačítko správce → externí admin přihlašovací stránka (přesměrování na externí server) -->
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <button class="admin-login-toggle" onclick="redirectToAdmin()">
+                <button class="admin-login-toggle" id="adminRedirectBtn">
                     &#128274; správa rezervací
                 </button>
             </div>
@@ -303,6 +303,8 @@
     // ========== KONFIGURACE ==========
     // URL pro backend (ical-proxy) zůstává na hlavní doméně
     const BACKEND_URL = 'https://4ucentreapartments.cz';
+    // EXTERNÍ ADMIN PŘIHLÁŠENÍ – PŘESNÁ CÍLOVÁ ADRESA
+    const ADMIN_EXTERNAL_URL = 'https://4ucentreapartments.xo.je/admin.html';
 
     // ========== DATA ==========
     let currentApartment = 'A';
@@ -470,8 +472,22 @@
     // ========== PŘESMĚROVÁNÍ NA EXTERNÍ ADMIN PŘIHLÁŠENÍ ==========
     // Funkce přesměruje na admin.html na externím serveru 4ucentreapartments.xo.je
     function redirectToAdmin() {
-        // Přímé přesměrování na externí přihlašovací portál
-        window.location.href = 'https://4ucentreapartments.xo.je/admin.html';
+        // Přímé přesměrování na externí přihlašovací portál – požadovaná cílová URL
+        window.location.href = ADMIN_EXTERNAL_URL;
+    }
+    
+    // Zajištění správného event listeneru pro tlačítko správy rezervací (může být dynamicky vytvořeno, ale je v DOM)
+    const adminBtn = document.getElementById('adminRedirectBtn');
+    if (adminBtn) {
+        // Odstraníme případné staré listenery, aby nedošlo ke zdvojení
+        adminBtn.removeEventListener('click', redirectToAdmin);
+        adminBtn.addEventListener('click', redirectToAdmin);
+    } else {
+        // Fallback – pokud by se ID změnilo (ale máme správné ID), použijeme selektor pro starou třídu
+        const oldBtn = document.querySelector('.admin-login-toggle');
+        if (oldBtn && oldBtn.id !== 'adminRedirectBtn') {
+            oldBtn.addEventListener('click', redirectToAdmin);
+        }
     }
 
     // ========== INIT ==========
