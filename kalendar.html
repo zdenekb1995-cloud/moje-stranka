@@ -306,19 +306,12 @@
 
 <script>
     // ============================================================
-    //  SPRÁVNÁ URL API NA INFINITYFREE (OPRAVENO!)
-    // ============================================================
-    const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
-    const ADMIN_URL        = INFINITYFREE_URL + '/admininfinity.html';
-    // SPRÁVNÝ ENDPOINT PRO DOSTUPNOST
-    const API = INFINITYFREE_URL + '/api_availability.php';
-    // ============================================================
-
-    let currentApartment = 'A';
-    let currentDate      = new Date();
-    let selectedDates    = [];
-    let bookedDates      = { A: [], B: [] };
-    const prices         = { A: 1890, B: 2250 };
+//  SPRÁVNÉ NASTAVENÍ PRO NAPOJENÍ NA INFINITYFREE
+// ============================================================
+const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
+const ADMIN_URL        = INFINITYFREE_URL + '/admin.html';   // Přesměrování na přihlášení
+const API = INFINITYFREE_URL + '/api_availability.php';      // API pro načtení obsazenosti
+// ============================================================
 
     // ============================================================
     //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
