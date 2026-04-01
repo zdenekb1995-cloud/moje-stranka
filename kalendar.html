@@ -10,10 +10,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Georgia', 'Times New Roman', 'Palatino', serif;
-            background: #ffffff;
-            color: #1a1a1a;
-            line-height: 1.5;
-            scroll-behavior: smooth;
+            background: #ffffff; color: #1a1a1a; line-height: 1.5; scroll-behavior: smooth;
         }
 
         /* ===== NAVIGACE ===== */
@@ -78,6 +75,18 @@
         .subtitle { color: #666; margin-bottom: 48px; font-style: italic; font-size: 1.05rem; border-left: 3px solid #b8860b; padding-left: 18px; }
         @media (max-width: 600px) { h1 { font-size: 2rem; } .container { padding: 100px 20px 50px; } }
 
+        /* ===== STAV SYNCHRONIZACE ===== */
+        .sync-bar {
+            display: flex; align-items: center; gap: 10px;
+            background: #f9f7f3; border-left: 3px solid #b8860b;
+            padding: 10px 16px; margin-bottom: 28px; font-size: 0.78rem; color: #666;
+            border-radius: 2px;
+        }
+        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+        .sync-dot.ok   { background: #4caf50; }
+        .sync-dot.warn { background: #ff9800; }
+        .sync-dot.err  { background: #f44336; }
+
         /* ===== TABS ===== */
         .apartment-tabs { display: flex; gap: 28px; margin-bottom: 44px; border-bottom: 2px solid rgba(184,134,11,0.35); padding-bottom: 12px; }
         .tab-btn { background: transparent; border: none; padding: 10px 36px; font-size: 1.25rem; font-family: 'Georgia', serif; font-weight: 600; cursor: pointer; color: #888; transition: 0.2s; border-radius: 0; }
@@ -97,11 +106,25 @@
         .calendar-header h4 { font-size: 1.25rem; font-weight: 500; color: #333; }
         .weekdays { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; margin-bottom: 14px; color: #d4af37; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; }
         .calendar-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; }
-        .calendar-day { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; background: #e8e8e8; border-radius: 2px; cursor: pointer; transition: all 0.2s cubic-bezier(0.2,0.9,0.4,1.1); font-size: 0.9rem; font-weight: 500; color: #333; border: 1px solid #d0d0d0; }
+        .calendar-day {
+            aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
+            background: #e8e8e8; border-radius: 2px; cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
+            font-size: 0.9rem; font-weight: 500; color: #333; border: 1px solid #d0d0d0;
+        }
         .calendar-day:hover:not(.disabled):not(.booked) { background: #c0c0c0; border-color: #b8860b; transform: scale(1.02); color: #1a1a1a; }
         .calendar-day.selected { background: #b8860b; color: #fff; font-weight: bold; box-shadow: 0 0 0 2px #f3cd81; border-color: #b8860b; }
         .calendar-day.booked { background: #a0a0a0; color: #555; cursor: not-allowed; text-decoration: line-through; opacity: 0.8; border-color: #8a8a8a; }
         .calendar-day.disabled, .calendar-day.other-month { opacity: 0.5; cursor: default; background: #d4d4d4; color: #888; border-color: #cacaca; }
+
+        /* Legenda */
+        .cal-legend { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; font-size: 0.72rem; color: #666; }
+        .cal-legend span { display: flex; align-items: center; gap: 6px; }
+        .cal-legend i { display: inline-block; width: 14px; height: 14px; border-radius: 2px; }
+        .cal-legend i.free    { background: #e8e8e8; border: 1px solid #d0d0d0; }
+        .cal-legend i.sel     { background: #b8860b; }
+        .cal-legend i.booked  { background: #a0a0a0; }
+
         .selected-dates { margin-top: 28px; padding-top: 20px; border-top: 1px dashed rgba(184,134,11,0.4); }
         .selected-dates p { margin: 6px 0 10px 0; color: #7a5c00; font-weight: 600; }
         .date-badge { display: inline-block; background: rgba(184,134,11,0.12); padding: 5px 14px; border-radius: 0; margin: 4px 6px 4px 0; font-size: 0.8rem; font-family: monospace; letter-spacing: 0.5px; }
@@ -136,34 +159,9 @@
         .footer-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 22px; border-radius: 0; font-weight: 500; font-size: 0.7rem; text-decoration: none; background: #b8860b; color: #fff; transition: 0.2s; }
         .footer-pill:hover { background: #9a6e0a; color: #fff; transform: translateY(-2px); }
         .footer-copy { font-size: 0.65rem; color: #999; padding-top: 20px; border-top: 1px solid rgba(184,134,11,0.2); width: 100%; }
-
-        /* ===== ADMIN PŘÍSTUP - TLAČÍTKO S PŘESMĚROVÁNÍM ===== */
-        .admin-footer-login {
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(184,134,11,0.1);
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        .admin-login-toggle {
-            font-size: 0.6rem;
-            color: #aaa;
-            background: none;
-            border: 1px solid rgba(184,134,11,0.4);
-            border-radius: 20px;
-            cursor: pointer;
-            letter-spacing: 0.08em;
-            transition: all 0.2s;
-            padding: 5px 18px;
-            background: rgba(184,134,11,0.05);
-        }
-        .admin-login-toggle:hover { 
-            color: #b8860b; 
-            border-color: #b8860b;
-            background: rgba(184,134,11,0.15);
-            transform: translateY(-1px);
-        }
+        .admin-footer-login { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(184,134,11,0.1); width: 100%; display: flex; justify-content: center; }
+        .admin-login-toggle { font-size: 0.6rem; color: #aaa; background: rgba(184,134,11,0.05); border: 1px solid rgba(184,134,11,0.4); border-radius: 20px; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; padding: 5px 18px; }
+        .admin-login-toggle:hover { color: #b8860b; border-color: #b8860b; background: rgba(184,134,11,0.15); transform: translateY(-1px); }
     </style>
 </head>
 <body>
@@ -213,6 +211,12 @@
     <h1>Rezervace online</h1>
     <div class="subtitle">Vyberte preferovaný apartmán a termín – garantujeme výhodnější cenu než na Booking.com</div>
 
+    <!-- Stav synchronizace -->
+    <div class="sync-bar">
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncText">Načítám dostupnost…</span>
+    </div>
+
     <div class="apartment-tabs">
         <button class="tab-btn active" data-apartment="A">Apartmán A · elegantní</button>
         <button class="tab-btn" data-apartment="B">Apartmán B · s terasou</button>
@@ -222,6 +226,11 @@
         <div class="calendar-section">
             <h3>&#128197; Kalendář dostupnosti</h3>
             <div id="calendar"></div>
+            <div class="cal-legend">
+                <span><i class="free"></i> Volný termín</span>
+                <span><i class="sel"></i> Váš výběr</span>
+                <span><i class="booked"></i> Obsazeno</span>
+            </div>
             <div class="selected-dates">
                 <p><strong>✧ Vybrané dny pobytu ✧</strong></p>
                 <div id="selectedDatesList"></div>
@@ -287,53 +296,78 @@
             <a href="https://www.airbnb.co.uk/rooms/1435491007157769047" target="_blank" class="footer-pill">&#127969; Airbnb – Apartmán B</a>
         </div>
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
-
-        <!-- Tlačítko správce → externí admin přihlašovací stránka (přesměrování na externí server) -->
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <button class="admin-login-toggle" id="adminRedirectBtn">
-                    &#128274; správa rezervací
-                </button>
+                <button class="admin-login-toggle" id="adminRedirectBtn">&#128274; správa rezervací</button>
             </div>
         </div>
     </div>
 </footer>
 
 <script>
-    // ========== KONFIGURACE ==========
-    // URL pro backend (ical-proxy) zůstává na hlavní doméně
-    const BACKEND_URL = 'https://4ucentreapartments.cz';
-    // EXTERNÍ ADMIN PŘIHLÁŠENÍ – PŘESNÁ CÍLOVÁ ADRESA
-    const ADMIN_EXTERNAL_URL = 'https://4ucentreapartments.xo.je/admin.html';
+    // ============================================================
+    //  !! JEDINÉ MÍSTO KDE MĚNIT URL !!
+    //  Sem vložte přesnou adresu vašeho InfinityFree serveru.
+    // ============================================================
+    const INFINITYFREE_URL = 'https://4ucentreapartments.infinityfreeapp.com';
+    const ADMIN_URL        = INFINITYFREE_URL + '/admin.html';
+    // ============================================================
 
-    // ========== DATA ==========
+    const API = INFINITYFREE_URL + '/api.php';
+
     let currentApartment = 'A';
-    let currentDate = new Date();
-    let selectedDates = [];
-    let bookedDates = { A: [], B: [] };
-    const prices = { A: 1890, B: 2250 };
+    let currentDate      = new Date();
+    let selectedDates    = [];
+    let bookedDates      = { A: [], B: [] };
+    const prices         = { A: 1890, B: 2250 };
 
-    // Načti obsazené termíny ze serveru
-    (async function loadDates() {
+    // ============================================================
+    //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
+    // ============================================================
+    async function loadDates() {
+        const dot  = document.getElementById('syncDot');
+        const text = document.getElementById('syncText');
         try {
-            const resp = await fetch(BACKEND_URL + '/ical-proxy.php?action=public_dates');
+            const resp = await fetch(API + '?action=get_all', { cache: 'no-store' });
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
             const data = await resp.json();
-            if (data.A) bookedDates.A = data.A;
-            if (data.B) bookedDates.B = data.B;
+
+            // Sloučíme ručně blokované + synchronizované z Booking/Airbnb
+            const mergeApt = apt => {
+                const b = data.blocked?.[apt] || [];
+                const s = data.synced?.[apt]  || [];
+                return [...new Set([...b, ...s])].sort();
+            };
+            bookedDates.A = mergeApt('A');
+            bookedDates.B = mergeApt('B');
+
+            // Zobrazíme info o poslední sync
+            if (data.last_sync) {
+                const ago = Math.round((Date.now() - new Date(data.last_sync)) / 60000);
+                text.textContent = `Dostupnost aktuální · poslední sync: před ${ago < 1 ? 'méně než minutou' : ago + ' min'}`;
+            } else {
+                text.textContent = 'Dostupnost načtena · synchronizace zatím neproběhla';
+            }
+            dot.className = 'sync-dot ok';
         } catch(e) {
-            console.warn("Načítání obsazenosti selhalo, používám lokální data.");
+            console.warn('Načítání obsazenosti selhalo:', e);
+            dot.className = 'sync-dot err';
+            text.textContent = 'Nepodařilo se načíst dostupnost – zkuste obnovit stránku';
         }
         renderCalendar();
-    })();
+    }
 
-    // ========== KALENDÁŘ ==========
+    // ============================================================
+    //  KALENDÁŘ
+    // ============================================================
     function renderCalendar() {
-        const year = currentDate.getFullYear();
+        const year  = currentDate.getFullYear();
         const month = currentDate.getMonth();
-        const firstDay = new Date(year, month, 1);
-        const startWeekday = firstDay.getDay();
-        let offset = startWeekday === 0 ? 6 : startWeekday - 1;
+        const firstDay    = new Date(year, month, 1);
+        const startWD     = firstDay.getDay();
+        let offset        = startWD === 0 ? 6 : startWD - 1;
         const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const today       = new Date().toISOString().slice(0, 10);
 
         let html = `
             <div class="calendar-header">
@@ -347,29 +381,33 @@
             <div class="calendar-days" id="calendarDays">`;
 
         for (let i = 0; i < offset; i++) {
-            let prevDate = new Date(year, month, -offset + i + 1);
-            html += `<div class="calendar-day other-month disabled">${prevDate.getDate()}</div>`;
+            html += `<div class="calendar-day other-month disabled">${new Date(year, month, -offset + i + 1).getDate()}</div>`;
         }
+
         for (let d = 1; d <= daysInMonth; d++) {
-            const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-            const isBooked = (bookedDates[currentApartment]||[]).includes(dateStr);
+            const dateStr   = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const isBooked  = bookedDates[currentApartment].includes(dateStr);
             const isSelected = selectedDates.includes(dateStr);
+            const isPast    = dateStr < today;
+
             let cls = 'calendar-day';
-            if (isBooked) cls += ' booked disabled';
-            if (isSelected) cls += ' selected';
-            html += `<div class="${cls}" data-date="${dateStr}">${d}</div>`;
+            let title = '';
+            if (isPast)      { cls += ' disabled'; title = 'Minulý termín'; }
+            else if (isBooked) { cls += ' booked disabled'; title = 'Obsazeno'; }
+            else if (isSelected) { cls += ' selected'; title = 'Vybráno – klikněte pro odebrání'; }
+            else { title = 'Volný termín – klikněte pro výběr'; }
+
+            const onclick = (!isPast && !isBooked) ? `onclick="toggleDate('${dateStr}')"` : '';
+            html += `<div class="${cls}" ${onclick} title="${title}">${d}</div>`;
         }
-        let remaining = 42 - offset - daysInMonth;
+
+        const remaining = 42 - offset - daysInMonth;
         for (let i = 1; i <= remaining; i++) {
             html += `<div class="calendar-day other-month disabled">${i}</div>`;
         }
         html += `</div>`;
         document.getElementById('calendar').innerHTML = html;
 
-        document.querySelectorAll('.calendar-day:not(.disabled):not(.booked)').forEach(day => {
-            const dv = day.getAttribute('data-date');
-            if (dv) day.addEventListener('click', () => toggleDate(dv));
-        });
         document.getElementById('prevMonth')?.addEventListener('click', () => {
             currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
             renderCalendar();
@@ -411,7 +449,7 @@
         const el = document.getElementById('priceDisplay');
         if (!el) return;
         const n = selectedDates.length;
-        el.innerText = n === 0 ? '— Kč' : `${(prices[currentApartment]*n).toLocaleString('cs-CZ')} Kč / ${n} nocí`;
+        el.innerText = n === 0 ? '— Kč' : `${(prices[currentApartment] * n).toLocaleString('cs-CZ')} Kč / ${n} nocí`;
     }
 
     function switchApartment(apt) {
@@ -419,14 +457,19 @@
         selectedDates = [];
         updateSelectedUI(); renderCalendar(); updatePricePreview();
         document.querySelectorAll('.tab-btn').forEach(b => {
-            b.getAttribute('data-apartment') === apt ? b.classList.add('active') : b.classList.remove('active');
+            b.getAttribute('data-apartment') === apt
+                ? b.classList.add('active')
+                : b.classList.remove('active');
         });
         const gs = document.getElementById('guests');
-        if (apt === 'B') { gs.querySelector('option[value="3"]').disabled = false; }
-        else { gs.querySelector('option[value="3"]').disabled = true; if (gs.value === '3') gs.value = '2'; }
+        const opt3 = gs.querySelector('option[value="3"]');
+        opt3.disabled = (apt !== 'B');
+        if (apt !== 'B' && gs.value === '3') gs.value = '2';
     }
 
-    // ========== FORMULÁŘ ==========
+    // ============================================================
+    //  FORMULÁŘ – odeslání poptávky (lokálně uloženo)
+    // ============================================================
     document.getElementById('bookingForm')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const fullName = document.getElementById('fullName').value.trim();
@@ -444,63 +487,59 @@
             msgDiv.className = 'message error';
             msgDiv.innerText = '❌ Vyberte alespoň jeden termín pobytu v kalendáři.'; return;
         }
-        msgDiv.className = 'message'; msgDiv.innerText = '⏳ Odesílám rezervační poptávku ...'; msgDiv.style.display = 'block';
+        msgDiv.className = ''; msgDiv.style.display = 'block';
+        msgDiv.innerText = '⏳ Odesílám poptávku…';
+
         try {
-            await new Promise(r => setTimeout(r, 600));
-            let all = JSON.parse(localStorage.getItem('4u_bookings')||'[]');
-            all.push({ id: Date.now(), apartment: currentApartment === 'A' ? 'Apartmán A' : 'Apartmán B s terasou',
-                dates: [...selectedDates], nights: selectedDates.length, fullName, email, phone, guests, note,
-                created: new Date().toISOString() });
+            await new Promise(r => setTimeout(r, 500));
+            let all = JSON.parse(localStorage.getItem('4u_bookings') || '[]');
+            all.push({
+                id: Date.now(),
+                apartment: currentApartment === 'A' ? 'Apartmán A (bez terasy)' : 'Apartmán B (s terasou)',
+                dates: [...selectedDates], nights: selectedDates.length,
+                fullName, email, phone, guests, note,
+                created: new Date().toISOString()
+            });
             localStorage.setItem('4u_bookings', JSON.stringify(all));
             msgDiv.className = 'message success';
-            msgDiv.innerText = `✅ Děkujeme, ${fullName}! Vaše nezávazná poptávka byla přijata. Do 24 hodin Vás budeme kontaktovat na e-mail ${email} s potvrzením termínu a finální cenou (garance lepší ceny než na Booking.com).`;
+            msgDiv.innerText = `✅ Děkujeme, ${fullName}! Vaše nezávazná poptávka byla přijata. Do 24 hodin Vás budeme kontaktovat na e-mail ${email} s potvrzením termínu a finální cenou.`;
             document.getElementById('bookingForm').reset();
             selectedDates = []; updateSelectedUI(); renderCalendar(); updatePricePreview();
-            if (currentApartment === 'B') document.getElementById('guests').querySelector('option[value="3"]').disabled = false;
-            else document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
+            document.getElementById('guests').querySelector('option[value="3"]').disabled = (currentApartment !== 'B');
         } catch(err) {
             msgDiv.className = 'message error';
             msgDiv.innerText = '❌ Omlouváme se, došlo k technické chybě. Kontaktujte nás prosím telefonicky.';
         }
     });
 
+    // ============================================================
+    //  OVLÁDACÍ PRVKY
+    // ============================================================
     document.getElementById('clearDatesBtn')?.addEventListener('click', clearDates);
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
+    document.getElementById('adminRedirectBtn')?.addEventListener('click', () => {
+        window.location.href = ADMIN_URL;
+    });
 
-    // ========== PŘESMĚROVÁNÍ NA EXTERNÍ ADMIN PŘIHLÁŠENÍ ==========
-    // Funkce přesměruje na admin.html na externím serveru 4ucentreapartments.xo.je
-    function redirectToAdmin() {
-        // Přímé přesměrování na externí přihlašovací portál – požadovaná cílová URL
-        window.location.href = ADMIN_EXTERNAL_URL;
-    }
-    
-    // Zajištění správného event listeneru pro tlačítko správy rezervací (může být dynamicky vytvořeno, ale je v DOM)
-    const adminBtn = document.getElementById('adminRedirectBtn');
-    if (adminBtn) {
-        // Odstraníme případné staré listenery, aby nedošlo ke zdvojení
-        adminBtn.removeEventListener('click', redirectToAdmin);
-        adminBtn.addEventListener('click', redirectToAdmin);
-    } else {
-        // Fallback – pokud by se ID změnilo (ale máme správné ID), použijeme selektor pro starou třídu
-        const oldBtn = document.querySelector('.admin-login-toggle');
-        if (oldBtn && oldBtn.id !== 'adminRedirectBtn') {
-            oldBtn.addEventListener('click', redirectToAdmin);
-        }
+    // ============================================================
+    //  MOBILNÍ MENU
+    // ============================================================
+    const mobileBtn  = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+        mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
     }
 
-    // ========== INIT ==========
-    (function init() {
-        updateSelectedUI(); updatePricePreview();
-        document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
-        const mobileBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        if (mobileBtn && mobileMenu) {
-            mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-            mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
-        }
-    })();
+    // ============================================================
+    //  START
+    // ============================================================
+    updateSelectedUI();
+    updatePricePreview();
+    document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
+    loadDates(); // načte živá data z InfinityFree a vykreslí kalendář
 </script>
 </body>
 </html>
