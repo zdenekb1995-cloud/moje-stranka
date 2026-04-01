@@ -137,7 +137,7 @@
         .footer-pill:hover { background: #9a6e0a; color: #fff; transform: translateY(-2px); }
         .footer-copy { font-size: 0.65rem; color: #999; padding-top: 20px; border-top: 1px solid rgba(184,134,11,0.2); width: 100%; }
 
-        /* ===== ADMIN PŘÍSTUP - POUZE TLAČÍTKO S PŘESMĚROVÁNÍM ===== */
+        /* ===== ADMIN PŘÍSTUP - TLAČÍTKO S PŘESMĚROVÁNÍM ===== */
         .admin-footer-login {
             margin-top: 20px;
             padding-top: 16px;
@@ -288,7 +288,7 @@
         </div>
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
 
-        <!-- Nenápadné tlačítko správce → přesměruje na externí admin přihlašovací stránku -->
+        <!-- Tlačítko správce → přesměruje na externí admin přihlašovací stránku -->
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
                 <button class="admin-login-toggle" onclick="redirectToAdmin()">
@@ -301,12 +301,7 @@
 
 <script>
     // ========== KONFIGURACE ==========
-    // URL externího serveru, kde jsou uloženy admin.php, proxy.php a admin.html
-    const EXTERNAL_ADMIN_URL = 'https://4ucentreapartments.xo.je';
-    
-    // URL pro backend (ical-proxy) zůstává na hlavní doméně – pokud používáte stejný hosting, upravte.
-    // Pokud chcete načítat obsazenost přes externí server, změňte i BACKEND_URL.
-    // Aktuálně ponecháno na původní doméně, ale můžete přizpůsobit dle potřeby.
+    // URL pro backend (ical-proxy) zůstává na hlavní doméně
     const BACKEND_URL = 'https://4ucentreapartments.cz';
 
     // ========== DATA ==========
@@ -474,15 +469,9 @@
 
     // ========== PŘESMĚROVÁNÍ NA EXTERNÍ ADMIN PŘIHLÁŠENÍ ==========
     // Funkce přesměruje na admin.html na externím serveru 4ucentreapartments.xo.je
-    // Tento externí soubor (admin.html) bude obsahovat přihlašovací formulář s údaji:
-    // Uživatelské jméno: 4ucentreapartments , Heslo: 4u.CentreA99
-    // Po úspěšném přihlášení se přesměruje zpět na GitHub-hostovaný admin.html (nebo jinou cílovou stránku)
     function redirectToAdmin() {
-        // Přesměrování na externí přihlašovací portál.
-        // Na serveru https://4ucentreapartments.xo.je musí být soubor admin.html,
-        // který obsahuje přihlašovací formulář a po úspěšném přihlášení provede redirect
-        // na vaši GitHub stránku s admin.html (např. https://vasgithub.github.io/repo/admin.html)
-        window.location.href = EXTERNAL_ADMIN_URL + '/admin.html';
+        // Přímé přesměrování na externí přihlašovací portál
+        window.location.href = 'https://4ucentreapartments.xo.je/admin.html';
     }
 
     // ========== INIT ==========
