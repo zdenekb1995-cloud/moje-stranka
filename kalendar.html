@@ -298,6 +298,7 @@
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
+                <!-- TLAČÍTKO SPRÁVA REZERVACÍ - ODKAZUJE NA https://4ucentreapartments.xo.je/admin.html -->
                 <button class="admin-login-toggle" id="adminRedirectBtn">🔒 správa rezervací</button>
             </div>
         </div>
@@ -306,13 +307,11 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE – URL PRO SPRÁVU REZERVACÍ
+    //  KONFIGURACE – TLAČÍTKO SPRÁVA REZERVACÍ OTEVÍRÁ admin.html
     // ============================================================
-    const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
-    const ADMIN_URL        = INFINITYFREE_URL + '/admin.html';
+    const ADMIN_URL = 'https://4ucentreapartments.xo.je/admin.html';
+    const API_URL = 'https://4ucentreapartments.xo.je/api.php';
     // ============================================================
-
-    const API = INFINITYFREE_URL + '/api.php';
 
     let currentApartment = 'A';
     let currentDate      = new Date();
@@ -321,7 +320,7 @@
     const prices         = { A: 1890, B: 2250 };
 
     // ============================================================
-    //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
+    //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z API
     // ============================================================
     async function loadDates() {
         const dot  = document.getElementById('syncDot');
@@ -331,7 +330,7 @@
         try {
             const controller = new AbortController();
             const tid = setTimeout(() => controller.abort(), 10000);
-            const resp = await fetch(API + '?action=get_all', { cache: 'no-store', signal: controller.signal });
+            const resp = await fetch(API_URL + '?action=get_all', { cache: 'no-store', signal: controller.signal });
             clearTimeout(tid);
             if (!resp.ok) throw new Error('HTTP ' + resp.status);
             const data = await resp.json();
@@ -525,11 +524,11 @@
     });
     
     // ============================================================
-    //  TLAČÍTKO PRO PŘESMĚROVÁNÍ NA SPRÁVU REZERVACÍ
-    //  Odkazuje na: https://4ucentreapartments.xo.je/admin.html
+    //  TLAČÍTKO SPRÁVA REZERVACÍ - PŘESMĚRUJE NA admin.html
+    //  ADRESA: https://4ucentreapartments.xo.je/admin.html
     // ============================================================
-    document.getElementById('adminRedirectBtn')?.addEventListener('click', () => {
-        window.location.href = ADMIN_URL;
+    document.getElementById('adminRedirectBtn')?.addEventListener('click', function() {
+        window.location.href = 'https://4ucentreapartments.xo.je/admin.html';
     });
 
     // ============================================================
@@ -548,7 +547,7 @@
     updateSelectedUI();
     updatePricePreview();
     document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
-    loadDates(); // načte živá data z InfinityFree a vykreslí kalendář
+    loadDates();
 </script>
 </body>
 </html>
