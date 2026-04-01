@@ -137,7 +137,7 @@
         .footer-pill:hover { background: #9a6e0a; color: #fff; transform: translateY(-2px); }
         .footer-copy { font-size: 0.65rem; color: #999; padding-top: 20px; border-top: 1px solid rgba(184,134,11,0.2); width: 100%; }
 
-        /* ===== ADMIN LOGIN – nenápadné políčko v patičce ===== */
+        /* ===== ADMIN PŘÍSTUP - POUZE TLAČÍTKO S PŘESMĚROVÁNÍM ===== */
         .admin-footer-login {
             margin-top: 20px;
             padding-top: 16px;
@@ -148,35 +148,22 @@
         }
         .admin-login-toggle {
             font-size: 0.6rem;
-            color: #ccc;
+            color: #aaa;
             background: none;
-            border: none;
+            border: 1px solid rgba(184,134,11,0.4);
+            border-radius: 20px;
             cursor: pointer;
             letter-spacing: 0.08em;
-            transition: color 0.2s;
-            padding: 4px 8px;
+            transition: all 0.2s;
+            padding: 5px 18px;
+            background: rgba(184,134,11,0.05);
         }
-        .admin-login-toggle:hover { color: #b8860b; }
-        #adminLoginBox {
-            display: none;
-            margin-top: 12px;
-            background: #fff;
-            border: 1px solid rgba(184,134,11,0.3);
-            border-radius: 4px;
-            padding: 20px 24px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            text-align: left;
+        .admin-login-toggle:hover { 
+            color: #b8860b; 
+            border-color: #b8860b;
+            background: rgba(184,134,11,0.15);
+            transform: translateY(-1px);
         }
-        #adminLoginBox h4 { font-size: 0.85rem; color: #7a5c00; margin-bottom: 14px; font-weight: 600; letter-spacing: 0.05em; }
-        .al-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-        .al-row label { font-size: 0.7rem; color: #888; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-        .al-row input { padding: 9px 12px; border: 1px solid #ddd; border-radius: 2px; font-size: 0.85rem; width: 100%; background: #fafafa; }
-        .al-row input:focus { outline: none; border-color: #b8860b; box-shadow: 0 0 0 2px rgba(184,134,11,0.15); }
-        .al-submit { width: 100%; padding: 10px; background: #b8860b; color: #fff; border: none; border-radius: 2px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; cursor: pointer; margin-top: 6px; transition: 0.2s; }
-        .al-submit:hover { background: #9a6e0a; }
-        #adminLoginErr { font-size: 0.75rem; color: #c62828; margin-top: 8px; display: none; }
     </style>
 </head>
 <body>
@@ -301,30 +288,27 @@
         </div>
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
 
-        <!-- Nenápadné přihlášení do admin sekce -->
+        <!-- Nenápadné tlačítko správce → přesměruje na externí admin přihlašovací stránku -->
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <button class="admin-login-toggle" onclick="toggleAdminBox()">správce</button>
-                <div id="adminLoginBox">
-                    <h4>&#128274; Přihlášení správce</h4>
-                    <div class="al-row">
-                        <label>Uživatelské jméno</label>
-                        <input type="text" id="adminUser" placeholder="uživatelské jméno" autocomplete="username">
-                    </div>
-                    <div class="al-row">
-                        <label>Heslo</label>
-                        <input type="password" id="adminPass" placeholder="heslo" autocomplete="current-password"
-                               onkeydown="if(event.key==='Enter')doAdminLogin()">
-                    </div>
-                    <button class="al-submit" onclick="doAdminLogin()">PŘIHLÁSIT SE &#8594;</button>
-                    <div id="adminLoginErr">&#10060; Nesprávné přihlašovací údaje.</div>
-                </div>
+                <button class="admin-login-toggle" onclick="redirectToAdmin()">
+                    &#128274; správa rezervací
+                </button>
             </div>
         </div>
     </div>
 </footer>
 
 <script>
+    // ========== KONFIGURACE ==========
+    // URL externího serveru, kde jsou uloženy admin.php, proxy.php a admin.html
+    const EXTERNAL_ADMIN_URL = 'https://4ucentreapartments.xo.je';
+    
+    // URL pro backend (ical-proxy) zůstává na hlavní doméně – pokud používáte stejný hosting, upravte.
+    // Pokud chcete načítat obsazenost přes externí server, změňte i BACKEND_URL.
+    // Aktuálně ponecháno na původní doméně, ale můžete přizpůsobit dle potřeby.
+    const BACKEND_URL = 'https://4ucentreapartments.cz';
+
     // ========== DATA ==========
     let currentApartment = 'A';
     let currentDate = new Date();
@@ -335,11 +319,13 @@
     // Načti obsazené termíny ze serveru
     (async function loadDates() {
         try {
-            const resp = await fetch('ical-proxy.php?action=public_dates');
+            const resp = await fetch(BACKEND_URL + '/ical-proxy.php?action=public_dates');
             const data = await resp.json();
             if (data.A) bookedDates.A = data.A;
             if (data.B) bookedDates.B = data.B;
-        } catch(e) {}
+        } catch(e) {
+            console.warn("Načítání obsazenosti selhalo, používám lokální data.");
+        }
         renderCalendar();
     })();
 
@@ -455,13 +441,13 @@
 
         if (!fullName || !email || !phone) {
             msgDiv.className = 'message error';
-            msgDiv.innerText = '&#10060; Vyplňte prosím jméno, e-mail a telefon.'; return;
+            msgDiv.innerText = '❌ Vyplňte prosím jméno, e-mail a telefon.'; return;
         }
         if (selectedDates.length === 0) {
             msgDiv.className = 'message error';
-            msgDiv.innerText = '&#10060; Vyberte alespoň jeden termín pobytu v kalendáři.'; return;
+            msgDiv.innerText = '❌ Vyberte alespoň jeden termín pobytu v kalendáři.'; return;
         }
-        msgDiv.className = 'message'; msgDiv.innerText = '&#9203; Odesílám rezervační poptávku ...'; msgDiv.style.display = 'block';
+        msgDiv.className = 'message'; msgDiv.innerText = '⏳ Odesílám rezervační poptávku ...'; msgDiv.style.display = 'block';
         try {
             await new Promise(r => setTimeout(r, 600));
             let all = JSON.parse(localStorage.getItem('4u_bookings')||'[]');
@@ -470,14 +456,14 @@
                 created: new Date().toISOString() });
             localStorage.setItem('4u_bookings', JSON.stringify(all));
             msgDiv.className = 'message success';
-            msgDiv.innerText = `&#9989; Děkujeme, ${fullName}! Vaše nezávazná poptávka byla přijata. Do 24 hodin Vás budeme kontaktovat na e-mail ${email} s potvrzením termínu a finální cenou (garance lepší ceny než na Booking.com).`;
+            msgDiv.innerText = `✅ Děkujeme, ${fullName}! Vaše nezávazná poptávka byla přijata. Do 24 hodin Vás budeme kontaktovat na e-mail ${email} s potvrzením termínu a finální cenou (garance lepší ceny než na Booking.com).`;
             document.getElementById('bookingForm').reset();
             selectedDates = []; updateSelectedUI(); renderCalendar(); updatePricePreview();
             if (currentApartment === 'B') document.getElementById('guests').querySelector('option[value="3"]').disabled = false;
             else document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
         } catch(err) {
             msgDiv.className = 'message error';
-            msgDiv.innerText = '&#10060; Omlouváme se, došlo k technické chybě. Kontaktujte nás prosím telefonicky.';
+            msgDiv.innerText = '❌ Omlouváme se, došlo k technické chybě. Kontaktujte nás prosím telefonicky.';
         }
     });
 
@@ -486,38 +472,17 @@
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
 
-    // ========== ADMIN LOGIN ==========
-    function toggleAdminBox() {
-        const box = document.getElementById('adminLoginBox');
-        box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        if (box.style.display === 'block') document.getElementById('adminUser').focus();
-    }
-
-    function doAdminLogin() {
-        const user = document.getElementById('adminUser').value.trim();
-        const pass = document.getElementById('adminPass').value;
-        const err  = document.getElementById('adminLoginErr');
-        // Přihlašovací údaje – kontrola na straně serveru přes PHP
-        fetch('admin.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `login=1&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
-        }).then(r => r.text()).then(text => {
-            if (text.includes('4U_ADMIN_OK')) {
-                window.location.href = 'admin.php';
-            } else {
-                err.style.display = 'block';
-                document.getElementById('adminPass').value = '';
-            }
-        }).catch(() => {
-            // Fallback pro případ bez serveru – přesměruj a nechej PHP rozhodnout
-            const form = document.createElement('form');
-            form.method = 'POST'; form.action = 'admin.php';
-            [['login','1'],['username',user],['password',pass]].forEach(([n,v]) => {
-                const i = document.createElement('input'); i.name = n; i.value = v; form.appendChild(i);
-            });
-            document.body.appendChild(form); form.submit();
-        });
+    // ========== PŘESMĚROVÁNÍ NA EXTERNÍ ADMIN PŘIHLÁŠENÍ ==========
+    // Funkce přesměruje na admin.html na externím serveru 4ucentreapartments.xo.je
+    // Tento externí soubor (admin.html) bude obsahovat přihlašovací formulář s údaji:
+    // Uživatelské jméno: 4ucentreapartments , Heslo: 4u.CentreA99
+    // Po úspěšném přihlášení se přesměruje zpět na GitHub-hostovaný admin.html (nebo jinou cílovou stránku)
+    function redirectToAdmin() {
+        // Přesměrování na externí přihlašovací portál.
+        // Na serveru https://4ucentreapartments.xo.je musí být soubor admin.html,
+        // který obsahuje přihlašovací formulář a po úspěšném přihlášení provede redirect
+        // na vaši GitHub stránku s admin.html (např. https://vasgithub.github.io/repo/admin.html)
+        window.location.href = EXTERNAL_ADMIN_URL + '/admin.html';
     }
 
     // ========== INIT ==========
@@ -531,44 +496,6 @@
             mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
         }
     })();
-</script>
-<script>
-const BACKEND_URL = 'https://4ucentreapartments.xo.je';
-
-async function handleAdminLogin(){
-  const user = document.getElementById('adminUser').value.trim();
-  const pass = document.getElementById('adminPass').value;
-  const err  = document.getElementById('adminError');
-
-  err.textContent = '';
-
-  if (!user || !pass){
-    err.textContent = 'Vyplňte uživatelské jméno i heslo.';
-    return;
-  }
-
-  try {
-    const formData = new FormData();
-    formData.append('login', '1');
-    formData.append('username', user);
-    formData.append('password', pass);
-
-    const res = await fetch(`${BACKEND_URL}/admin.php`, {
-      method: 'POST',
-      body: formData
-    });
-
-    const text = await res.text();
-
-    if (text.trim() === '4U_ADMIN_OK'){
-      window.location.href = `${BACKEND_URL}/admin.php`;
-    } else {
-      err.textContent = 'Nesprávné přihlašovací údaje.';
-    }
-  } catch(e){
-    err.textContent = 'Chyba připojení k serveru.';
-  }
-}
 </script>
 </body>
 </html>
