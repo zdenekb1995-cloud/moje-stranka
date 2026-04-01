@@ -2,767 +2,1203 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Správa rezervací | 4U Centre Apartments</title>
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | 4U Centre Apartments</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Segoe UI', 'Georgia', serif;
             background: #f5f2ed;
-            color: #1a1a1a;
-            line-height: 1.5;
+            padding: 30px 20px;
+            color: #2c2c2c;
         }
-        .admin-container {
-            max-width: 1400px;
+
+        .container {
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 100px 24px 50px;
         }
+
         h1 {
-            font-size: 2rem;
             color: #7a5c00;
-            margin-bottom: 8px;
+            border-bottom: 3px solid #b8860b;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2rem;
         }
-        .subtitle {
-            color: #666;
-            margin-bottom: 32px;
-            border-left: 3px solid #b8860b;
-            padding-left: 18px;
-        }
-        .logout-bar {
+
+        .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 15px;
         }
+
         .logout-btn {
-            background: #b8860b;
+            background: #6c757d;
             color: white;
-            border: none;
-            padding: 10px 24px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            border-radius: 4px;
+            padding: 8px 20px;
             text-decoration: none;
-            display: inline-block;
+            border-radius: 4px;
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            font-family: inherit;
         }
+
         .logout-btn:hover {
-            background: #9a6e0a;
+            background: #5a6268;
+        }
+
+        .save-all-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .save-all-btn:hover {
+            background: #218838;
             transform: translateY(-2px);
         }
-        .sync-status {
-            background: #e8f0fe;
-            padding: 8px 16px;
-            border-radius: 4px;
+
+        .save-status {
             font-size: 0.8rem;
+            margin-left: 15px;
+            color: #28a745;
         }
-        .admin-grid {
+
+        .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 32px;
+            gap: 35px;
+            margin-bottom: 40px;
         }
-        @media (max-width: 900px) {
-            .admin-grid { grid-template-columns: 1fr; }
-        }
-        .calendar-card {
+
+        .card {
             background: white;
-            border-radius: 8px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(184,134,11,0.25);
+            border: 1px solid rgba(184, 134, 11, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
-        .calendar-card h2 {
+
+        .card h2 {
+            color: #b8860b;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .card h2 small {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: normal;
+        }
+
+        .price-tag {
+            background: #f0e9dc;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             color: #7a5c00;
             margin-bottom: 20px;
-            font-size: 1.5rem;
+            display: inline-block;
+        }
+
+        .calendar-wrapper {
+            margin: 20px 0;
+        }
+
+        .calendar-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .ical-section {
-            background: #f9f7f3;
-            padding: 16px;
-            border-radius: 6px;
             margin-bottom: 20px;
-            border: 1px solid rgba(184,134,11,0.2);
+            padding: 10px 0;
         }
-        .ical-row {
-            margin-bottom: 12px;
-        }
-        .ical-label {
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: #7a5c00;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        .ical-link-box {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .ical-link {
-            font-size: 0.7rem;
-            background: #f0f0f0;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-family: monospace;
-            word-break: break-all;
-            flex: 1;
-            border: 1px solid #ddd;
-        }
-        .ical-link a {
-            color: #b8860b;
-            text-decoration: none;
-        }
-        .copy-btn {
+
+        .calendar-nav button {
             background: #b8860b;
-            color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.7rem;
+            font-size: 1.2rem;
+            transition: 0.2s;
         }
-        .copy-btn:hover {
+
+        .calendar-nav button:hover {
             background: #9a6e0a;
         }
-        .import-section {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px dashed rgba(184,134,11,0.3);
+
+        .calendar-nav h3 {
+            font-size: 1.3rem;
+            color: #4a3a1a;
         }
-        .import-input {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        .import-input input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.7rem;
-        }
-        .import-btn {
-            background: #4caf50;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-        .import-btn:hover {
-            background: #45a049;
-        }
-        .sync-btn {
-            background: #2196f3;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            margin-top: 8px;
-        }
-        .sync-btn:hover {
-            background: #0b7dda;
-        }
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .calendar-header button {
-            background: #2d2d2d;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            width: 36px;
-            height: 36px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .calendar-header button:hover {
-            background: #1a1a1a;
-        }
+
         .weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
-            margin-bottom: 12px;
             font-weight: bold;
             color: #b8860b;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
         }
+
         .calendar-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
+            gap: 6px;
         }
-        .calendar-day {
+
+        .day-cell {
             aspect-ratio: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
+            background: #f9f7f3;
+            border: 1px solid #e0d6c8;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85rem;
             transition: all 0.2s;
+            font-size: 0.9rem;
+            font-weight: 500;
             position: relative;
         }
-        .calendar-day:hover:not(.blocked):not(.synced) {
-            background: #e8e8e8;
-            transform: scale(1.02);
+
+        .day-cell:hover {
+            transform: scale(1.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
-        .calendar-day.selected {
-            background: #b8860b;
-            color: white;
-            border-color: #b8860b;
+
+        .day-number {
+            font-size: 1rem;
+            font-weight: 600;
         }
-        .calendar-day.blocked {
-            background: #d32f2f;
-            color: white;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
-        .calendar-day.synced {
-            background: #f44336;
-            color: white;
-            cursor: not-allowed;
-            position: relative;
-        }
-        .calendar-day.synced::after {
-            content: "📅";
-            position: absolute;
+
+        .day-status {
             font-size: 0.6rem;
-            bottom: 2px;
-            right: 2px;
-            opacity: 0.8;
+            margin-top: 3px;
+            padding: 2px 4px;
+            border-radius: 10px;
         }
-        .calendar-day.other-month {
+
+        .day-cell.free {
+            background: #e8f5e9;
+            border-color: #81c784;
+        }
+
+        .day-cell.blocked {
+            background: #ffebee;
+            border-color: #ef5350;
+        }
+
+        .day-cell.blocked .day-status {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .day-cell.reserved {
+            background: #fff3e0;
+            border-color: #ffb74d;
+        }
+
+        .day-cell.imported {
+            background: #eceff1;
+            border-color: #90a4ae;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .day-cell.imported:hover {
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .day-cell.other-month {
             opacity: 0.4;
             background: #f0f0f0;
+            cursor: default;
         }
-        .action-buttons {
-            margin-top: 24px;
+
+        .day-cell.other-month:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .legend {
             display: flex;
-            gap: 12px;
-            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 12px;
+            background: #faf8f5;
+            border-radius: 8px;
+            font-size: 0.7rem;
         }
-        .save-btn {
+
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend .color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .quick-btn {
+            background: #e0d6c8;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: #b8860b;
+            color: white;
+        }
+
+        .sync-section {
+            background: white;
+            border: 1px solid rgba(184, 134, 11, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .sync-section h3 {
+            color: #7a5c00;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sync-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .sync-box {
+            background: #faf8f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .sync-box h4 {
+            color: #b8860b;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .sync-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sync-input-group input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .sync-input-group button {
             background: #b8860b;
             color: white;
             border: none;
-            padding: 12px 32px;
-            font-size: 1rem;
-            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
             transition: 0.2s;
-            border-radius: 4px;
         }
-        .save-btn:hover {
+
+        .sync-input-group button:hover {
             background: #9a6e0a;
-            transform: translateY(-2px);
         }
-        .cancel-btn {
-            background: #666;
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            border-radius: 4px;
-        }
-        .cancel-btn:hover {
-            background: #555;
-        }
-        .message {
-            margin-top: 16px;
+
+        .export-link-box {
+            margin-top: 15px;
             padding: 12px;
-            border-radius: 4px;
-            display: none;
-            text-align: center;
-        }
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            display: block;
-        }
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            display: block;
-        }
-        .message.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            display: block;
-        }
-        .legend {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            font-size: 0.75rem;
-            flex-wrap: wrap;
-        }
-        .legend-item {
+            background: #e8e0d4;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            word-break: break-all;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .legend-color {
-            width: 20px;
-            height: 20px;
+
+        .export-link-box code {
+            flex: 1;
+            font-size: 0.7rem;
+        }
+
+        .export-link-box button {
+            background: #b8860b;
+            color: white;
+            border: none;
+            padding: 4px 12px;
             border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
         }
-        .legend-color.selected { background: #b8860b; }
-        .legend-color.blocked { background: #d32f2f; }
-        .legend-color.synced { background: #f44336; }
-        .info-box {
-            background: #e8f0fe;
+
+        .info-text {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .bookings-section {
+            margin-top: 40px;
+            background: white;
+            border: 1px solid rgba(184, 134, 11, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .bookings-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .booking-item {
+            background: #fef9ef;
             border-left: 4px solid #b8860b;
-            padding: 16px;
-            margin-top: 20px;
-            font-size: 0.8rem;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
         }
-        .info-box code {
-            background: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .booking-name {
+            font-weight: bold;
+            color: #7a5c00;
+        }
+
+        .booking-dates {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .delete-booking {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .delete-booking:hover {
+            background: #c82333;
+        }
+
+        .auto-refresh-note {
+            background: #e8f0fe;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            color: #2c5a9e;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .unsaved-badge {
+            background: #ffc107;
+            color: #856404;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .import-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .import-btn:hover {
+            background: #218838;
+        }
+
+        .sync-status {
+            font-size: 0.7rem;
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .sync-status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .sync-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 1000px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .sync-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<div class="admin-container">
-    <div class="logout-bar">
-        <button class="logout-btn" onclick="window.location.href='index.html'">🚪 Odhlásit se a zpět na web</button>
-        <div class="sync-status" id="syncStatus">
-            🔄 Poslední synchronizace: <span id="lastSync">--</span>
+<div class="container">
+    <div class="admin-header">
+        <h1>📅 Administrace rezervací | 4U Centre Apartments</h1>
+        <div>
+            <button onclick="saveAllChanges()" id="saveAllBtn" class="save-all-btn">💾 Uložit všechny změny</button>
+            <button onclick="logout()" class="logout-btn">🚪 Odhlásit se</button>
         </div>
     </div>
-    <h1>📅 Správa rezervací a kalendářů</h1>
-    <div class="subtitle">Kompletní správa termínů s obousměrnou synchronizací Booking.com a Airbnb</div>
-    
-    <div class="admin-grid">
-        <!-- Apartmán A -->
-        <div class="calendar-card">
+
+    <div class="grid">
+        <!-- Apartmán A (bez terasy) -->
+        <div class="card">
             <h2>
-                🏠 Apartmán A
-                <span style="font-size: 0.8rem; background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">ID: APT-A-001</span>
+                🏢 Apartmán A 
+                <small>elegantní · max 2 osoby · bez terasy</small>
             </h2>
-            
-            <!-- SEKCE PRO SYNCHRONIZACI -->
-            <div class="ical-section">
-                <div class="ical-row">
-                    <div class="ical-label">📤 EXPORT - iCal odkaz pro vložení do Booking.com a Airbnb:</div>
-                    <div class="ical-link-box">
-                        <div class="ical-link">
-                            <a href="#" id="icalLinkA" target="_blank" id="icalUrlA">https://4ucentreapartments.xo.je/ical.php?apartment=A</a>
-                        </div>
-                        <button class="copy-btn" onclick="copyToClipboard('icalUrlA')">📋 Kopírovat</button>
-                    </div>
-                </div>
-                
-                <div class="import-section">
-                    <div class="ical-label">📥 IMPORT - Synchronizace z Booking.com a Airbnb:</div>
-                    <div class="ical-label" style="font-size: 0.65rem; color: #666;">Vložte iCal odkazy z Booking.com a Airbnb pro automatické načítání rezervací</div>
-                    <div class="import-input">
-                        <input type="text" id="bookingUrlA" placeholder="https://ical.booking.com/..." value="">
-                        <button class="import-btn" onclick="importICal('A', 'booking')">📥 Import Booking.com</button>
-                    </div>
-                    <div class="import-input" style="margin-top: 8px;">
-                        <input type="text" id="airbnbUrlA" placeholder="https://www.airbnb.cz/calendar/ical/..." value="">
-                        <button class="import-btn" onclick="importICal('A', 'airbnb')">📥 Import Airbnb</button>
-                    </div>
-                    <button class="sync-btn" onclick="syncAllExternal('A')">🔄 Synchronizovat všechny externí kalendáře</button>
-                </div>
-            </div>
+            <div class="price-tag">💰 Cena: 1 890 Kč / noc</div>
             
             <div class="legend">
-                <div class="legend-item"><div class="legend-color selected"></div><span>Vybraný k zablokování</span></div>
-                <div class="legend-item"><div class="legend-color blocked"></div><span>Ručně zablokováno</span></div>
-                <div class="legend-item"><div class="legend-color synced"></div><span>Z Booking/Airbnb (automaticky)</span></div>
+                <span><div class="color" style="background:#e8f5e9; border:1px solid #81c784;"></div> Volný (lze blokovat)</span>
+                <span><div class="color" style="background:#ffebee; border:1px solid #ef5350;"></div> Manuálně blokováno</span>
+                <span><div class="color" style="background:#fff3e0; border:1px solid #ffb74d;"></div> Rezervováno z webu</span>
+                <span><div class="color" style="background:#eceff1; border:1px solid #90a4ae;"></div> 🔒 Importováno (nelze upravit)</span>
             </div>
-            <div id="calendarA"></div>
-            <div class="action-buttons">
-                <button class="cancel-btn" onclick="clearSelection('A')">🗑️ Zrušit výběr</button>
-                <button class="save-btn" onclick="saveBlockedDates('A')">💾 Uložit blokované termíny</button>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="quickBlockWeekends('A')">📅 Blokovat víkendy</button>
+                <button class="quick-btn" onclick="quickBlockMonth('A')">📆 Blokovat celý měsíc</button>
+                <button class="quick-btn" onclick="quickClearMonth('A')">🗑️ Zrušit blokování měsíce</button>
             </div>
-            <div id="messageA" class="message"></div>
+
+            <div class="calendar-wrapper">
+                <div id="calendarA"></div>
+            </div>
+            <div id="unsavedIndicatorA" class="unsaved-badge" style="display:none;">⚠️ Neuloženo</div>
         </div>
 
-        <!-- Apartmán B -->
-        <div class="calendar-card">
+        <!-- Apartmán B (s terasou) -->
+        <div class="card">
             <h2>
-                🏠 Apartmán B (s terasou)
-                <span style="font-size: 0.8rem; background: #f0f0f0; padding: 4px 8px; border-radius: 4px;">ID: APT-B-001</span>
+                🏡 Apartmán B 
+                <small>s terasou · max 3 osoby</small>
             </h2>
-            
-            <!-- SEKCE PRO SYNCHRONIZACI -->
-            <div class="ical-section">
-                <div class="ical-row">
-                    <div class="ical-label">📤 EXPORT - iCal odkaz pro vložení do Booking.com a Airbnb:</div>
-                    <div class="ical-link-box">
-                        <div class="ical-link">
-                            <a href="#" id="icalLinkB" target="_blank" id="icalUrlB">https://4ucentreapartments.xo.je/ical.php?apartment=B</a>
-                        </div>
-                        <button class="copy-btn" onclick="copyToClipboard('icalUrlB')">📋 Kopírovat</button>
-                    </div>
-                </div>
-                
-                <div class="import-section">
-                    <div class="ical-label">📥 IMPORT - Synchronizace z Booking.com a Airbnb:</div>
-                    <div class="ical-label" style="font-size: 0.65rem; color: #666;">Vložte iCal odkazy z Booking.com a Airbnb pro automatické načítání rezervací</div>
-                    <div class="import-input">
-                        <input type="text" id="bookingUrlB" placeholder="https://ical.booking.com/..." value="">
-                        <button class="import-btn" onclick="importICal('B', 'booking')">📥 Import Booking.com</button>
-                    </div>
-                    <div class="import-input" style="margin-top: 8px;">
-                        <input type="text" id="airbnbUrlB" placeholder="https://www.airbnb.cz/calendar/ical/..." value="">
-                        <button class="import-btn" onclick="importICal('B', 'airbnb')">📥 Import Airbnb</button>
-                    </div>
-                    <button class="sync-btn" onclick="syncAllExternal('B')">🔄 Synchronizovat všechny externí kalendáře</button>
-                </div>
-            </div>
+            <div class="price-tag">💰 Cena: 2 250 Kč / noc</div>
             
             <div class="legend">
-                <div class="legend-item"><div class="legend-color selected"></div><span>Vybraný k zablokování</span></div>
-                <div class="legend-item"><div class="legend-color blocked"></div><span>Ručně zablokováno</span></div>
-                <div class="legend-item"><div class="legend-color synced"></div><span>Z Booking/Airbnb (automaticky)</span></div>
+                <span><div class="color" style="background:#e8f5e9; border:1px solid #81c784;"></div> Volný (lze blokovat)</span>
+                <span><div class="color" style="background:#ffebee; border:1px solid #ef5350;"></div> Manuálně blokováno</span>
+                <span><div class="color" style="background:#fff3e0; border:1px solid #ffb74d;"></div> Rezervováno z webu</span>
+                <span><div class="color" style="background:#eceff1; border:1px solid #90a4ae;"></div> 🔒 Importováno (nelze upravit)</span>
             </div>
-            <div id="calendarB"></div>
-            <div class="action-buttons">
-                <button class="cancel-btn" onclick="clearSelection('B')">🗑️ Zrušit výběr</button>
-                <button class="save-btn" onclick="saveBlockedDates('B')">💾 Uložit blokované termíny</button>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="quickBlockWeekends('B')">📅 Blokovat víkendy</button>
+                <button class="quick-btn" onclick="quickBlockMonth('B')">📆 Blokovat celý měsíc</button>
+                <button class="quick-btn" onclick="quickClearMonth('B')">🗑️ Zrušit blokování měsíce</button>
             </div>
-            <div id="messageB" class="message"></div>
+
+            <div class="calendar-wrapper">
+                <div id="calendarB"></div>
+            </div>
+            <div id="unsavedIndicatorB" class="unsaved-badge" style="display:none;">⚠️ Neuloženo</div>
         </div>
     </div>
-    
-    <div class="info-box">
-        <strong>📌 Návod k obousměrné synchronizaci:</strong><br><br>
-        <strong>1️⃣ EXPORT (odesílání vašich blokací do Booking/Airbnb):</strong><br>
-        • Zkopírujte <strong>zlatý iCal odkaz</strong> (📤 EXPORT) pro daný apartmán.<br>
-        • Vložte ho do nastavení kalendáře na Booking.com (Kalendář → Import/Export kalendáře → Importovat z URL).<br>
-        • Stejně tak v Airbnb (Hostitel → Kalendář → Import kalendáře).<br><br>
+
+    <!-- Sekce synchronizace (Import / Export) -->
+    <div class="sync-section">
+        <h3>🔄 Synchronizace s Booking.com a Airbnb</h3>
         
-        <strong>2️⃣ IMPORT (příjem rezervací z Booking/Airbnb):</strong><br>
-        • Získejte iCal odkaz z Booking.com (Kalendář → Export kalendáře → Kopírovat iCal odkaz).<br>
-        • Získejte iCal odkaz z Airbnb (Kalendář → Export kalendáře → Kopírovat odkaz).<br>
-        • Vložte tyto odkazy do polí výše a klikněte na "Import".<br>
-        • Termíny z externích zdrojů se automaticky zobrazí jako <strong>tmavě červené 📅</strong> a nelze je ručně mazat.<br><br>
-        
-        <strong>3️⃣ AUTOMATICKÁ SYNCHRONIZACE:</strong><br>
-        • Systém automaticky každých 6 hodin stahuje aktualizace z vložených odkazů.<br>
-        • Kliknutím na "Synchronizovat všechny externí kalendáře" spustíte aktualizaci ručně.<br><br>
-        
-        <strong>⚠️ Důležité:</strong> Termíny, které přijdou z Booking.com nebo Airbnb, jsou automaticky označeny jako obsazené a nelze je odblokovat ručně. To zabraňuje dvojím rezervacím.
+        <div class="sync-grid">
+            <!-- Import sekce -->
+            <div class="sync-box">
+                <h4>📥 Import z externích kalendářů</h4>
+                <p style="font-size:0.75rem; color:#666; margin-bottom:12px;">
+                    Vložte iCal URL z Booking.com nebo Airbnb. Systém bude automaticky stahovat termíny každou hodinu.<br>
+                    <strong style="color:#b8860b;">🔒 Importované termíny nelze ručně upravovat ani mazat.</strong>
+                </p>
+                
+                <label style="font-weight:600; font-size:0.8rem;">Apartmán A (bez terasy) – iCal URL:</label>
+                <div class="sync-input-group">
+                    <input type="url" id="importUrlA" placeholder="https://ical.booking.com/... nebo https://www.airbnb.cz/calendar/ical/...">
+                    <button onclick="saveImportUrl('A')">💾 Uložit</button>
+                </div>
+                <div id="importStatusA" style="font-size:0.7rem; color:#666; margin-bottom:15px;"></div>
+
+                <label style="font-weight:600; font-size:0.8rem;">Apartmán B (s terasou) – iCal URL:</label>
+                <div class="sync-input-group">
+                    <input type="url" id="importUrlB" placeholder="https://ical.booking.com/... nebo https://www.airbnb.cz/calendar/ical/...">
+                    <button onclick="saveImportUrl('B')">💾 Uložit</button>
+                </div>
+                <div id="importStatusB" style="font-size:0.7rem; color:#666;"></div>
+
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <button onclick="manualImport('A')" class="import-btn">🔄 Importovat nyní - Apartmán A</button>
+                    <button onclick="manualImport('B')" class="import-btn">🔄 Importovat nyní - Apartmán B</button>
+                </div>
+
+                <div class="auto-refresh-note">
+                    🔄 Automatická synchronizace každou hodinu • Poslední import: <span id="lastImportTime">--</span>
+                </div>
+            </div>
+
+            <!-- Export sekce -->
+            <div class="sync-box">
+                <h4>📤 Export pro Booking.com / Airbnb</h4>
+                <p style="font-size:0.75rem; color:#666; margin-bottom:12px;">
+                    Zkopírujte tyto odkazy do Booking.com nebo Airbnb jako "Import kalendáře (iCal)". 
+                    Kalendář se bude automaticky aktualizovat <strong>po každém uložení změn</strong>.
+                </p>
+
+                <label style="font-weight:600; font-size:0.8rem;">Apartmán A (bez terasy) – Exportní odkaz:</label>
+                <div class="export-link-box">
+                    <code id="exportLinkA" style="word-break:break-all;"></code>
+                    <button onclick="copyToClipboard('exportLinkA')">📋 Kopírovat</button>
+                </div>
+
+                <label style="font-weight:600; font-size:0.8rem; margin-top:15px; display:block;">Apartmán B (s terasou) – Exportní odkaz:</label>
+                <div class="export-link-box">
+                    <code id="exportLinkB" style="word-break:break-all;"></code>
+                    <button onclick="copyToClipboard('exportLinkB')">📋 Kopírovat</button>
+                </div>
+
+                <div class="info-text">
+                    💡 Tyto odkazy vložte do Booking.com → Nastavení kalendáře → Import kalendáře (iCal)<br>
+                    💡 Airbnb → Nastavení → Kalendář → Import kalendáře<br>
+                    🔄 Po každém uložení změn se export automaticky aktualizuje.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seznam rezervací -->
+    <div class="bookings-section">
+        <h2>📋 Nevyřízené rezervace z webu</h2>
+        <div id="bookingsList" class="bookings-list">Načítám...</div>
     </div>
 </div>
 
 <script>
-    // ========== KONFIGURACE ==========
-    const API_URL = 'https://4ucentreapartments.xo.je';
-    let currentMonths = { A: new Date(), B: new Date() };
-    let selectedDates = { A: [], B: [] };
-    let blockedDates = { A: [], B: [] };
-    let syncedDates = { A: [], B: [] }; // Termíny z Booking/Airbnb - nelze mazat
-    let externalUrls = { A: { booking: '', airbnb: '' }, B: { booking: '', airbnb: '' } };
+    // Stavové proměnné
+    let blockedA = [], blockedB = [];
+    let importedA = [], importedB = [];
+    let webReservations = [];
+    let pendingChangesA = false;
+    let pendingChangesB = false;
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
+    let currentYearB = new Date().getFullYear();
+    let currentMonthB = new Date().getMonth();
+    let importUrls = { A: '', B: '' };
 
-    // ========== NAČTENÍ DAT ZE SERVERU ==========
-    async function loadAllData() {
+    // Načtení všech dat ze serveru
+    async function fetchAdminData() {
         try {
-            // Načtení blokovaných termínů
-            const blockedResp = await fetch(`${API_URL}/api.php?action=get_blocked`);
-            const blockedData = await blockedResp.json();
-            if (blockedData.A) blockedDates.A = blockedData.A;
-            if (blockedData.B) blockedDates.B = blockedData.B;
+            const res = await fetch('admin.php?action=get_data');
+            const data = await res.json();
+            blockedA = data.blocked.A || [];
+            blockedB = data.blocked.B || [];
+            importedA = data.imported?.A || [];
+            importedB = data.imported?.B || [];
+            webReservations = data.bookings || [];
+            importUrls = data.import_urls || { A: '', B: '' };
             
-            // Načtení synchronizovaných termínů (z Booking/Airbnb)
-            const syncedResp = await fetch(`${API_URL}/api.php?action=get_synced`);
-            const syncedData = await syncedResp.json();
-            if (syncedData.A) syncedDates.A = syncedData.A;
-            if (syncedData.B) syncedDates.B = syncedData.B;
+            renderAllCalendars();
+            renderBookings();
+            updateImportUrlsDisplay();
+            updateExportLinks();
+            updateLastImportTime();
             
-            // Načtení uložených externích URL
-            const urlsResp = await fetch(`${API_URL}/api.php?action=get_external_urls`);
-            const urlsData = await urlsResp.json();
-            if (urlsData.A) {
-                externalUrls.A = urlsData.A;
-                document.getElementById('bookingUrlA').value = externalUrls.A.booking || '';
-                document.getElementById('airbnbUrlA').value = externalUrls.A.airbnb || '';
-            }
-            if (urlsData.B) {
-                externalUrls.B = urlsData.B;
-                document.getElementById('bookingUrlB').value = externalUrls.B.booking || '';
-                document.getElementById('airbnbUrlB').value = externalUrls.B.airbnb || '';
-            }
-            
-            // Nastavení iCal odkazů
-            const icalUrlA = `${API_URL}/ical.php?apartment=A`;
-            const icalUrlB = `${API_URL}/ical.php?apartment=B`;
-            document.getElementById('icalLinkA').href = icalUrlA;
-            document.getElementById('icalLinkB').href = icalUrlB;
-            document.getElementById('icalUrlA').textContent = icalUrlA;
-            document.getElementById('icalUrlB').textContent = icalUrlB;
-            
-            // Nastavení poslední synchronizace
-            const lastSyncResp = await fetch(`${API_URL}/api.php?action=get_last_sync`);
-            const lastSyncData = await lastSyncResp.json();
-            if (lastSyncData.lastSync) {
-                document.getElementById('lastSync').textContent = new Date(lastSyncData.lastSync).toLocaleString('cs-CZ');
-            }
-            
-        } catch(e) {
-            console.error('Chyba při načítání dat:', e);
+            // Reset indikátorů neuložených změn
+            pendingChangesA = false;
+            pendingChangesB = false;
+            updateUnsavedIndicators();
+        } catch (e) {
+            console.error('Chyba načítání dat:', e);
+            setTimeout(fetchAdminData, 5000);
         }
-        renderBothCalendars();
     }
 
-    // ========== VYKRESLENÍ KALENDÁŘŮ ==========
-    function renderBothCalendars() {
-        renderCalendar('A');
-        renderCalendar('B');
+    function renderAllCalendars() {
+        renderCalendar('A', currentYear, currentMonth, blockedA, importedA);
+        renderCalendar('B', currentYearB, currentMonthB, blockedB, importedB);
     }
 
-    function renderCalendar(apt) {
-        const year = currentMonths[apt].getFullYear();
-        const month = currentMonths[apt].getMonth();
+    function renderCalendar(apt, year, month, blockedDates, importedDates) {
+        const container = document.getElementById(`calendar${apt}`);
+        if (!container) return;
+
         const firstDay = new Date(year, month, 1);
-        let startWeekday = firstDay.getDay();
-        let offset = startWeekday === 0 ? 6 : startWeekday - 1;
+        const startWeekday = (firstDay.getDay() + 6) % 7;
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        
+
+        const aptName = apt === 'A' ? 'Apartmán A' : 'Apartmán B s terasou';
+        const reservations = webReservations.filter(b => b.apartment === aptName);
+        const reservedDates = reservations.flatMap(b => b.dates);
+
         let html = `
-            <div class="calendar-header">
+            <div class="calendar-nav">
                 <button onclick="changeMonth('${apt}', -1)">◀</button>
-                <h4>${getMonthName(month)} ${year}</h4>
+                <h3>${getMonthName(month)} ${year}</h3>
                 <button onclick="changeMonth('${apt}', 1)">▶</button>
             </div>
             <div class="weekdays">
                 <span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span>
             </div>
             <div class="calendar-days">`;
-        
-        // Dny z předchozího měsíce
-        for (let i = 0; i < offset; i++) {
-            html += `<div class="calendar-day other-month">${new Date(year, month, -offset + i + 1).getDate()}</div>`;
+
+        for (let i = 0; i < startWeekday; i++) {
+            html += `<div class="day-cell other-month"></div>`;
         }
-        
-        // Dny aktuálního měsíce
+
         for (let d = 1; d <= daysInMonth; d++) {
-            const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-            const isBlocked = blockedDates[apt].includes(dateStr);
-            const isSynced = syncedDates[apt].includes(dateStr);
-            const isSelected = selectedDates[apt].includes(dateStr);
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             
-            let cls = 'calendar-day';
-            if (isSynced) cls += ' synced';
-            else if (isBlocked) cls += ' blocked';
-            if (isSelected && !isSynced) cls += ' selected';
+            let status = 'free';
+            let statusText = '';
+            let canEdit = true;
             
-            // Synced termíny nelze vybírat
-            const onclickAttr = !isSynced ? `onclick="toggleDate('${apt}', '${dateStr}')"` : '';
+            // IMPORTED TERMÍNY – NELZE UPRAVOVAT (priorita)
+            if (importedDates.includes(dateStr)) {
+                status = 'imported';
+                statusText = '🔒';
+                canEdit = false;
+            }
+            // MANUÁLNĚ BLOKOVANÉ – lze upravovat
+            else if (blockedDates.includes(dateStr)) {
+                status = 'blocked';
+                statusText = '🔴';
+                canEdit = true;
+            }
+            // REZERVOVANÉ Z WEBU – lze upravovat (blokace má přednost)
+            else if (reservedDates.includes(dateStr)) {
+                status = 'reserved';
+                statusText = '🟠';
+                canEdit = true;
+            }
+
+            // Přidání onclick handleru pouze pokud lze upravovat a není importovaný
+            const onclickAttr = canEdit ? `onclick="toggleBlockDate('${apt}', '${dateStr}')"` : '';
             
-            html += `<div class="${cls}" ${onclickAttr}>${d}</div>`;
+            html += `
+                <div class="day-cell ${status}" ${onclickAttr}>
+                    <div class="day-number">${d}</div>
+                    <div class="day-status">${statusText}</div>
+                </div>
+            `;
         }
-        
-        // Doplňující dny
-        let totalCells = 42;
-        let currentCells = offset + daysInMonth;
-        for (let i = 1; i <= totalCells - currentCells; i++) {
-            html += `<div class="calendar-day other-month">${i}</div>`;
-        }
-        
+
         html += `</div>`;
-        document.getElementById(`calendar${apt}`).innerHTML = html;
+        container.innerHTML = html;
     }
 
-    function getMonthName(m) {
-        return ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'][m];
+    function getMonthName(month) {
+        const months = ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'];
+        return months[month];
     }
 
-    function changeMonth(apt, delta) {
-        currentMonths[apt] = new Date(currentMonths[apt].getFullYear(), currentMonths[apt].getMonth() + delta, 1);
-        renderCalendar(apt);
-    }
-
-    // ========== VÝBĚR TERMÍNŮ ==========
-    function toggleDate(apt, dateStr) {
-        const idx = selectedDates[apt].indexOf(dateStr);
-        if (idx === -1) {
-            selectedDates[apt].push(dateStr);
-            selectedDates[apt].sort();
-        } else {
-            selectedDates[apt].splice(idx, 1);
-        }
-        renderCalendar(apt);
-    }
-
-    function clearSelection(apt) {
-        selectedDates[apt] = [];
-        renderCalendar(apt);
-    }
-
-    // ========== ULOŽENÍ BLOKOVANÝCH TERMÍNŮ ==========
-    async function saveBlockedDates(apt) {
-        const msgDiv = document.getElementById(`message${apt}`);
-        const newBlocked = [...blockedDates[apt]];
-        
-        // Přidání nově vybraných termínů (pokud nejsou již v synced)
-        for (const date of selectedDates[apt]) {
-            if (!syncedDates[apt].includes(date) && !newBlocked.includes(date)) {
-                newBlocked.push(date);
-            }
-        }
-        
-        newBlocked.sort();
-        
-        try {
-            const response = await fetch(`${API_URL}/api.php?action=save_blocked`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ apartment: apt, dates: newBlocked })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                blockedDates[apt] = newBlocked;
-                selectedDates[apt] = [];
-                renderCalendar(apt);
-                msgDiv.className = 'message success';
-                msgDiv.innerHTML = '✅ Termíny byly úspěšně uloženy a iCal feed byl aktualizován!';
-                setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 3000);
-            } else {
-                throw new Error(result.error);
-            }
-        } catch(e) {
-            msgDiv.className = 'message error';
-            msgDiv.innerHTML = '❌ Chyba při ukládání: ' + e.message;
-            setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 3000);
-        }
-    }
-
-    // ========== IMPORT Z EXTERNÍCH ICAL ZDROJŮ ==========
-    async function importICal(apt, source) {
-        const msgDiv = document.getElementById(`message${apt}`);
-        const urlInput = source === 'booking' ? `bookingUrl${apt}` : `airbnbUrl${apt}`;
-        const url = document.getElementById(urlInput).value;
-        
-        if (!url) {
-            msgDiv.className = 'message error';
-            msgDiv.innerHTML = '❌ Nejprve vložte iCal URL adresu!';
-            setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 3000);
+    function toggleBlockDate(apt, dateStr) {
+        // Kontrola, zda není importovaný termín
+        const importedDates = apt === 'A' ? importedA : importedB;
+        if (importedDates.includes(dateStr)) {
+            alert('🔒 Tento termín byl importován z Booking.com nebo Airbnb a nelze ho ručně upravovat.');
             return;
         }
         
-        msgDiv.className = 'message info';
-        msgDiv.innerHTML = '⏳ Stahuji a zpracovávám iCal kalendář...';
-        
-        try {
-            const response = await fetch(`${API_URL}/api.php?action=import_ical`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ apartment: apt, source: source, url: url })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                // Aktualizace syncedDates
-                if (result.dates) {
-                    syncedDates[apt] = [...new Set([...syncedDates[apt], ...result.dates])];
-                    syncedDates[apt].sort();
-                }
-                
-                // Uložení URL pro budoucí automatickou synchronizaci
-                externalUrls[apt][source] = url;
-                await fetch(`${API_URL}/api.php?action=save_external_urls`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ apartment: apt, urls: externalUrls[apt] })
-                });
-                
-                renderCalendar(apt);
-                msgDiv.className = 'message success';
-                msgDiv.innerHTML = `✅ Synchronizace proběhla úspěšně! Načteno ${result.count || 0} termínů z ${source === 'booking' ? 'Booking.com' : 'Airbnb'}.`;
-                setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 4000);
-            } else {
-                throw new Error(result.error);
-            }
-        } catch(e) {
-            msgDiv.className = 'message error';
-            msgDiv.innerHTML = '❌ Chyba při importu: ' + e.message;
-            setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 3000);
+        let arr = apt === 'A' ? [...blockedA] : [...blockedB];
+        const index = arr.indexOf(dateStr);
+        if (index === -1) {
+            arr.push(dateStr);
+        } else {
+            arr.splice(index, 1);
         }
-    }
-    
-    async function syncAllExternal(apt) {
-        const msgDiv = document.getElementById(`message${apt}`);
-        msgDiv.className = 'message info';
-        msgDiv.innerHTML = '⏳ Synchronizuji všechny externí kalendáře...';
         
-        try {
-            const response = await fetch(`${API_URL}/api.php?action=sync_all_external`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ apartment: apt })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                if (result.dates) {
-                    syncedDates[apt] = result.dates;
-                    syncedDates[apt].sort();
-                }
-                renderCalendar(apt);
-                document.getElementById('lastSync').textContent = new Date().toLocaleString('cs-CZ');
-                msgDiv.className = 'message success';
-                msgDiv.innerHTML = `✅ Synchronizace dokončena! Načteno ${result.count || 0} termínů z externích zdrojů.`;
-                setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 4000);
-            } else {
-                throw new Error(result.error);
+        if (apt === 'A') {
+            blockedA = arr;
+            pendingChangesA = true;
+        } else {
+            blockedB = arr;
+            pendingChangesB = true;
+        }
+        
+        updateUnsavedIndicators();
+        renderAllCalendars();
+    }
+
+    function updateUnsavedIndicators() {
+        const indA = document.getElementById('unsavedIndicatorA');
+        const indB = document.getElementById('unsavedIndicatorB');
+        if (indA) indA.style.display = pendingChangesA ? 'inline-block' : 'none';
+        if (indB) indB.style.display = pendingChangesB ? 'inline-block' : 'none';
+    }
+
+    async function saveAllChanges() {
+        const saveBtn = document.getElementById('saveAllBtn');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '⏳ Ukládání...';
+        saveBtn.disabled = true;
+        
+        let success = true;
+        
+        // Uložení změn pro apartmán A
+        if (pendingChangesA) {
+            try {
+                const res = await fetch('admin.php?action=save_blocked', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `apartment=A&dates=${JSON.stringify(blockedA)}`
+                });
+                if (!res.ok) success = false;
+            } catch (e) {
+                success = false;
+                console.error('Chyba při ukládání A:', e);
             }
-        } catch(e) {
-            msgDiv.className = 'message error';
-            msgDiv.innerHTML = '❌ Chyba při synchronizaci: ' + e.message;
-            setTimeout(() => { msgDiv.className = 'message'; msgDiv.innerHTML = ''; }, 3000);
+        }
+        
+        // Uložení změn pro apartmán B
+        if (pendingChangesB) {
+            try {
+                const res = await fetch('admin.php?action=save_blocked', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `apartment=B&dates=${JSON.stringify(blockedB)}`
+                });
+                if (!res.ok) success = false;
+            } catch (e) {
+                success = false;
+                console.error('Chyba při ukládání B:', e);
+            }
+        }
+        
+        if (success) {
+            pendingChangesA = false;
+            pendingChangesB = false;
+            updateUnsavedIndicators();
+            
+            saveBtn.innerHTML = '✅ Uloženo!';
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }, 2000);
+            
+            updateExportLinks();
+        } else {
+            saveBtn.innerHTML = '❌ Chyba při ukládání';
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }, 3000);
         }
     }
 
-    // ========== KOPÍROVÁNÍ DO SCHRÁNKY ==========
+    async function saveImportUrl(apt) {
+        const url = document.getElementById(`importUrl${apt}`).value;
+        if (!url) {
+            alert('Zadejte prosím iCal URL');
+            return;
+        }
+        
+        const statusDiv = document.getElementById(`importStatus${apt}`);
+        statusDiv.innerHTML = '⏳ Ukládání a import...';
+        statusDiv.style.color = '#b8860b';
+        
+        try {
+            const res = await fetch('admin.php?action=save_import_url', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `apartment=${apt}&url=${encodeURIComponent(url)}`
+            });
+            const result = await res.text();
+            
+            if (result === 'OK') {
+                statusDiv.innerHTML = '✅ URL uloženo, synchronizace proběhla';
+                statusDiv.style.color = '#28a745';
+                setTimeout(() => {
+                    statusDiv.innerHTML = '';
+                }, 3000);
+                await fetchAdminData();
+            } else {
+                statusDiv.innerHTML = '❌ Chyba při ukládání URL';
+                statusDiv.style.color = '#dc3545';
+            }
+        } catch (e) {
+            statusDiv.innerHTML = '❌ Chyba připojení k serveru';
+            statusDiv.style.color = '#dc3545';
+        }
+    }
+
+    async function manualImport(apt) {
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '⏳ Import...';
+        btn.disabled = true;
+        
+        try {
+            const res = await fetch(`admin.php?action=manual_import&apt=${apt}`);
+            const data = await res.json();
+            
+            if (data.success) {
+                alert('✅ Import proběhl úspěšně');
+                await fetchAdminData();
+            } else {
+                alert('❌ Chyba při importu: ' + (data.message || 'Neznámá chyba'));
+            }
+        } catch (e) {
+            alert('❌ Chyba připojení k serveru');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    function updateImportUrlsDisplay() {
+        if (importUrls.A) {
+            document.getElementById('importUrlA').value = importUrls.A;
+        } else {
+            // Nastavit výchozí URL pro Apartmán A (bez terasy)
+            const defaultUrlA = 'https://ical.booking.com/v1/export?t=31f7351f-e1e8-4c54-8a7c-f83530744018';
+            document.getElementById('importUrlA').value = defaultUrlA;
+        }
+        
+        if (importUrls.B) {
+            document.getElementById('importUrlB').value = importUrls.B;
+        } else {
+            // Nastavit výchozí URL pro Apartmán B (s terasou)
+            const defaultUrlB = 'https://ical.booking.com/v1/export?t=1bd6fb7b-c8bb-42f7-a038-7811e98a2391';
+            document.getElementById('importUrlB').value = defaultUrlB;
+        }
+    }
+
+    function updateExportLinks() {
+        const baseUrl = window.location.origin;
+        document.getElementById('exportLinkA').innerHTML = `${baseUrl}/ical-export.php?apt=A`;
+        document.getElementById('exportLinkB').innerHTML = `${baseUrl}/ical-export.php?apt=B`;
+    }
+
     function copyToClipboard(elementId) {
-        const text = document.getElementById(elementId).textContent;
+        const text = document.getElementById(elementId).innerText;
         navigator.clipboard.writeText(text).then(() => {
-            alert('📋 Odkaz byl zkopírován do schránky!');
+            alert('Odkaz zkopírován do schránky');
+        }).catch(() => {
+            alert('Nepodařilo se zkopírovat');
         });
     }
 
-    // ========== INICIALIZACE ==========
-    loadAllData();
-    
-    // Automatická synchronizace každých 6 hodin
+    async function updateLastImportTime() {
+        try {
+            const res = await fetch('admin.php?action=get_last_import');
+            const time = await res.text();
+            if (time && time !== '--') {
+                document.getElementById('lastImportTime').innerText = time;
+            }
+        } catch (e) {
+            console.error('Chyba při načítání času importu:', e);
+        }
+    }
+
+    function changeMonth(apt, delta) {
+        if (apt === 'A') {
+            currentMonth += delta;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar('A', currentYear, currentMonth, blockedA, importedA);
+        } else {
+            currentMonthB += delta;
+            if (currentMonthB < 0) {
+                currentMonthB = 11;
+                currentYearB--;
+            } else if (currentMonthB > 11) {
+                currentMonthB = 0;
+                currentYearB++;
+            }
+            renderCalendar('B', currentYearB, currentMonthB, blockedB, importedB);
+        }
+    }
+
+    function quickBlockWeekends(apt) {
+        let year, month, arr, importedDatesArr;
+        if (apt === 'A') {
+            year = currentYear;
+            month = currentMonth;
+            arr = [...blockedA];
+            importedDatesArr = importedA;
+        } else {
+            year = currentYearB;
+            month = currentMonthB;
+            arr = [...blockedB];
+            importedDatesArr = importedB;
+        }
+        
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let added = 0;
+        
+        for (let d = 1; d <= daysInMonth; d++) {
+            const date = new Date(year, month, d);
+            const dayOfWeek = date.getDay();
+            // Pátek (5), Sobota (6), Neděle (0)
+            if (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                if (!importedDatesArr.includes(dateStr) && !arr.includes(dateStr)) {
+                    arr.push(dateStr);
+                    added++;
+                }
+            }
+        }
+        
+        if (apt === 'A') {
+            blockedA = arr;
+            pendingChangesA = true;
+        } else {
+            blockedB = arr;
+            pendingChangesB = true;
+        }
+        
+        updateUnsavedIndicators();
+        renderAllCalendars();
+        
+        if (added > 0) {
+            alert(`✅ Zablokováno ${added} víkendových dní v aktuálním měsíci. Nezapomeňte uložit změny.`);
+        } else {
+            alert('ℹ️ Žádné nové termíny k zablokování (všechny jsou již blokované nebo importované).');
+        }
+    }
+
+    function quickBlockMonth(apt) {
+        let year, month, arr, importedDatesArr;
+        if (apt === 'A') {
+            year = currentYear;
+            month = currentMonth;
+            arr = [...blockedA];
+            importedDatesArr = importedA;
+        } else {
+            year = currentYearB;
+            month = currentMonthB;
+            arr = [...blockedB];
+            importedDatesArr = importedB;
+        }
+        
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let added = 0;
+        
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            if (!importedDatesArr.includes(dateStr) && !arr.includes(dateStr)) {
+                arr.push(dateStr);
+                added++;
+            }
+        }
+        
+        if (apt === 'A') {
+            blockedA = arr;
+            pendingChangesA = true;
+        } else {
+            blockedB = arr;
+            pendingChangesB = true;
+        }
+        
+        updateUnsavedIndicators();
+        renderAllCalendars();
+        
+        if (added > 0) {
+            alert(`✅ Zablokováno ${added} dní v aktuálním měsíci. Nezapomeňte uložit změny.`);
+        } else {
+            alert('ℹ️ Žádné nové termíny k zablokování (všechny jsou již blokované nebo importované).');
+        }
+    }
+
+    function quickClearMonth(apt) {
+        let year, month, arr, importedDatesArr;
+        if (apt === 'A') {
+            year = currentYear;
+            month = currentMonth;
+            arr = [...blockedA];
+            importedDatesArr = importedA;
+        } else {
+            year = currentYearB;
+            month = currentMonthB;
+            arr = [...blockedB];
+            importedDatesArr = importedB;
+        }
+        
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let removed = 0;
+        
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const index = arr.indexOf(dateStr);
+            if (index !== -1 && !importedDatesArr.includes(dateStr)) {
+                arr.splice(index, 1);
+                removed++;
+            }
+        }
+        
+        if (apt === 'A') {
+            blockedA = arr;
+            pendingChangesA = true;
+        } else {
+            blockedB = arr;
+            pendingChangesB = true;
+        }
+        
+        updateUnsavedIndicators();
+        renderAllCalendars();
+        
+        if (removed > 0) {
+            alert(`✅ Odblokováno ${removed} dní v aktuálním měsíci. Nezapomeňte uložit změny.`);
+        } else {
+            alert('ℹ️ Žádné termíny k odblokování v aktuálním měsíci.');
+        }
+    }
+
+    function renderBookings() {
+        const container = document.getElementById('bookingsList');
+        if (!webReservations || webReservations.length === 0) {
+            container.innerHTML = '<p>✅ Žádné nové rezervace k vyřízení</p>';
+            return;
+        }
+        
+        let html = '';
+        webReservations.forEach((booking, index) => {
+            html += `
+                <div class="booking-item">
+                    <div class="booking-header">
+                        <span class="booking-name">${escapeHtml(booking.name)}</span>
+                        <span>${escapeHtml(booking.apartment)}</span>
+                        <button class="delete-booking" onclick="deleteBooking(${index})">❌ Smazat</button>
+                    </div>
+                    <div class="booking-dates">
+                        📅 ${booking.dates.join(', ')}
+                    </div>
+                    ${booking.email ? `<div>📧 ${escapeHtml(booking.email)}</div>` : ''}
+                    ${booking.phone ? `<div>📞 ${escapeHtml(booking.phone)}</div>` : ''}
+                    ${booking.message ? `<div>💬 ${escapeHtml(booking.message)}</div>` : ''}
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    async function deleteBooking(index) {
+        if (!confirm('Opravdu chcete smazat tuto rezervaci?')) return;
+        
+        try {
+            const res = await fetch('admin.php?action=delete_booking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `index=${index}`
+            });
+            
+            if (res.ok) {
+                webReservations.splice(index, 1);
+                renderBookings();
+                renderAllCalendars();
+            } else {
+                alert('Chyba při mazání rezervace');
+            }
+        } catch (e) {
+            alert('Chyba při mazání rezervace');
+        }
+    }
+
+    async function logout() {
+        try {
+            await fetch('admin.php?action=logout', { method: 'POST' });
+            window.location.href = 'login.html';
+        } catch (e) {
+            window.location.href = 'login.html';
+        }
+    }
+
+    // Automatická aktualizace každých 5 minut
     setInterval(() => {
-        syncAllExternal('A');
-        syncAllExternal('B');
-    }, 6 * 60 * 60 * 1000);
+        fetchAdminData();
+    }, 300000);
+
+    // Spuštění při načtení stránky
+    fetchAdminData();
 </script>
 </body>
 </html>
