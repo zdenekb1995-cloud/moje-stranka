@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Rezervace | 4U Centre Apartments · luxusní ubytování Olomouc</title>
+    <meta name="description" content="Rezervujte si apartmán A nebo apartmán B s terasou v centru Olomouce. Online rezervace s přehledným kalendářem, garance nejlepší ceny.">
+    <meta name="robots" content="index, follow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Palatino', serif;
+            background: #ffffff; color: #1a1a1a; line-height: 1.5; scroll-behavior: smooth;
+        }
+
+        /* ===== NAVIGACE ===== */
+        #mainNav {
+            display: flex; align-items: stretch; width: 100%; height: 70px;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: #ffffff !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(184,134,11,0.4);
+        }
+        #mainNav a, #mainNav span, #mainNav svg { color: #222 !important; stroke: #222 !important; transition: color 0.2s ease; }
+        #navBrand {
+            display: flex; align-items: center; padding: 0 24px;
+            text-decoration: none; flex-shrink: 0;
+            border-right: 1px solid rgba(184,134,11,0.35); background: #ffffff;
+        }
+        #navLinks { display: flex; align-items: stretch; flex: 1; list-style: none; }
+        #navLinks li { flex: 1; display: flex; align-items: stretch; position: relative; }
+        #navLinks li::after { content:''; position:absolute; right:0; top:20%; height:60%; width:1px; background:rgba(184,134,11,0.3); }
+        #navLinks li:last-child::after { display: none; }
+        #navLinks li a {
+            display: flex; align-items: center; justify-content: center; width: 100%;
+            font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+            font-weight: 700; text-decoration: none; transition: color 0.25s, background 0.2s;
+        }
+        #navLinks li a:hover { color: #d4af37 !important; }
+        #navHomeBtn {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 24px; text-decoration: none;
+            border-left: 1px solid rgba(184,134,11,0.35);
+        }
+        #mobileMenuBtn {
+            display: none; flex-direction: column; gap: 5px; padding: 12px 20px;
+            cursor: pointer; background: none; border: none; margin-left: auto;
+        }
+        #mobileMenuBtn span { display: block; width: 26px; height: 2px; background: #333; border-radius: 2px; }
+        #mobileMenu {
+            display: none; position: fixed; top: 70px; left: 0; right: 0;
+            background: #ffffff; z-index: 999; flex-direction: column; padding: 12px 0;
+            border-bottom: 1px solid rgba(184,134,11,0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        #mobileMenu.open { display: flex; }
+        #mobileMenu li { list-style: none; border-bottom: 1px solid rgba(184,134,11,0.2); }
+        #mobileMenu li a { display: block; padding: 14px 28px; color: #222; text-decoration: none; font-family: 'Segoe UI', system-ui; font-weight: 500; }
+        #mobileMenu li a:hover { color: #b8860b; background: rgba(184,134,11,0.08); }
+        @media (max-width: 780px) {
+            #navLinks { display: none; } #navHomeBtn { display: none; }
+            #mobileMenuBtn { display: flex; } #mainNav { height: 64px; } #mobileMenu { top: 64px; }
+        }
+
+        /* ===== OBSAH ===== */
+        .container { max-width: 1350px; margin: 0 auto; padding: 110px 24px 70px 24px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px; padding: 10px 28px;
+            border-radius: 0; text-decoration: none; font-weight: 600; font-size: 0.85rem;
+            transition: all 0.25s; border: 1.5px solid #b8860b; color: #fff;
+            background: #b8860b; margin-bottom: 32px;
+        }
+        .back-btn:hover { background: #9a6e0a; border-color: #d4af37; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(184,134,11,0.3); color: #fff; }
+        h1 { font-size: 2.8rem; margin-bottom: 12px; color: #7a5c00; font-weight: 600; letter-spacing: -0.5px; }
+        .subtitle { color: #666; margin-bottom: 48px; font-style: italic; font-size: 1.05rem; border-left: 3px solid #b8860b; padding-left: 18px; }
+        @media (max-width: 600px) { h1 { font-size: 2rem; } .container { padding: 100px 20px 50px; } }
+
+        /* ===== STAV SYNCHRONIZACE ===== */
+        .sync-bar {
+            display: flex; align-items: center; gap: 10px;
+            background: #f9f7f3; border-left: 3px solid #b8860b;
+            padding: 10px 16px; margin-bottom: 28px; font-size: 0.78rem; color: #666;
+            border-radius: 2px;
+        }
+        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+        .sync-dot.ok   { background: #4caf50; }
+        .sync-dot.warn { background: #ff9800; animation: pulse 1s infinite; }
+        .sync-dot.err  { background: #f44336; }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+        /* ===== TABS ===== */
+        .apartment-tabs { display: flex; gap: 28px; margin-bottom: 44px; border-bottom: 2px solid rgba(184,134,11,0.35); padding-bottom: 12px; }
+        .tab-btn { background: transparent; border: none; padding: 10px 36px; font-size: 1.25rem; font-family: 'Georgia', serif; font-weight: 600; cursor: pointer; color: #888; transition: 0.2s; border-radius: 0; }
+        .tab-btn.active { color: #fff; background: #b8860b; }
+        .tab-btn:hover:not(.active) { color: #c9a445; background: rgba(184,134,11,0.15); }
+
+        /* ===== GRID ===== */
+        .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+        @media (max-width: 900px) { .booking-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+        /* ===== KALENDÁŘ ===== */
+        .calendar-section { background: #fff; border-radius: 4px; padding: 28px 24px; border: 1px solid rgba(184,134,11,0.25); box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+        .calendar-section h3 { color: #7a5c00; margin-bottom: 20px; font-size: 1.45rem; text-align: center; font-weight: 500; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 0 6px; }
+        .calendar-header button { background: #2d2d2d; border: none; color: #fff; font-size: 1.4rem; width: 42px; height: 42px; border-radius: 0; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .calendar-header button:hover { background: #1a1a1a; transform: scale(0.96); }
+        .calendar-header h4 { font-size: 1.25rem; font-weight: 500; color: #333; }
+        .weekdays { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; margin-bottom: 14px; color: #d4af37; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; }
+        .calendar-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; }
+        .calendar-day {
+            aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
+            background: #e8e8e8; border-radius: 2px; cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
+            font-size: 0.9rem; font-weight: 500; color: #333; border: 1px solid #d0d0d0;
+        }
+        .calendar-day:hover:not(.disabled):not(.booked) { background: #c0c0c0; border-color: #b8860b; transform: scale(1.02); color: #1a1a1a; }
+        .calendar-day.selected { background: #b8860b; color: #fff; font-weight: bold; box-shadow: 0 0 0 2px #f3cd81; border-color: #b8860b; }
+        .calendar-day.booked { background: #a0a0a0; color: #555; cursor: not-allowed; text-decoration: line-through; opacity: 0.8; border-color: #8a8a8a; }
+        .calendar-day.disabled, .calendar-day.other-month { opacity: 0.5; cursor: default; background: #d4d4d4; color: #888; border-color: #cacaca; }
+
+        /* Legenda */
+        .cal-legend { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; font-size: 0.72rem; color: #666; }
+        .cal-legend span { display: flex; align-items: center; gap: 6px; }
+        .cal-legend i { display: inline-block; width: 14px; height: 14px; border-radius: 2px; }
+        .cal-legend i.free    { background: #e8e8e8; border: 1px solid #d0d0d0; }
+        .cal-legend i.sel     { background: #b8860b; }
+        .cal-legend i.booked  { background: #a0a0a0; }
+
+        .selected-dates { margin-top: 28px; padding-top: 20px; border-top: 1px dashed rgba(184,134,11,0.4); }
+        .selected-dates p { margin: 6px 0 10px 0; color: #7a5c00; font-weight: 600; }
+        .date-badge { display: inline-block; background: rgba(184,134,11,0.12); padding: 5px 14px; border-radius: 0; margin: 4px 6px 4px 0; font-size: 0.8rem; font-family: monospace; letter-spacing: 0.5px; }
+        .clear-dates { background: #b8860b; border: none; color: #fff; padding: 8px 20px; border-radius: 0; cursor: pointer; margin-top: 14px; font-size: 0.75rem; font-weight: 600; transition: 0.2s; }
+        .clear-dates:hover { background: #9a6e0a; transform: translateY(-1px); }
+
+        /* ===== FORMULÁŘ ===== */
+        .form-section { background: #fff; border-radius: 4px; padding: 32px 30px; border: 1px solid rgba(184,134,11,0.25); box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; }
+        .form-section h3 { color: #7a5c00; margin-bottom: 28px; font-size: 1.45rem; text-align: center; }
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 18px; background: #fafafa; border: 1px solid #ddd; border-radius: 2px; color: #222; font-family: 'Inter', system-ui, sans-serif; font-size: 0.9rem; transition: all 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #c69c2e; box-shadow: 0 0 0 2px rgba(184,134,11,0.3); background: #fff; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .price-block { margin: 16px 0 8px 0; padding: 12px 16px; background: #f9f7f3; border-left: 4px solid #b8860b; border-radius: 2px; }
+        .price { font-size: 1.5rem; font-weight: 800; color: #b8860b; letter-spacing: -0.3px; margin-bottom: 6px; }
+        .price-note { font-size: 0.7rem; color: #777; font-style: italic; }
+        .info-note { background: rgba(184,134,11,0.05); border-left: 4px solid #b8860b; padding: 16px; margin: 20px 0; font-size: 0.75rem; color: #555; line-height: 1.5; }
+        .info-note p { margin: 6px 0; }
+        .info-note strong { color: #7a5c00; }
+        .submit-btn { width: 100%; padding: 14px 12px; background: #b8860b; border: none; border-radius: 0; color: #fff; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: all 0.25s; margin-top: 8px; font-family: inherit; text-transform: uppercase; }
+        .submit-btn:hover { background: #9a6e0a; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(184,134,11,0.4); }
+        .message { margin-top: 18px; padding: 14px; border-radius: 0; text-align: center; display: none; font-size: 0.85rem; font-weight: 500; }
+        .message.success { background: rgba(76,175,80,0.2); border: 1px solid #6fbf4c; color: #2c6e1f; display: block; }
+        .message.error { background: rgba(244,67,54,0.2); border: 1px solid #ff6659; color: #b33a2e; display: block; }
+
+        /* ===== FOOTER ===== */
+        footer { background: #f5f2ed; color: #555; padding: 48px 24px 32px; text-align: center; margin-top: 70px; border-top: 1px solid rgba(184,134,11,0.2); }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .footer-brand { font-size: 1.2rem; font-weight: 600; color: #cbaa53; }
+        .footer-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+        .footer-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 22px; border-radius: 0; font-weight: 500; font-size: 0.7rem; text-decoration: none; background: #b8860b; color: #fff; transition: 0.2s; }
+        .footer-pill:hover { background: #9a6e0a; color: #fff; transform: translateY(-2px); }
+        .footer-copy { font-size: 0.65rem; color: #999; padding-top: 20px; border-top: 1px solid rgba(184,134,11,0.2); width: 100%; }
+        .admin-footer-login { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(184,134,11,0.1); width: 100%; display: flex; justify-content: center; }
+        .admin-login-toggle { font-size: 0.6rem; color: #aaa; background: rgba(184,134,11,0.05); border: 1px solid rgba(184,134,11,0.4); border-radius: 20px; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; padding: 5px 18px; }
+        .admin-login-toggle:hover { color: #b8860b; border-color: #b8860b; background: rgba(184,134,11,0.15); transform: translateY(-1px); }
+
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav id="mainNav">
+        <a id="navBrand" href="index.html">
+            <div style="display:flex;flex-direction:column;align-items:center;line-height:1.1;gap:2px;">
+                <div style="display:flex;align-items:baseline;gap:0;white-space:nowrap;">
+                    <span style="font-weight:900;font-size:1.2rem;">4U</span>
+                    <span style="font-weight:400;font-size:0.95rem;font-style:italic;margin-left:5px;">Centre</span>
+                    <span style="font-weight:900;font-size:1.0rem;margin-left:5px;">APARTMENTS</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;width:100%;">
+                    <span style="flex:1;height:0.5px;background:#b8860b;"></span>
+                    <span style="font-size:0.4rem;letter-spacing:0.28em;">Olomouc</span>
+                    <span style="flex:1;height:0.5px;background:#b8860b;"></span>
+                </div>
+            </div>
+        </a>
+        <ul id="navLinks">
+            <li><a href="index.html#byty">Byty</a></li>
+            <li><a href="index.html#ceny">Ceny</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+            <li><a href="index.html#rezervace">REZERVACE</a></li>
+        </ul>
+        <a href="index.html" id="navHomeBtn" title="Zpět na hlavní stránku">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 9.75L12 3l9 6.75V21a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.75z" stroke-linejoin="round"/>
+                <path d="M9 22V12h6v10" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <button id="mobileMenuBtn" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <ul id="mobileMenu">
+        <li><a href="index.html#byty">Byty</a></li>
+        <li><a href="index.html#ceny">Ceny</a></li>
+        <li><a href="index.html#kontakt">Kontakt</a></li>
+        <li><a href="index.html#rezervace">REZERVACE</a></li>
+    </ul>
+</header>
+
+<div class="container">
+    <a href="index.html" class="back-btn">&#8592; Zpět na hlavní stránku</a>
+    <h1>Rezervace online</h1>
+    <div class="subtitle">Vyberte preferovaný apartmán a termín – garantujeme výhodnější cenu než na Booking.com</div>
+
+    <!-- Stav synchronizace -->
+    <div class="sync-bar">
+        <div class="sync-dot warn" id="syncDot"></div>
+        <span id="syncText">Načítám dostupnost z rezervačního systému…</span>
+    </div>
+
+    <div class="apartment-tabs">
+        <button class="tab-btn active" data-apartment="A">Apartmán A · elegantní</button>
+        <button class="tab-btn" data-apartment="B">Apartmán B · s terasou</button>
+    </div>
+
+    <div class="booking-grid">
+        <div class="calendar-section">
+            <h3>&#128197; Kalendář dostupnosti</h3>
+            <div id="calendar"></div>
+            <div class="cal-legend">
+                <span><i class="free"></i> Volný termín</span>
+                <span><i class="sel"></i> Váš výběr</span>
+                <span><i class="booked"></i> Obsazeno</span>
+            </div>
+            <div class="selected-dates">
+                <p><strong>✧ Vybrané dny pobytu ✧</strong></p>
+                <div id="selectedDatesList"></div>
+                <button id="clearDatesBtn" class="clear-dates">&#128465; Vymazat výběr</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>&#128203; Poptávka rezervace</h3>
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Jméno a příjmení *</label>
+                        <input type="text" id="fullName" placeholder="Jan Novák" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="email" id="email" placeholder="jan@email.cz" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Telefon *</label>
+                        <input type="tel" id="phone" placeholder="+420 777 123 456" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Počet osob</label>
+                        <select id="guests">
+                            <option value="1">1 osoba</option>
+                            <option value="2" selected>2 osoby</option>
+                            <option value="3">3 osoby (pouze apartmán B)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Poznámka / speciální požadavek</label>
+                    <textarea id="note" rows="3" placeholder="Např. preferovaný čas příjezdu, dětská postýlka, apod."></textarea>
+                </div>
+                <div class="price-block">
+                    <div class="price" id="priceDisplay">— Kč</div>
+                    <div class="price-note">* Konečná cena bude stanovena provozovatelem</div>
+                </div>
+                <div class="info-note">
+                    <p><strong>&#128204; Důležité informace k rezervaci:</strong></p>
+                    <p>• &#128176; <strong>Cenu určuje provozovatel webu</strong> — garantujeme <strong>lepší cenu než Booking.com</strong> při přímé rezervaci.</p>
+                    <p>• &#9201;&#65039; <strong>Rezervace není plně závazná</strong> – z důvodu možné zpožděné synchronizace může dojít k překryvu termínů.</p>
+                    <p>• &#9989; <strong>Provozovatel musí termín potvrdit</strong> – do 24 hodin obdržíte e-mail s finální cenou.</p>
+                    <p>• &#128274; Odesláním vyjadřujete souhlas s těmito podmínkami.</p>
+                </div>
+                <button type="submit" class="submit-btn">ODESLAT POPTÁVKU &#8594;</button>
+                <div id="formMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">4U Centre Apartments s.r.o.</div>
+        <div class="footer-btns">
+            <a href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" class="footer-pill">&#128216; Booking.com</a>
+            <a href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" class="footer-pill">&#127968; Airbnb – Apartmán A</a>
+            <a href="https://www.airbnb.co.uk/rooms/1435491007157769047" target="_blank" class="footer-pill">&#127969; Airbnb – Apartmán B</a>
+        </div>
+        <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
+        <div class="admin-footer-login">
+            <div style="width:100%;max-width:380px;text-align:center;">
+                <button class="admin-login-toggle" id="adminRedirectBtn">&#128274; správa rezervací</button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ============================================================
+    //  KONFIGURACE
+    //  API je na InfinityFree — CORS povolen pro GitHub Pages
+    // ============================================================
+    const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
+    const ADMIN_URL        = INFINITYFREE_URL + '/admininfinity.html';
+    const API              = INFINITYFREE_URL + '/api_availability.php';
+
+    let currentApartment = 'A';
+    let currentDate      = new Date();
+    let selectedDates    = [];
+    let bookedDates      = { A: [], B: [] };
+    const prices         = { A: 1890, B: 2250 };
+
+    // ============================================================
+    //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
+    //  Tato funkce je volána z jakékoli domény (GitHub Pages, vlastní web)
+    //  data.json je aktualizován adminem přes admininfinity.html
+    // ============================================================
+    async function loadDates() {
+        const dot  = document.getElementById('syncDot');
+        const text = document.getElementById('syncText');
+        dot.className = 'sync-dot warn';
+        text.textContent = 'Načítám dostupnost…';
+
+        try {
+            const controller = new AbortController();
+            const tid = setTimeout(() => controller.abort(), 12000);
+            const resp = await fetch(API + '?_=' + Date.now(), {
+                cache: 'no-store',
+                signal: controller.signal,
+                headers: { 'Accept': 'application/json' }
+            });
+            clearTimeout(tid);
+
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            const data = await resp.json();
+
+            if (data.success) {
+                bookedDates.A = data.availability?.A || [];
+                bookedDates.B = data.availability?.B || [];
+
+                if (data.last_update) {
+                    const updateTime = new Date(data.last_update.replace(' ', 'T'));
+                    const ago = Math.round((Date.now() - updateTime.getTime()) / 60000);
+                    text.textContent = ago < 1
+                        ? 'Dostupnost je aktuální ✓'
+                        : `Dostupnost aktuální · sync: před ${ago < 60 ? ago + ' min' : Math.round(ago/60) + ' hod'}`;
+                } else {
+                    text.textContent = 'Dostupnost načtena ✓';
+                }
+                dot.className = 'sync-dot ok';
+            } else {
+                throw new Error('Chyba v datech z API');
+            }
+        } catch(e) {
+            console.warn('Načítání obsazenosti selhalo:', e.message);
+            dot.className = 'sync-dot err';
+            text.textContent = e.name === 'AbortError'
+                ? 'Server neodpovídá. Zkuste obnovit stránku.'
+                : 'Nepodařilo se načíst dostupnost – zkuste obnovit stránku';
+            bookedDates = { A: [], B: [] };
+        }
+        renderCalendar();
+    }
+
+    // ============================================================
+    //  KALENDÁŘ
+    // ============================================================
+    function renderCalendar() {
+        const year  = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        const firstDay    = new Date(year, month, 1);
+        const startWD     = firstDay.getDay();
+        let offset        = startWD === 0 ? 6 : startWD - 1;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const today       = new Date().toISOString().slice(0, 10);
+
+        let html = `
+            <div class="calendar-header">
+                <button id="prevMonth">&#9664;</button>
+                <h4>${getMonthName(month)} ${year}</h4>
+                <button id="nextMonth">&#9654;</button>
+            </div>
+            <div class="weekdays">
+                <span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span>
+            </div>
+            <div class="calendar-days" id="calendarDays">`;
+
+        for (let i = 0; i < offset; i++) {
+            html += `<div class="calendar-day other-month disabled">${new Date(year, month, -offset + i + 1).getDate()}</div>`;
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr    = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const isBooked   = bookedDates[currentApartment].includes(dateStr);
+            const isSelected = selectedDates.includes(dateStr);
+            const isPast     = dateStr < today;
+
+            let cls = 'calendar-day';
+            let title = '';
+            if (isPast)        { cls += ' disabled'; title = 'Minulý termín'; }
+            else if (isBooked) { cls += ' booked disabled'; title = 'Obsazeno'; }
+            else if (isSelected) { cls += ' selected'; title = 'Vybráno'; }
+            else               { title = 'Volný termín'; }
+
+            const onclick = (!isPast && !isBooked) ? `onclick="toggleDate('${dateStr}')"` : '';
+            html += `<div class="${cls}" ${onclick} title="${title}">${d}</div>`;
+        }
+
+        const remaining = 42 - offset - daysInMonth;
+        for (let i = 1; i <= remaining; i++) {
+            html += `<div class="calendar-day other-month disabled">${i}</div>`;
+        }
+        html += `</div>`;
+        document.getElementById('calendar').innerHTML = html;
+
+        document.getElementById('prevMonth')?.addEventListener('click', () => {
+            currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+            renderCalendar();
+        });
+        document.getElementById('nextMonth')?.addEventListener('click', () => {
+            currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+            renderCalendar();
+        });
+    }
+
+    function getMonthName(m) {
+        return ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'][m];
+    }
+
+    function toggleDate(dateStr) {
+        const idx = selectedDates.indexOf(dateStr);
+        if (idx === -1) { selectedDates.push(dateStr); selectedDates.sort(); }
+        else selectedDates.splice(idx, 1);
+        updateSelectedUI(); renderCalendar(); updatePricePreview();
+    }
+
+    function updateSelectedUI() {
+        const c = document.getElementById('selectedDatesList');
+        if (!c) return;
+        if (selectedDates.length === 0) {
+            c.innerHTML = '<span class="date-badge">📅 Zatím žádné termíny</span>';
+        } else {
+            c.innerHTML = [...selectedDates].sort().map(d =>
+                `<span class="date-badge">${d.split('-')[2]}.${d.split('-')[1]}.${d.split('-')[0]}</span>`
+            ).join('');
+        }
+    }
+
+    function clearDates() {
+        selectedDates = []; updateSelectedUI(); renderCalendar(); updatePricePreview();
+    }
+
+    function updatePricePreview() {
+        const el = document.getElementById('priceDisplay');
+        if (!el) return;
+        const n = selectedDates.length;
+        el.innerText = n === 0 ? '— Kč' : `${(prices[currentApartment] * n).toLocaleString('cs-CZ')} Kč / ${n} nocí`;
+    }
+
+    function switchApartment(apt) {
+        currentApartment = apt;
+        selectedDates = [];
+        updateSelectedUI(); renderCalendar(); updatePricePreview();
+        document.querySelectorAll('.tab-btn').forEach(b => {
+            b.getAttribute('data-apartment') === apt
+                ? b.classList.add('active')
+                : b.classList.remove('active');
+        });
+        const gs = document.getElementById('guests');
+        const opt3 = gs.querySelector('option[value="3"]');
+        opt3.disabled = (apt !== 'B');
+        if (apt !== 'B' && gs.value === '3') gs.value = '2';
+    }
+
+    // ============================================================
+    //  FORMULÁŘ – odeslání poptávky
+    // ============================================================
+    document.getElementById('bookingForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('fullName').value.trim();
+        const email    = document.getElementById('email').value.trim();
+        const phone    = document.getElementById('phone').value.trim();
+        const guests   = document.getElementById('guests').value;
+        const note     = document.getElementById('note').value;
+        const msgDiv   = document.getElementById('formMessage');
+
+        if (!fullName || !email || !phone) {
+            msgDiv.className = 'message error';
+            msgDiv.innerText = '❌ Vyplňte prosím jméno, e-mail a telefon.'; return;
+        }
+        if (selectedDates.length === 0) {
+            msgDiv.className = 'message error';
+            msgDiv.innerText = '❌ Vyberte alespoň jeden termín pobytu v kalendáři.'; return;
+        }
+        msgDiv.className = ''; msgDiv.style.display = 'block';
+        msgDiv.innerText = '⏳ Odesílám poptávku…';
+
+        try {
+            await new Promise(r => setTimeout(r, 500));
+            // Poptávka uložena lokálně (localStorage) + volitelně na API
+            let all = [];
+            try { all = JSON.parse(localStorage.getItem('4u_bookings') || '[]'); } catch(e) {}
+            all.push({
+                id: Date.now(),
+                apartment: currentApartment === 'A' ? 'Apartmán A (bez terasy)' : 'Apartmán B (s terasou)',
+                dates: [...selectedDates], nights: selectedDates.length,
+                fullName, email, phone, guests, note,
+                created: new Date().toISOString()
+            });
+            try { localStorage.setItem('4u_bookings', JSON.stringify(all)); } catch(e) {}
+
+            msgDiv.className = 'message success';
+            msgDiv.innerText = `✅ Děkujeme, ${fullName}! Vaše nezávazná poptávka byla přijata. Do 24 hodin Vás budeme kontaktovat na e-mail ${email} s potvrzením termínu a cenou.`;
+            document.getElementById('bookingForm').reset();
+            selectedDates = []; updateSelectedUI(); renderCalendar(); updatePricePreview();
+            document.getElementById('guests').querySelector('option[value="3"]').disabled = (currentApartment !== 'B');
+        } catch(err) {
+            msgDiv.className = 'message error';
+            msgDiv.innerText = '❌ Omlouváme se, technická chyba. Kontaktujte nás telefonicky.';
+        }
+    });
+
+    // ============================================================
+    //  OVLÁDACÍ PRVKY
+    // ============================================================
+    document.getElementById('clearDatesBtn')?.addEventListener('click', clearDates);
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
+    });
+    document.getElementById('adminRedirectBtn')?.addEventListener('click', () => {
+        window.location.href = ADMIN_URL;
+    });
+
+    // Mobilní menu
+    const mobileBtn  = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+        mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+    }
+
+    // ============================================================
+    //  START
+    // ============================================================
+    updateSelectedUI();
+    updatePricePreview();
+    document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
+    loadDates(); // ← Načte obsazenost z InfinityFree API (funguje z GitHub Pages i jiných domén)
+</script>
+</body>
+</html>
