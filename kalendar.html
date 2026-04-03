@@ -81,6 +81,23 @@
             background: #f9f7f3; border-left: 3px solid #b8860b;
             padding: 10px 16px; margin-bottom: 28px; font-size: 0.78rem; color: #666;
             border-radius: 2px;
+            flex-wrap: wrap;
+        }
+        .refresh-btn {
+            background: #b8860b;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: auto;
+            transition: 0.2s;
+        }
+        .refresh-btn:hover {
+            background: #9a6e0a;
+            transform: translateY(-1px);
         }
         .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
         .sync-dot.ok   { background: #4caf50; }
@@ -218,6 +235,7 @@
     <div class="sync-bar">
         <div class="sync-dot warn" id="syncDot"></div>
         <span id="syncText">Načítám dostupnost z rezervačního systému…</span>
+        <button id="refreshBtn" class="refresh-btn">🔄 Obnovit termíny</button>
     </div>
 
     <div class="apartment-tabs">
@@ -330,7 +348,6 @@
 
         try {
             const timestamp = Date.now();
-            // Použijeme fetch s mode 'cors' a bez zbytečných hlaviček
             const response = await fetch(`${DATA_URL}?_=${timestamp}`, {
                 method: 'GET',
                 mode: 'cors',
@@ -552,6 +569,15 @@
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
 
+    // Tlačítko pro ruční obnovení
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            console.log('🔄 Ruční obnovení kalendáře...');
+            loadDates();
+        });
+    }
+
     // Přesměrování na admin rozhraní
     const adminBtn = document.getElementById('adminRedirectBtn');
     if (adminBtn) {
@@ -580,8 +606,11 @@
     }
     loadDates();
     
-    // Automatická synchronizace každých 5 minut
-    setInterval(loadDates, 5 * 60 * 1000);
+    // Automatické obnovování každých 30 sekund (aby se změny z adminu projevily rychle)
+    setInterval(() => {
+        console.log('🔄 Automatické obnovení kalendáře...');
+        loadDates();
+    }, 30000);
 </script>
 </body>
 </html>
