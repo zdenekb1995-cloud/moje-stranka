@@ -124,7 +124,6 @@
         .calendar-day.booked { background: #a0a0a0; color: #555; cursor: not-allowed; text-decoration: line-through; opacity: 0.8; border-color: #8a8a8a; }
         .calendar-day.disabled, .calendar-day.other-month { opacity: 0.5; cursor: default; background: #d4d4d4; color: #888; border-color: #cacaca; }
 
-        /* Legenda */
         .cal-legend { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; font-size: 0.72rem; color: #666; }
         .cal-legend span { display: flex; align-items: center; gap: 6px; }
         .cal-legend i { display: inline-block; width: 14px; height: 14px; border-radius: 2px; }
@@ -220,10 +219,9 @@
     <h1>Rezervace online</h1>
     <div class="subtitle">Vyberte preferovaný apartmán a termín – garantujeme výhodnější cenu než na Booking.com</div>
 
-    <!-- Stav synchronizace -->
     <div class="sync-bar">
         <div class="sync-dot warn" id="syncDot"></div>
-        <span id="syncText">Načítám dostupnost z rezervačního systému…</span>
+        <span id="syncText">Načítám dostupnost…</span>
         <button id="refreshBtn" class="refresh-btn">🔄 Obnovit termíny</button>
     </div>
 
@@ -316,9 +314,9 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE
+    //  KONFIGURACE — čte ze stejného GitHub repozitáře (žádný CORS!)
     // ============================================================
-    const API_URL = 'https://4ucentreapartments.xo.je/api_availability.php';
+    const API_URL = 'https://zdenekb1995-cloud.github.io/moje-stranka/availability.json';
 
     let currentApartment = 'A';
     let currentDate      = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
@@ -327,7 +325,7 @@
     const prices         = { A: 1890, B: 2250 };
 
     // ============================================================
-    //  NAČTENÍ DAT — fetch (místo JSONP)
+    //  NAČTENÍ DAT — přímý fetch ze stejné domény (bez CORS)
     // ============================================================
     async function loadDates() {
         const dot  = document.getElementById('syncDot');
@@ -355,21 +353,15 @@
                 text.textContent = `✓ Dostupnost načtena (A: ${countA}, B: ${countB}, naposledy ${lastUpdate})`;
                 dot.className    = 'sync-dot ok';
             } else {
-                throw new Error('Neplatná odpověď API');
+                throw new Error('Neplatná odpověď');
             }
         } catch (e) {
-            console.error('Chyba API:', e);
+            console.error('Chyba načítání:', e);
             dot.className    = 'sync-dot err';
-            text.textContent = '❌ Chyba načítání: ' + e.message + ' — zobrazuji záložní data';
-            setFallbackData();
+            text.textContent = '❌ Nepodařilo se načíst dostupnost. Zkuste obnovit stránku.';
         }
 
         renderCalendar();
-    }
-
-    function setFallbackData() {
-        bookedDates.A = [];
-        bookedDates.B = [];
     }
 
     // ============================================================
@@ -393,7 +385,7 @@
             <div class="weekdays">
                 <span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span>
             </div>
-            <div class="calendar-days" id="calendarDays">`;
+            <div class="calendar-days">`;
 
         for (let i = 0; i < offset; i++) {
             html += `<div class="calendar-day other-month disabled">${new Date(year, month, -offset + i + 1).getDate()}</div>`;
@@ -515,8 +507,8 @@
             return;
         }
 
-        msgDiv.className = '';
         msgDiv.style.display = 'block';
+        msgDiv.className = '';
         msgDiv.innerText = '⏳ Odesílám poptávku…';
 
         try {
@@ -556,7 +548,6 @@
     });
 
     document.getElementById('refreshBtn')?.addEventListener('click', () => {
-        console.log('🔄 Ruční obnovení kalendáře...');
         loadDates();
     });
 
@@ -581,14 +572,10 @@
         if (opt3) opt3.disabled = true;
     }
 
-    // První načtení
     loadDates();
 
-    // Automatické obnovení každých 5 minut
-    setInterval(() => {
-        console.log('🔄 Automatické obnovení...');
-        loadDates();
-    }, 5 * 60 * 1000);
+    // Automatické obnovení každých 10 minut
+    setInterval(loadDates, 10 * 60 * 1000);
 </script>
 </body>
 </html>
