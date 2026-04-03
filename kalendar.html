@@ -327,12 +327,12 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE - API na InfinityFree (CORS řešeno JSONP)
+    //  KONFIGURACE - API na InfinityFree (JSONP)
     // ============================================================
     const API_URL = 'https://4ucentreapartments.xo.je/api_availability.php';
     
     let currentApartment = 'A';
-    let currentDate      = new Date();
+    let currentDate      = new Date(2026, 3, 1); // ROVNOU DUBEN 2026
     let selectedDates    = [];
     let bookedDates      = { A: [], B: [] };
     const prices         = { A: 1890, B: 2250 };
@@ -346,33 +346,26 @@
         dot.className = 'sync-dot warn';
         text.textContent = 'Načítám dostupnost z InfinityFree…';
 
-        // JSONP callback jméno (unikátní)
         const callbackName = 'jsonp_callback_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
-        
-        // Vytvoření script tagu pro JSONP
         const script = document.createElement('script');
         script.src = `${API_URL}?callback=${callbackName}&_=${Date.now()}`;
         
-        // Timeout pro případ, že API neodpoví
         const timeout = setTimeout(() => {
             if (window[callbackName]) {
                 delete window[callbackName];
                 if (script.parentNode) script.parentNode.removeChild(script);
                 dot.className = 'sync-dot err';
                 text.textContent = 'Chyba: API neodpovídá, zkuste to znovu';
-                // Záložní data
                 setFallbackData();
             }
         }, 10000);
         
-        // Callback funkce
         window[callbackName] = function(data) {
             clearTimeout(timeout);
             delete window[callbackName];
             if (script.parentNode) script.parentNode.removeChild(script);
             
             if (data && data.success && data.availability) {
-                // Načtení dat z API
                 bookedDates.A = data.availability.A || [];
                 bookedDates.B = data.availability.B || [];
                 
@@ -383,23 +376,25 @@
                 const countA = bookedDates.A.length;
                 const countB = bookedDates.B.length;
                 
-                text.textContent = `✓ Dostupnost načtena z InfinityFree (A: ${countA}, B: ${countB}, naposledy ${lastUpdate})`;
+                text.textContent = `✓ Dostupnost načtena (A: ${countA}, B: ${countB}, naposledy ${lastUpdate})`;
                 dot.className = 'sync-dot ok';
                 
-                console.log(`Apartmán A: ${countA} termínů, B: ${countB} termínů`);
-                console.log('Blokované A:', bookedDates.A);
+                // KONTROLA DO KONZOLE
+                console.log('📅 Blokované A:', bookedDates.A);
+                console.log('🔴 Je 2026-04-25 blokovaný?', bookedDates.A.includes('2026-04-25'));
+                console.log('🔴 Je 2026-04-26 blokovaný?', bookedDates.A.includes('2026-04-26'));
             } else {
-                throw new Error('Neplatná odpověď z API');
+                console.error('Chyba API:', data);
+                text.textContent = '❌ Chyba načítání dat';
+                dot.className = 'sync-dot err';
             }
             
             renderCalendar();
         };
         
-        // Přidání scriptu do stránky
         document.body.appendChild(script);
     }
     
-    // Záložní data při chybě
     function setFallbackData() {
         bookedDates.A = [
             "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06",
@@ -525,7 +520,7 @@
     }
 
     // ============================================================
-    //  FORMULÁŘ – odeslání poptávky
+    //  FORMULÁŘ
     // ============================================================
     document.getElementById('bookingForm')?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -579,16 +574,14 @@
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
 
-    // Tlačítko pro ruční obnovení - OKAMŽITÉ NAČTENÍ Z INFINITYFREE
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
-            console.log('🔄 Ruční obnovení kalendáře z InfinityFree...');
+            console.log('🔄 Ruční obnovení kalendáře...');
             loadDates();
         });
     }
 
-    // Mobilní menu
     const mobileBtn  = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     if (mobileBtn && mobileMenu) {
@@ -608,9 +601,8 @@
     }
     loadDates();
     
-    // Automatické obnovování každých 30 sekund
     setInterval(() => {
-        console.log('🔄 Automatické obnovení kalendáře z InfinityFree...');
+        console.log('🔄 Automatické obnovení...');
         loadDates();
     }, 30000);
 </script>
