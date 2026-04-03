@@ -301,7 +301,7 @@
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <a href="https://4ucentreapartments.xo.je/admin.html" class="admin-login-toggle">&#128274; správa rezervací</a>
+                <a href="https://4ucentreapartments.xo.je/admininfinity.html" class="admin-login-toggle">&#128274; správa rezervací</a>
             </div>
         </div>
     </div>
@@ -309,12 +309,10 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE
+    //  KONFIGURACE - API na InfinityFree
     // ============================================================
-    const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
-    const ADMIN_URL        = 'https://4ucentreapartments.xo.je/admin.html';
-    const API              = INFINITYFREE_URL + '/api_availability.php';
-
+    const API_URL = 'https://4ucentreapartments.xo.je/api_availability.php';
+    
     let currentApartment = 'A';
     let currentDate      = new Date();
     let selectedDates    = [];
@@ -322,17 +320,18 @@
     const prices         = { A: 1890, B: 2250 };
 
     // ============================================================
-    //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
+    //  NAČTENÍ OBSAZENOSTI Z API
     // ============================================================
     async function loadDates() {
         const dot = document.getElementById('syncDot');
         const text = document.getElementById('syncText');
         dot.className = 'sync-dot warn';
-        text.textContent = 'Načítám dostupnost…';
+        text.textContent = 'Načítám dostupnost z rezervačního systému…';
 
         try {
             const timestamp = Date.now();
-            const response = await fetch('https://4ucentreapartments.xo.je/data.json?nocache=' + timestamp, {
+            const response = await fetch(`${API_URL}?_=${timestamp}`, {
+                method: 'GET',
                 cache: 'no-store',
                 headers: {
                     'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -340,36 +339,42 @@
                 }
             });
             
-            if (!response.ok) throw new Error('HTTP ' + response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             
             const data = await response.json();
-            console.log('Načtená data z API:', data);
-            console.log('Počet termínů A:', data.imported?.A?.length);
-            console.log('Počet termínů B:', data.imported?.B?.length);
+            console.log('API odpověď:', data);
             
-            bookedDates.A = data.imported?.A || [];
-            bookedDates.B = data.imported?.B || [];
-            
-            if (data.blocked?.A) {
-                bookedDates.A = [...new Set([...bookedDates.A, ...data.blocked.A])];
+            if (data.success && data.availability) {
+                bookedDates.A = data.availability.A || [];
+                bookedDates.B = data.availability.B || [];
+                
+                // Seřazení
+                bookedDates.A.sort();
+                bookedDates.B.sort();
+                
+                const lastUpdate = data.last_update || 'neznámé';
+                const countA = bookedDates.A.length;
+                const countB = bookedDates.B.length;
+                
+                text.textContent = `Dostupnost načtena ✓ (A: ${countA} termínů, B: ${countB} termínů, naposledy ${lastUpdate})`;
+                dot.className = 'sync-dot ok';
+                
+                console.log(`Načteno: Apartmán A: ${countA} termínů, Apartmán B: ${countB} termínů`);
+                console.log('Duben A:', bookedDates.A.filter(d => d.startsWith('2026-04')));
+            } else {
+                throw new Error(data.error || 'Neplatná odpověď z API');
             }
-            if (data.blocked?.B) {
-                bookedDates.B = [...new Set([...bookedDates.B, ...data.blocked.B])];
-            }
-            
-            bookedDates.A.sort();
-            bookedDates.B.sort();
-            
-            console.log('Duben A:', bookedDates.A.filter(d => d.startsWith('2026-04')));
-            
-            const lastUpdate = data.last_update || 'neznámé';
-            text.textContent = `Dostupnost načtena ✓ (naposledy ${lastUpdate})`;
-            dot.className = 'sync-dot ok';
             
         } catch(e) {
             console.error('Chyba při načítání:', e);
             dot.className = 'sync-dot err';
-            text.textContent = 'Chyba načítání - obnovte stránku (Ctrl+F5)';
+            text.textContent = `Chyba načítání: ${e.message}. Zkuste obnovit stránku (Ctrl+F5)`;
+            
+            // Záložní data pro případ výpadku
+            bookedDates.A = [];
+            bookedDates.B = [];
         }
         
         renderCalendar();
@@ -555,6 +560,9 @@
     updatePricePreview();
     document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
     loadDates();
+    
+    // Automatická synchronizace každých 5 minut
+    setInterval(loadDates, 5 * 60 * 1000);
 </script>
 </body>
 </html>
