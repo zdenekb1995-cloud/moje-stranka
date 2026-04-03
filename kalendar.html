@@ -161,7 +161,7 @@
         .footer-pill:hover { background: #9a6e0a; color: #fff; transform: translateY(-2px); }
         .footer-copy { font-size: 0.65rem; color: #999; padding-top: 20px; border-top: 1px solid rgba(184,134,11,0.2); width: 100%; }
         .admin-footer-login { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(184,134,11,0.1); width: 100%; display: flex; justify-content: center; }
-        .admin-login-toggle { font-size: 0.6rem; color: #aaa; background: rgba(184,134,11,0.05); border: 1px solid rgba(184,134,11,0.4); border-radius: 20px; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; padding: 5px 18px; }
+        .admin-login-toggle { font-size: 0.6rem; color: #aaa; background: rgba(184,134,11,0.05); border: 1px solid rgba(184,134,11,0.4); border-radius: 20px; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; padding: 5px 18px; text-decoration: none; display: inline-block; }
         .admin-login-toggle:hover { color: #b8860b; border-color: #b8860b; background: rgba(184,134,11,0.15); transform: translateY(-1px); }
 
         @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
@@ -301,7 +301,7 @@
         <div class="footer-copy">© 2026 4U Centre Apartments · Veškerá práva vyhrazena · Tichá 123, Olomouc</div>
         <div class="admin-footer-login">
             <div style="width:100%;max-width:380px;text-align:center;">
-                <button class="admin-login-toggle" id="adminRedirectBtn">&#128274; správa rezervací</button>
+                <a href="https://4ucentreapartments.xo.je/admin.html" class="admin-login-toggle">&#128274; správa rezervací</a>
             </div>
         </div>
     </div>
@@ -310,10 +310,9 @@
 <script>
     // ============================================================
     //  KONFIGURACE
-    //  API je na InfinityFree — CORS povolen pro GitHub Pages
     // ============================================================
     const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
-    const ADMIN_URL        = INFINITYFREE_URL + '/admininfinity.html';
+    const ADMIN_URL        = 'https://4ucentreapartments.xo.je/admin.html';
     const API              = INFINITYFREE_URL + '/api_availability.php';
 
     let currentApartment = 'A';
@@ -324,62 +323,57 @@
 
     // ============================================================
     //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
-    //  Tato funkce je volána z jakékoli domény (GitHub Pages, vlastní web)
-    //  data.json je aktualizován adminem přes https://4ucentreapartments.xo.je/admininfinity.html
     // ============================================================
-   async function loadDates() {
-    const dot = document.getElementById('syncDot');
-    const text = document.getElementById('syncText');
-    dot.className = 'sync-dot warn';
-    text.textContent = 'Načítám dostupnost…';
+    async function loadDates() {
+        const dot = document.getElementById('syncDot');
+        const text = document.getElementById('syncText');
+        dot.className = 'sync-dot warn';
+        text.textContent = 'Načítám dostupnost…';
 
-    try {
-        // DŮLEŽITÉ: Přidáme náhodný parametr pro obejití cache
-        const timestamp = Date.now();
-        const response = await fetch('https://4ucentreapartments.xo.je/data.json?nocache=' + timestamp, {
-            cache: 'no-store',
-            headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache'
+        try {
+            const timestamp = Date.now();
+            const response = await fetch('https://4ucentreapartments.xo.je/data.json?nocache=' + timestamp, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache'
+                }
+            });
+            
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            
+            const data = await response.json();
+            console.log('Načtená data z API:', data);
+            console.log('Počet termínů A:', data.imported?.A?.length);
+            console.log('Počet termínů B:', data.imported?.B?.length);
+            
+            bookedDates.A = data.imported?.A || [];
+            bookedDates.B = data.imported?.B || [];
+            
+            if (data.blocked?.A) {
+                bookedDates.A = [...new Set([...bookedDates.A, ...data.blocked.A])];
             }
-        });
-        
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        
-        const data = await response.json();
-        console.log('Načtená data z API:', data);
-        console.log('Počet termínů A:', data.imported?.A?.length);
-        console.log('Počet termínů B:', data.imported?.B?.length);
-        
-        // Načteme obsazenost z imported
-        bookedDates.A = data.imported?.A || [];
-        bookedDates.B = data.imported?.B || [];
-        
-        // Přidáme ručně blokované termíny
-        if (data.blocked?.A) {
-            bookedDates.A = [...new Set([...bookedDates.A, ...data.blocked.A])];
-        }
-        if (data.blocked?.B) {
-            bookedDates.B = [...new Set([...bookedDates.B, ...data.blocked.B])];
+            if (data.blocked?.B) {
+                bookedDates.B = [...new Set([...bookedDates.B, ...data.blocked.B])];
+            }
+            
+            bookedDates.A.sort();
+            bookedDates.B.sort();
+            
+            console.log('Duben A:', bookedDates.A.filter(d => d.startsWith('2026-04')));
+            
+            const lastUpdate = data.last_update || 'neznámé';
+            text.textContent = `Dostupnost načtena ✓ (naposledy ${lastUpdate})`;
+            dot.className = 'sync-dot ok';
+            
+        } catch(e) {
+            console.error('Chyba při načítání:', e);
+            dot.className = 'sync-dot err';
+            text.textContent = 'Chyba načítání - obnovte stránku (Ctrl+F5)';
         }
         
-        bookedDates.A.sort();
-        bookedDates.B.sort();
-        
-        console.log('Duben A:', bookedDates.A.filter(d => d.startsWith('2026-04')));
-        
-        const lastUpdate = data.last_update || 'neznámé';
-        text.textContent = `Dostupnost načtena ✓ (naposledy ${lastUpdate})`;
-        dot.className = 'sync-dot ok';
-        
-    } catch(e) {
-        console.error('Chyba při načítání:', e);
-        dot.className = 'sync-dot err';
-        text.textContent = 'Chyba načítání - obnovte stránku (Ctrl+F5)';
+        renderCalendar();
     }
-    
-    renderCalendar();
-}
 
     // ============================================================
     //  KALENDÁŘ
@@ -516,7 +510,6 @@
 
         try {
             await new Promise(r => setTimeout(r, 500));
-            // Poptávka uložena lokálně (localStorage) + volitelně na API
             let all = [];
             try { all = JSON.parse(localStorage.getItem('4u_bookings') || '[]'); } catch(e) {}
             all.push({
@@ -546,17 +539,7 @@
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
-    // Opravené přesměrování na správce rezervací
-const adminBtn = document.getElementById('adminRedirectBtn');
-if (adminBtn) {
-    adminBtn.addEventListener('click', function() {
-        window.location.href = 'https://4ucentreapartments.xo.je/admininfinity.html';
-    });
-    // Záložní řešení – přímé přiřazení
-    adminBtn.onclick = function() {
-        window.location.href = 'https://4ucentreapartments.xo.je/admininfinity.html';
-    };
-}
+
     // Mobilní menu
     const mobileBtn  = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -571,7 +554,7 @@ if (adminBtn) {
     updateSelectedUI();
     updatePricePreview();
     document.getElementById('guests').querySelector('option[value="3"]').disabled = true;
-    loadDates(); // ← Načte obsazenost z InfinityFree API (funguje z GitHub Pages i jiných domén)
+    loadDates();
 </script>
 </body>
 </html>
