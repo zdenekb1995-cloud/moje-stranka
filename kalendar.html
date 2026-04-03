@@ -80,25 +80,14 @@
             display: flex; align-items: center; gap: 10px;
             background: #f9f7f3; border-left: 3px solid #b8860b;
             padding: 10px 16px; margin-bottom: 28px; font-size: 0.78rem; color: #666;
-            border-radius: 2px;
-            flex-wrap: wrap;
+            border-radius: 2px; flex-wrap: wrap;
         }
         .refresh-btn {
-            background: #b8860b;
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-left: auto;
-            transition: 0.2s;
+            background: #b8860b; color: white; border: none; padding: 6px 16px;
+            border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 600;
+            margin-left: auto; transition: 0.2s;
         }
-        .refresh-btn:hover {
-            background: #9a6e0a;
-            transform: translateY(-1px);
-        }
+        .refresh-btn:hover { background: #9a6e0a; transform: translateY(-1px); }
         .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
         .sync-dot.ok   { background: #4caf50; }
         .sync-dot.warn { background: #ff9800; animation: pulse 1s infinite; }
@@ -327,62 +316,68 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE - API na InfinityFree (JSONP)
+    //  KONFIGURACE
     // ============================================================
     const API_URL = 'https://4ucentreapartments.xo.je/api_availability.php';
-    
+
     let currentApartment = 'A';
-    let currentDate      = new Date(2026, 3, 1); // ROVNOU DUBEN 2026
+    let currentDate      = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     let selectedDates    = [];
     let bookedDates      = { A: [], B: [] };
     const prices         = { A: 1890, B: 2250 };
 
     // ============================================================
-    //  NAČTENÍ OBSAZENOSTI Z InfinityFree API (JSONP)
+    //  NAČTENÍ DAT — fetch (místo JSONP)
     // ============================================================
     async function loadDates() {
-    const dot  = document.getElementById('syncDot');
-    const text = document.getElementById('syncText');
-    dot.className  = 'sync-dot warn';
-    text.textContent = 'Načítám dostupnost…';
+        const dot  = document.getElementById('syncDot');
+        const text = document.getElementById('syncText');
+        dot.className    = 'sync-dot warn';
+        text.textContent = 'Načítám dostupnost…';
 
-    try {
-        const response = await fetch(
-            'https://4ucentreapartments.xo.je/api_availability.php?_=' + Date.now(),
-            { cache: 'no-store' }
-        );
+        try {
+            const response = await fetch(API_URL + '?_=' + Date.now(), {
+                cache: 'no-store'
+            });
 
-        if (!response.ok) throw new Error('HTTP ' + response.status);
+            if (!response.ok) throw new Error('HTTP ' + response.status);
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (data && data.success && data.availability) {
-            bookedDates.A = (data.availability.A || []).sort();
-            bookedDates.B = (data.availability.B || []).sort();
+            if (data && data.success && data.availability) {
+                bookedDates.A = (data.availability.A || []).sort();
+                bookedDates.B = (data.availability.B || []).sort();
 
-            const countA = bookedDates.A.length;
-            const countB = bookedDates.B.length;
-            text.textContent = `✓ Dostupnost načtena (A: ${countA}, B: ${countB}, naposledy ${data.last_update || '?'})`;
-            dot.className = 'sync-dot ok';
-        } else {
-            throw new Error('Neplatná odpověď API');
+                const countA     = bookedDates.A.length;
+                const countB     = bookedDates.B.length;
+                const lastUpdate = data.last_update || '?';
+
+                text.textContent = `✓ Dostupnost načtena (A: ${countA}, B: ${countB}, naposledy ${lastUpdate})`;
+                dot.className    = 'sync-dot ok';
+            } else {
+                throw new Error('Neplatná odpověď API');
+            }
+        } catch (e) {
+            console.error('Chyba API:', e);
+            dot.className    = 'sync-dot err';
+            text.textContent = '❌ Chyba načítání: ' + e.message + ' — zobrazuji záložní data';
+            setFallbackData();
         }
-    } catch (e) {
-        console.error('Chyba API:', e);
-        dot.className  = 'sync-dot err';
-        text.textContent = '❌ Chyba: ' + e.message;
-        setFallbackData();
+
+        renderCalendar();
     }
 
-    renderCalendar();
-}
+    function setFallbackData() {
+        bookedDates.A = [];
+        bookedDates.B = [];
+    }
 
     // ============================================================
     //  KALENDÁŘ
     // ============================================================
     function renderCalendar() {
-        const year  = currentDate.getFullYear();
-        const month = currentDate.getMonth();
+        const year        = currentDate.getFullYear();
+        const month       = currentDate.getMonth();
         const firstDay    = new Date(year, month, 1);
         const startWD     = firstDay.getDay();
         let offset        = startWD === 0 ? 6 : startWD - 1;
@@ -412,10 +407,10 @@
 
             let cls = 'calendar-day';
             let title = '';
-            if (isPast)        { cls += ' disabled'; title = 'Minulý termín'; }
-            else if (isBooked) { cls += ' booked disabled'; title = 'Obsazeno'; }
+            if (isPast)          { cls += ' disabled'; title = 'Minulý termín'; }
+            else if (isBooked)   { cls += ' booked disabled'; title = 'Obsazeno'; }
             else if (isSelected) { cls += ' selected'; title = 'Vybráno'; }
-            else               { title = 'Volný termín'; }
+            else                 { title = 'Volný termín'; }
 
             const onclick = (!isPast && !isBooked) ? `onclick="toggleDate('${dateStr}')"` : '';
             html += `<div class="${cls}" ${onclick} title="${title}">${d}</div>`;
@@ -439,14 +434,17 @@
     }
 
     function getMonthName(m) {
-        return ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'][m];
+        return ['Leden','Únor','Březen','Duben','Květen','Červen',
+                'Červenec','Srpen','Září','Říjen','Listopad','Prosinec'][m];
     }
 
     function toggleDate(dateStr) {
         const idx = selectedDates.indexOf(dateStr);
         if (idx === -1) { selectedDates.push(dateStr); selectedDates.sort(); }
-        else selectedDates.splice(idx, 1);
-        updateSelectedUI(); renderCalendar(); updatePricePreview();
+        else            { selectedDates.splice(idx, 1); }
+        updateSelectedUI();
+        renderCalendar();
+        updatePricePreview();
     }
 
     function updateSelectedUI() {
@@ -462,26 +460,33 @@
     }
 
     function clearDates() {
-        selectedDates = []; updateSelectedUI(); renderCalendar(); updatePricePreview();
+        selectedDates = [];
+        updateSelectedUI();
+        renderCalendar();
+        updatePricePreview();
     }
 
     function updatePricePreview() {
         const el = document.getElementById('priceDisplay');
         if (!el) return;
         const n = selectedDates.length;
-        el.innerText = n === 0 ? '— Kč' : `${(prices[currentApartment] * n).toLocaleString('cs-CZ')} Kč / ${n} nocí`;
+        el.innerText = n === 0
+            ? '— Kč'
+            : `${(prices[currentApartment] * n).toLocaleString('cs-CZ')} Kč / ${n} nocí`;
     }
 
     function switchApartment(apt) {
         currentApartment = apt;
-        selectedDates = [];
-        updateSelectedUI(); renderCalendar(); updatePricePreview();
+        selectedDates    = [];
+        updateSelectedUI();
+        renderCalendar();
+        updatePricePreview();
         document.querySelectorAll('.tab-btn').forEach(b => {
             b.getAttribute('data-apartment') === apt
                 ? b.classList.add('active')
                 : b.classList.remove('active');
         });
-        const gs = document.getElementById('guests');
+        const gs   = document.getElementById('guests');
         const opt3 = gs.querySelector('option[value="3"]');
         opt3.disabled = (apt !== 'B');
         if (apt !== 'B' && gs.value === '3') gs.value = '2';
@@ -501,13 +506,17 @@
 
         if (!fullName || !email || !phone) {
             msgDiv.className = 'message error';
-            msgDiv.innerText = '❌ Vyplňte prosím jméno, e-mail a telefon.'; return;
+            msgDiv.innerText = '❌ Vyplňte prosím jméno, e-mail a telefon.';
+            return;
         }
         if (selectedDates.length === 0) {
             msgDiv.className = 'message error';
-            msgDiv.innerText = '❌ Vyberte alespoň jeden termín pobytu v kalendáři.'; return;
+            msgDiv.innerText = '❌ Vyberte alespoň jeden termín pobytu v kalendáři.';
+            return;
         }
-        msgDiv.className = ''; msgDiv.style.display = 'block';
+
+        msgDiv.className = '';
+        msgDiv.style.display = 'block';
         msgDiv.innerText = '⏳ Odesílám poptávku…';
 
         try {
@@ -526,7 +535,10 @@
             msgDiv.className = 'message success';
             msgDiv.innerText = `✅ Děkujeme, ${fullName}! Vaše nezávazná poptávka byla přijata. Do 24 hodin Vás budeme kontaktovat na e-mail ${email} s potvrzením termínu a cenou.`;
             document.getElementById('bookingForm').reset();
-            selectedDates = []; updateSelectedUI(); renderCalendar(); updatePricePreview();
+            selectedDates = [];
+            updateSelectedUI();
+            renderCalendar();
+            updatePricePreview();
             document.getElementById('guests').querySelector('option[value="3"]').disabled = (currentApartment !== 'B');
         } catch(err) {
             msgDiv.className = 'message error';
@@ -538,23 +550,23 @@
     //  OVLÁDACÍ PRVKY
     // ============================================================
     document.getElementById('clearDatesBtn')?.addEventListener('click', clearDates);
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
 
-    const refreshBtn = document.getElementById('refreshBtn');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', () => {
-            console.log('🔄 Ruční obnovení kalendáře...');
-            loadDates();
-        });
-    }
+    document.getElementById('refreshBtn')?.addEventListener('click', () => {
+        console.log('🔄 Ruční obnovení kalendáře...');
+        loadDates();
+    });
 
     const mobileBtn  = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     if (mobileBtn && mobileMenu) {
         mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-        mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+        mobileMenu.querySelectorAll('a').forEach(l =>
+            l.addEventListener('click', () => mobileMenu.classList.remove('open'))
+        );
     }
 
     // ============================================================
@@ -562,17 +574,21 @@
     // ============================================================
     updateSelectedUI();
     updatePricePreview();
+
     const guestsSelect = document.getElementById('guests');
     if (guestsSelect) {
         const opt3 = guestsSelect.querySelector('option[value="3"]');
         if (opt3) opt3.disabled = true;
     }
+
+    // První načtení
     loadDates();
-    
+
+    // Automatické obnovení každých 5 minut
     setInterval(() => {
         console.log('🔄 Automatické obnovení...');
         loadDates();
-    }, 30000);
+    }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
