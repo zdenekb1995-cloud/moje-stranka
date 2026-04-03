@@ -546,9 +546,17 @@
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
-    document.getElementById('adminRedirectBtn')?.addEventListener('click', () => {
-    window.location.href = 'https://4ucentreapartments.xo.je/admin.html';
-});
+    // Opravené přesměrování na správce rezervací
+const adminBtn = document.getElementById('adminRedirectBtn');
+if (adminBtn) {
+    adminBtn.addEventListener('click', function() {
+        window.location.href = 'https://4ucentreapartments.xo.je/admininfinity.html';
+    });
+    // Záložní řešení – přímé přiřazení
+    adminBtn.onclick = function() {
+        window.location.href = 'https://4ucentreapartments.xo.je/admininfinity.html';
+    };
+}
     // Mobilní menu
     const mobileBtn  = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
