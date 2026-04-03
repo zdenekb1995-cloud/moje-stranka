@@ -1,0 +1,26 @@
+name: Sync availability
+ 
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # každých 30 minut automaticky
+  workflow_dispatch:           # možnost spustit ručně tlačítkem na GitHubu
+ 
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - name: Stáhnout data z InfinityFree
+        run: |
+          curl -s "https://4ucentreapartments.xo.je/api_availability.php" \
+            -H "User-Agent: Mozilla/5.0 (compatible; GitHubActions)" \
+            -o availability.json
+ 
+      - name: Commitnout změny
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add availability.json
+          git diff --cached --quiet || git commit -m "Sync availability $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
