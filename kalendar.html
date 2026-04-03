@@ -327,7 +327,7 @@
 
 <script>
     // ============================================================
-    //  KONFIGURACE - API pro CORS (JSONP)
+    //  KONFIGURACE - API na InfinityFree (CORS řešeno JSONP)
     // ============================================================
     const API_URL = 'https://4ucentreapartments.xo.je/api_availability.php';
     
@@ -338,13 +338,13 @@
     const prices         = { A: 1890, B: 2250 };
 
     // ============================================================
-    //  NAČTENÍ OBSAZENOSTI PŘES API (JSONP - bez CORS problémů)
+    //  NAČTENÍ OBSAZENOSTI Z InfinityFree API (JSONP)
     // ============================================================
     function loadDates() {
         const dot = document.getElementById('syncDot');
         const text = document.getElementById('syncText');
         dot.className = 'sync-dot warn';
-        text.textContent = 'Načítám dostupnost…';
+        text.textContent = 'Načítám dostupnost z InfinityFree…';
 
         // JSONP callback jméno (unikátní)
         const callbackName = 'jsonp_callback_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
@@ -383,10 +383,11 @@
                 const countA = bookedDates.A.length;
                 const countB = bookedDates.B.length;
                 
-                text.textContent = `✓ Dostupnost načtena (A: ${countA}, B: ${countB}, naposledy ${lastUpdate})`;
+                text.textContent = `✓ Dostupnost načtena z InfinityFree (A: ${countA}, B: ${countB}, naposledy ${lastUpdate})`;
                 dot.className = 'sync-dot ok';
                 
                 console.log(`Apartmán A: ${countA} termínů, B: ${countB} termínů`);
+                console.log('Blokované A:', bookedDates.A);
             } else {
                 throw new Error('Neplatná odpověď z API');
             }
@@ -578,11 +579,11 @@
         btn.addEventListener('click', () => switchApartment(btn.getAttribute('data-apartment')));
     });
 
-    // Tlačítko pro ruční obnovení - OKAMŽITÉ NAČTENÍ
+    // Tlačítko pro ruční obnovení - OKAMŽITÉ NAČTENÍ Z INFINITYFREE
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
-            console.log('🔄 Ruční obnovení kalendáře...');
+            console.log('🔄 Ruční obnovení kalendáře z InfinityFree...');
             loadDates();
         });
     }
@@ -609,7 +610,7 @@
     
     // Automatické obnovování každých 30 sekund
     setInterval(() => {
-        console.log('🔄 Automatické obnovení kalendáře...');
+        console.log('🔄 Automatické obnovení kalendáře z InfinityFree...');
         loadDates();
     }, 30000);
 </script>
