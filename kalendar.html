@@ -313,8 +313,8 @@
     //  API je na InfinityFree — CORS povolen pro GitHub Pages
     // ============================================================
     const INFINITYFREE_URL = 'https://4ucentreapartments.xo.je';
-    const ADMIN_URL        = INFINITYFREE_URL + '/admininfinity.html';
-    const API              = INFINITYFREE_URL + '/api_availability.php';
+    const ADMIN_URL        = INFINITYFREE_URL + 'https://4ucentreapartments.xo.je/admininfinity.html';
+    const API              = INFINITYFREE_URL + 'https://4ucentreapartments.xo.je/api_availability.php';
 
     let currentApartment = 'A';
     let currentDate      = new Date();
@@ -325,7 +325,7 @@
     // ============================================================
     //  NAČTENÍ OBSAZENÝCH TERMÍNŮ Z INFINITYFREE
     //  Tato funkce je volána z jakékoli domény (GitHub Pages, vlastní web)
-    //  data.json je aktualizován adminem přes admininfinity.html
+    //  data.json je aktualizován adminem přes https://4ucentreapartments.xo.je/admininfinity.html
     // ============================================================
     async function loadDates() {
         const dot  = document.getElementById('syncDot');
