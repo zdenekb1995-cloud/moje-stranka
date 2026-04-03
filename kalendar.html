@@ -327,51 +327,61 @@
     //  Tato funkce je volána z jakékoli domény (GitHub Pages, vlastní web)
     //  data.json je aktualizován adminem přes https://4ucentreapartments.xo.je/admininfinity.html
     // ============================================================
-    async function loadDates() {
-        const dot  = document.getElementById('syncDot');
-        const text = document.getElementById('syncText');
-        dot.className = 'sync-dot warn';
-        text.textContent = 'Načítám dostupnost…';
+   async function loadDates() {
+    const dot  = document.getElementById('syncDot');
+    const text = document.getElementById('syncText');
+    dot.className = 'sync-dot warn';
+    text.textContent = 'Načítám dostupnost…';
 
-        try {
-            const controller = new AbortController();
-            const tid = setTimeout(() => controller.abort(), 12000);
-            const resp = await fetch(API + '?_=' + Date.now(), {
-                cache: 'no-store',
-                signal: controller.signal,
-                headers: { 'Accept': 'application/json' }
-            });
-            clearTimeout(tid);
+    try {
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 12000);
+        const resp = await fetch(API + '?_=' + Date.now(), {
+            cache: 'no-store',
+            signal: controller.signal,
+            headers: { 'Accept': 'application/json' }
+        });
+        clearTimeout(tid);
 
-            if (!resp.ok) throw new Error('HTTP ' + resp.status);
-            const data = await resp.json();
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
 
-            if (data.success) {
-                bookedDates.A = data.availability?.A || [];
-                bookedDates.B = data.availability?.B || [];
+        console.log('API odpověď:', data);  // ← DŮLEŽITÉ PRO LADĚNÍ
 
-                if (data.last_update) {
-                    const updateTime = new Date(data.last_update.replace(' ', 'T'));
-                    const ago = Math.round((Date.now() - updateTime.getTime()) / 60000);
-                    text.textContent = ago < 1
-                        ? 'Dostupnost je aktuální ✓'
-                        : `Dostupnost aktuální · sync: před ${ago < 60 ? ago + ' min' : Math.round(ago/60) + ' hod'}`;
-                } else {
-                    text.textContent = 'Dostupnost načtena ✓';
-                }
-                dot.className = 'sync-dot ok';
+        if (data.success) {
+            // Důležité: API vrací "availability", ne přímo bookedDates
+            if (data.availability) {
+                bookedDates.A = data.availability.A || [];
+                bookedDates.B = data.availability.B || [];
             } else {
-                throw new Error('Chyba v datech z API');
+                // Fallback pro starší verzi API
+                bookedDates.A = data.A || [];
+                bookedDates.B = data.B || [];
             }
-        } catch(e) {
-            console.warn('Načítání obsazenosti selhalo:', e.message);
-            dot.className = 'sync-dot err';
-            text.textContent = e.name === 'AbortError'
-                ? 'Server neodpovídá. Zkuste obnovit stránku.'
-                : 'Nepodařilo se načíst dostupnost – zkuste obnovit stránku';
-            bookedDates = { A: [], B: [] };
+
+            if (data.last_update) {
+                const updateTime = new Date(data.last_update.replace(' ', 'T'));
+                const ago = Math.round((Date.now() - updateTime.getTime()) / 60000);
+                text.textContent = ago < 1
+                    ? 'Dostupnost je aktuální ✓'
+                    : `Dostupnost aktuální · sync: před ${ago < 60 ? ago + ' min' : Math.round(ago/60) + ' hod'}`;
+            } else {
+                text.textContent = 'Dostupnost načtena ✓';
+            }
+            dot.className = 'sync-dot ok';
+        } else {
+            throw new Error(data.error || 'Chyba v datech z API');
         }
-        renderCalendar();
+    } catch(e) {
+        console.error('Chyba při načítání:', e);
+        dot.className = 'sync-dot err';
+        text.textContent = e.name === 'AbortError'
+            ? 'Server neodpovídá. Zkuste obnovit stránku.'
+            : 'Nepodařilo se načíst dostupnost – zkuste obnovit stránku';
+        bookedDates = { A: [], B: [] };
+    }
+    renderCalendar();
+}
     }
 
     // ============================================================
