@@ -320,7 +320,7 @@
             <div class="double-group">
                 <div>
                     <label id="labelPhone">Telefon *</label>
-                    <input type="tel" name="Telefon" id="phone" required placeholder="+420 777 123 456">
+                    <input type="tel" name="Telefon" id="phone" required placeholder="+420777123456" inputmode="numeric">
                 </div>
                 <div>
                     <label id="labelApartment">Vyberte apartmán *</label>
@@ -405,6 +405,7 @@
     let isSubmitting = false;
 
     // DOM elementy
+    const phoneInput = document.getElementById('phone');
     const frontInput = document.getElementById('frontPhotoInput');
     const backInput = document.getElementById('backPhotoInput');
     const frontBtn = document.getElementById('takeFrontPhotoBtn');
@@ -420,6 +421,39 @@
     const form = document.getElementById('checkinForm');
     const submitBtn = document.getElementById('submitBtn');
     const messageBox = document.getElementById('formMessage');
+
+    // ========== OMEZENÍ TELEFONNÍHO ČÍSLA POUZE NA ČÍSLICE A ZNAMÉNKO + ==========
+    phoneInput.addEventListener('input', function(e) {
+        // Povolené znaky: číslice 0-9 a znaménko + (pouze na začátku)
+        let value = this.value;
+        // Odstraní vše co není číslice nebo +
+        let filtered = value.replace(/[^\d+]/g, '');
+        // Znaménko + smí být pouze na začátku a maximálně jednou
+        let plusCount = (filtered.match(/\+/g) || []).length;
+        if (plusCount > 1) {
+            filtered = filtered.replace(/\+/g, '');
+            filtered = '+' + filtered;
+        }
+        if (filtered.startsWith('+')) {
+            filtered = '+' + filtered.slice(1).replace(/\+/g, '');
+        } else {
+            filtered = filtered.replace(/\+/g, '');
+        }
+        this.value = filtered;
+    });
+    
+    // Blokování vložení nepovolených znaků při paste
+    phoneInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        let filtered = pastedText.replace(/[^\d+]/g, '');
+        if (filtered.startsWith('+')) {
+            filtered = '+' + filtered.slice(1).replace(/\+/g, '');
+        } else {
+            filtered = filtered.replace(/\+/g, '');
+        }
+        this.value = filtered;
+    });
 
     // Nahrávání fotek
     frontInput.addEventListener('change', (e) => {
@@ -490,6 +524,13 @@
             showMessage('❌ Vyplňte všechna povinná pole.', 'error'); return;
         }
         if (!email.includes('@') || !email.includes('.')) { showMessage('❌ Zadejte platný e-mail.', 'error'); return; }
+        
+        // Validace telefonu - musí obsahovat alespoň 9 číslic
+        const phoneDigits = phone.replace(/\D/g, '');
+        if (phoneDigits.length < 9) {
+            showMessage('❌ Zadejte platné telefonní číslo (min. 9 číslic).', 'error'); return;
+        }
+        
         if (!frontFile) { showMessage('❌ Nahrajte prosím PŘEDNÍ stranu dokladu.', 'error'); return; }
         if (!backFile) { showMessage('❌ Nahrajte prosím ZADNÍ stranu dokladu.', 'error'); return; }
         if (!gdpr || !damage) { showMessage('❌ Musíte souhlasit s podmínkami.', 'error'); return; }
@@ -572,7 +613,7 @@
         if (type !== 'loading') setTimeout(() => messageBox.classList.remove('show'), 5000);
     }
     
-    // ========== JAZYKOVÁ MUTACE (KOMPLETNÍ PŘEKLAD VČETNĚ LABELŮ A TLAČÍTEK) ==========
+    // ========== JAZYKOVÁ MUTACE ==========
     const translations = {
         cs: {
             formTitle: "✅ Povinný check‑in formulář",
