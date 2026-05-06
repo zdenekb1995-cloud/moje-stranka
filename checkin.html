@@ -272,12 +272,6 @@
             color: #5e5a52;
             margin-top: 2rem;
         }
-        .photo-note {
-            font-size: 0.7rem;
-            color: #8a7e66;
-            text-align: center;
-            margin-top: 0.3rem;
-        }
         @media (max-width: 700px) {
             .form-card { padding: 1.5rem; }
             .hero h1 { font-size: 2rem; }
@@ -333,21 +327,21 @@
                     <select name="Apartman" id="apartment" required>
                         <option value="">-- vyberte --</option>
                         <option value="Apartmán A">Apartmán A</option>
-                        <option value="Apartmán B">Apartmán B</option>
+                        <option value="Apartmán B s terasou">Apartmán B s terasou</option>
                     </select>
                 </div>
             </div>
 
             <!-- FRONT SIDE PHOTO -->
             <div class="form-row">
-                <label id="labelPhotoFront">📸 Fotografie OP – PŘEDNÍ strana *</label>
+                <label id="labelPhotoFront">📸 Přední strana dokladu *</label>
                 <div class="camera-area">
                     <div class="photo-preview">
                         <img id="frontPreview" class="preview-img"
                              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Epřední strana%3C/text%3E%3C/svg%3E"
-                             alt="Přední strana OP">
+                             alt="Přední strana dokladu">
                         <input type="file" id="frontPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
-                        <button type="button" class="btn-photo" id="takeFrontPhotoBtn">📷 Nahrát PŘEDNÍ stranu OP</button>
+                        <button type="button" class="btn-photo" id="takeFrontPhotoBtn">📷 Nahrát přední stranu dokladu</button>
                         <div class="upload-progress" id="frontUploadProgress">
                             <div class="upload-progress-bar" id="frontProgressBar"></div>
                         </div>
@@ -358,14 +352,14 @@
 
             <!-- BACK SIDE PHOTO -->
             <div class="form-row">
-                <label id="labelPhotoBack">📸 Fotografie OP – ZADNÍ strana *</label>
+                <label id="labelPhotoBack">📸 Zadní strana dokladu *</label>
                 <div class="camera-area">
                     <div class="photo-preview">
                         <img id="backPreview" class="preview-img"
-                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Ezáda OP%3C/text%3E%3C/svg%3E"
-                             alt="Zadní strana OP">
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Ezadní strana%3C/text%3E%3C/svg%3E"
+                             alt="Zadní strana dokladu">
                         <input type="file" id="backPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
-                        <button type="button" class="btn-photo" id="takeBackPhotoBtn">📷 Nahrát ZADNÍ stranu OP</button>
+                        <button type="button" class="btn-photo" id="takeBackPhotoBtn">📷 Nahrát zadní stranu dokladu</button>
                         <div class="upload-progress" id="backUploadProgress">
                             <div class="upload-progress-bar" id="backProgressBar"></div>
                         </div>
@@ -389,7 +383,7 @@
             </div>
 
             <div class="gdpr-note" id="gdprNoteText">
-                🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie OP jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.
+                🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie dokladu jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN</button>
@@ -496,8 +490,8 @@
             showMessage('❌ Vyplňte všechna povinná pole.', 'error'); return;
         }
         if (!email.includes('@') || !email.includes('.')) { showMessage('❌ Zadejte platný e-mail.', 'error'); return; }
-        if (!frontFile) { showMessage('❌ Nahrajte prosím PŘEDNÍ stranu OP.', 'error'); return; }
-        if (!backFile) { showMessage('❌ Nahrajte prosím ZADNÍ stranu OP.', 'error'); return; }
+        if (!frontFile) { showMessage('❌ Nahrajte prosím PŘEDNÍ stranu dokladu.', 'error'); return; }
+        if (!backFile) { showMessage('❌ Nahrajte prosím ZADNÍ stranu dokladu.', 'error'); return; }
         if (!gdpr || !damage) { showMessage('❌ Musíte souhlasit s podmínkami.', 'error'); return; }
         
         isSubmitting = true;
@@ -534,8 +528,8 @@
             Apartman: apartment,
             GDPR_souhlas: 'Ano',
             Zodpovednost: 'Ano - s hlášením závad při příjezdu',
-            Foto_OP_predni: frontUrl,
-            Foto_OP_zadni: backUrl,
+            Predni_strana_dokladu: frontUrl,
+            Zadni_strana_dokladu: backUrl,
             Cas_odeslani: new Date().toLocaleString('cs-CZ')
         };
         
@@ -566,7 +560,7 @@
         frontFile = null; backFile = null;
         frontInput.value = ''; backInput.value = '';
         frontPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Epřední strana%3C/text%3E%3C/svg%3E";
-        backPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Ezáda OP%3C/text%3E%3C/svg%3E";
+        backPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Ezadní strana%3C/text%3E%3C/svg%3E";
         frontStatus.textContent = ''; backStatus.textContent = '';
         frontProgress.style.display = 'none'; backProgress.style.display = 'none';
         setTimeout(() => messageBox.classList.remove('show'), 5000);
@@ -578,46 +572,46 @@
         if (type !== 'loading') setTimeout(() => messageBox.classList.remove('show'), 5000);
     }
     
-    // ========== JAZYKOVÁ MUTACE (KOMPLETNÍ VČETNĚ TLAČÍTEK A STATUSŮ) ==========
+    // ========== JAZYKOVÁ MUTACE (KOMPLETNÍ VČETNĚ TLAČÍTEK) ==========
     const translations = {
         cs: {
             formTitle: "✅ Povinný check‑in formulář",
             formDesc: "Podle zákona č. 326/1999 Sb. a GDPR evidujeme totožnost hosta.",
             labelName: "Jméno a příjmení *", labelBirth: "Datum narození *", labelIdNum: "Číslo OP / pasu *",
             labelEmail: "E-mail *", labelPhone: "Telefon *", labelApartment: "Vyberte apartmán *",
-            labelPhotoFront: "📸 Fotografie OP – PŘEDNÍ strana *", labelPhotoBack: "📸 Fotografie OP – ZADNÍ strana *",
-            btnPhotoFront: "📷 Nahrát PŘEDNÍ stranu OP", btnPhotoBack: "📷 Nahrát ZADNÍ stranu OP",
+            labelPhotoFront: "📸 Přední strana dokladu *", labelPhotoBack: "📸 Zadní strana dokladu *",
+            btnPhotoFront: "📷 Nahrát přední stranu dokladu", btnPhotoBack: "📷 Nahrát zadní stranu dokladu",
             labelGdpr: "<strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.",
             labelDamage: "<strong>Zodpovědnost za škody</strong> – Beru na vědomí, že veškeré závady jsem povinen hlásit neprodleně po příjezdu. V případě, že se prokáže, že škodu v apartmánu jsem způsobil já, jsem povinen ji plně nahradit.",
-            gdprNote: "🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie OP jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.",
+            gdprNote: "🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie dokladu jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.",
             btnSubmit: "🏨 ODESLAT CHECK-IN",
-            uploadReady: "✅ Foto připraveno", uploadProgress: "📤 nahrávání...", uploadDone: "✅ nahráno", uploadError: "❌ Chyba uploadu"
+            uploadReady: "✅ Foto připraveno", uploadProgress: "📤 nahrávání...", uploadDone: "✅ nahráno"
         },
         en: {
             formTitle: "✅ Mandatory check-in form",
             formDesc: "According to Act No. 326/1999 Coll. and GDPR, we are required to register guest identity.",
             labelName: "Full name *", labelBirth: "Date of birth *", labelIdNum: "ID / Passport number *",
             labelEmail: "Email *", labelPhone: "Phone *", labelApartment: "Select apartment *",
-            labelPhotoFront: "📸 ID photo – FRONT side *", labelPhotoBack: "📸 ID photo – BACK side *",
-            btnPhotoFront: "📷 Upload FRONT side of ID", btnPhotoBack: "📷 Upload BACK side of ID",
+            labelPhotoFront: "📸 Front side of ID document *", labelPhotoBack: "📸 Back side of ID document *",
+            btnPhotoFront: "📷 Upload front side of ID document", btnPhotoBack: "📷 Upload back side of ID document",
             labelGdpr: "<strong>I consent to the processing of personal data</strong> under GDPR.",
             labelDamage: "<strong>Liability for damages</strong> – I acknowledge that I must report any defects immediately upon arrival. If it is proven that I caused damage to the apartment, I am obliged to fully compensate it.",
-            gdprNote: "🔒 <strong>GDPR & data protection</strong> – Your personal data and ID photos are processed solely for accommodation registration according to Act No. 326/1999 Coll. Data is not shared with third parties, is not stored long-term, and serves only for guest identification. After your stay, it is securely deleted.",
+            gdprNote: "🔒 <strong>GDPR & data protection</strong> – Your personal data and ID document photos are processed solely for accommodation registration according to Act No. 326/1999 Coll. Data is not shared with third parties, is not stored long-term, and serves only for guest identification. After your stay, it is securely deleted.",
             btnSubmit: "🏨 SUBMIT CHECK-IN",
-            uploadReady: "✅ Photo ready", uploadProgress: "📤 uploading...", uploadDone: "✅ uploaded", uploadError: "❌ Upload error"
+            uploadReady: "✅ Photo ready", uploadProgress: "📤 uploading...", uploadDone: "✅ uploaded"
         },
         de: {
             formTitle: "✅ Pflicht-Check-in-Formular",
             formDesc: "Gemäß Gesetz Nr. 326/1999 Sb. und GDPR müssen wir die Identität des Gastes erfassen.",
             labelName: "Vor- und Nachname *", labelBirth: "Geburtsdatum *", labelIdNum: "Personalausweis / Pass-Nr. *",
             labelEmail: "E-Mail *", labelPhone: "Telefon *", labelApartment: "Apartment wählen *",
-            labelPhotoFront: "📸 Ausweisfoto – VORDERSEITE *", labelPhotoBack: "📸 Ausweisfoto – RÜCKSEITE *",
-            btnPhotoFront: "📷 VORDERSEITE des Ausweises hochladen", btnPhotoBack: "📷 RÜCKSEITE des Ausweises hochladen",
+            labelPhotoFront: "📸 Vorderseite des Ausweisdokuments *", labelPhotoBack: "📸 Rückseite des Ausweisdokuments *",
+            btnPhotoFront: "📷 Vorderseite des Ausweisdokuments hochladen", btnPhotoBack: "📷 Rückseite des Ausweisdokuments hochladen",
             labelGdpr: "<strong>Ich stimme der Verarbeitung personenbezogener Daten</strong> gemäß GDPR zu.",
             labelDamage: "<strong>Haftung für Schäden</strong> – Ich bestätige, dass ich alle Mängel sofort nach der Ankunft melden muss. Sollte nachgewiesen werden, dass ich den Schaden in der Wohnung verursacht habe, bin ich verpflichtet, diesen vollständig zu ersetzen.",
-            gdprNote: "🔒 <strong>GDPR & Datenschutz</strong> – Ihre personenbezogenen Daten und Ausweisfotos werden ausschließlich für die Meldeverpflichtung gemäß Gesetz Nr. 326/1999 Sb. verarbeitet. Die Daten werden nicht an Dritte weitergegeben, nicht langfristig gespeichert und dienen nur zur Identifikation des Gastes. Nach Ihrem Aufenthalt werden sie sicher gelöscht.",
+            gdprNote: "🔒 <strong>GDPR & Datenschutz</strong> – Ihre personenbezogenen Daten und Fotos des Ausweisdokuments werden ausschließlich für die Meldeverpflichtung gemäß Gesetz Nr. 326/1999 Sb. verarbeitet. Die Daten werden nicht an Dritte weitergegeben, nicht langfristig gespeichert und dienen nur zur Identifikation des Gastes. Nach Ihrem Aufenthalt werden sie sicher gelöscht.",
             btnSubmit: "🏨 CHECK-IN SENDEN",
-            uploadReady: "✅ Foto bereit", uploadProgress: "📤 hochladen...", uploadDone: "✅ hochgeladen", uploadError: "❌ Fehler beim Hochladen"
+            uploadReady: "✅ Foto bereit", uploadProgress: "📤 hochladen...", uploadDone: "✅ hochgeladen"
         }
     };
     
