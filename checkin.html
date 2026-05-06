@@ -142,7 +142,28 @@
         .btn-photo:hover {
             background: #d6cbbc;
         }
-        
+
+        .upload-progress {
+            width: 100%;
+            background: #e9e2d9;
+            border-radius: 20px;
+            height: 6px;
+            overflow: hidden;
+            display: none;
+        }
+        .upload-progress-bar {
+            height: 100%;
+            background: #1e3c3f;
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.4s;
+        }
+        .upload-status {
+            font-size: 0.8rem;
+            color: #a07e5c;
+            text-align: center;
+        }
+
         .checkbox-group {
             margin-bottom: 1rem;
             display: flex;
@@ -173,7 +194,7 @@
         .checkbox-group label strong {
             color: #1e3c3f;
         }
-        
+
         .gdpr-note {
             font-size: 0.75rem;
             background: #f4efea;
@@ -272,10 +293,9 @@
     <div class="form-card">
         <h2 style="margin-bottom: 1.2rem;">✅ Povinný check‑in formulář</h2>
         <p style="margin-bottom: 1rem; color:#5b5a56;">Podle zákona č. 326/1999 Sb. a GDPR jsme povinni evidovat totožnost hosta.</p>
-        
-        <!-- Formulář odesílán přes Formspree AJAX -->
+
         <form id="checkinForm" novalidate>
-            
+
             <div class="form-row">
                 <label for="fullname">Jméno a příjmení *</label>
                 <input type="text" name="Jméno" id="fullname" required placeholder="např. Jana Nováková">
@@ -311,37 +331,43 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="form-row">
                 <label>📸 Fotografie občanského průkazu (přední strana) *</label>
                 <div class="camera-area">
                     <div class="photo-preview">
-                        <img id="idPreview" class="preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E" alt="Náhled OP">
+                        <img id="idPreview" class="preview-img"
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E"
+                             alt="Náhled OP">
                         <input type="file" id="idPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
                         <button type="button" class="btn-photo" id="takePhotoBtn">📷 Nahrát / Vyfotit foto OP</button>
+                        <div class="upload-progress" id="uploadProgress">
+                            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                        </div>
+                        <div class="upload-status" id="uploadStatus"></div>
                     </div>
-                    <p class="photo-note">Foto bude přiloženo k check-in záznamu (JPG nebo PNG, max. 5 MB)</p>
+                    <p class="photo-note">Foto se nahraje na bezpečné úložiště a odkaz přijde do e-mailu (JPG nebo PNG, max. 5 MB)</p>
                 </div>
             </div>
-            
+
             <div class="checkbox-group">
                 <input type="checkbox" id="gdprCheck" required>
                 <label for="gdprCheck">
                     <strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.
                 </label>
             </div>
-            
+
             <div class="checkbox-group">
                 <input type="checkbox" id="damageCheck" required>
                 <label for="damageCheck">
                     <strong>Zodpovědnost za škody</strong> – Beru na vědomí, že v případě vzniklých škod, které nebudou nahlášeny bezprostředně po příjezdu a prokážou se jako způsobené mnou nebo mými hosty, nesu plnou odpovědnost za jejich úhradu.
                 </label>
             </div>
-            
+
             <div class="gdpr-note">
                 ⚖️ <strong>GDPR & ochrana osobních údajů</strong> – Odesláním souhlasíte s podmínkami zpracování.
             </div>
-            
+
             <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN</button>
             <div id="formMessage" class="message-box"></div>
         </form>
@@ -353,12 +379,26 @@
 </div>
 
 <script>
-    // ── FOTO PREVIEW ──────────────────────────────────────────────
-    const photoInput  = document.getElementById('idPhotoInput');
-    const takeBtn     = document.getElementById('takePhotoBtn');
-    const previewImg  = document.getElementById('idPreview');
-    let   photoBase64 = null;   // uložíme base64 pro odeslání
+    // ══════════════════════════════════════════════════════
+    //  ⚙️  NASTAVENÍ – sem vlož své klíče
+    // ══════════════════════════════════════════════════════
+    const IMGBB_API_KEY   = '3d26ca2e85ce3764e2f7a87129d16f06';
+    const FORMSPREE_URL   = 'https://formspree.io/f/mvzlqpqo';
+    // ══════════════════════════════════════════════════════
 
+    const photoInput      = document.getElementById('idPhotoInput');
+    const takeBtn         = document.getElementById('takePhotoBtn');
+    const previewImg      = document.getElementById('idPreview');
+    const uploadProgress  = document.getElementById('uploadProgress');
+    const uploadProgressBar = document.getElementById('uploadProgressBar');
+    const uploadStatus    = document.getElementById('uploadStatus');
+    const form            = document.getElementById('checkinForm');
+    const submitBtn       = document.getElementById('submitBtn');
+    const messageBox      = document.getElementById('formMessage');
+
+    let selectedFile = null;   // surový File objekt
+
+    // ── Výběr fotky ───────────────────────────────────────
     takeBtn.addEventListener('click', () => photoInput.click());
 
     photoInput.addEventListener('change', (e) => {
@@ -369,36 +409,63 @@
         if (!allowed.includes(file.type)) {
             alert('Prosím nahrajte JPG nebo PNG obrázek.');
             photoInput.value = '';
-            photoBase64 = null;
+            selectedFile = null;
             return;
         }
         if (file.size > 5 * 1024 * 1024) {
             alert('Fotografie je příliš velká. Maximum je 5 MB.');
             photoInput.value = '';
-            photoBase64 = null;
+            selectedFile = null;
             return;
         }
 
+        selectedFile = file;
+
+        // Zobrazit náhled
         const reader = new FileReader();
-        reader.onload = (ev) => {
-            previewImg.src = ev.target.result;
-            // Uložit base64 (odstraníme prefix "data:image/...;base64,")
-            photoBase64 = ev.target.result;
-        };
+        reader.onload = (ev) => { previewImg.src = ev.target.result; };
         reader.readAsDataURL(file);
+
+        uploadStatus.textContent = '✅ Fotka připravena k odeslání';
     });
 
-    // ── ODESLÁNÍ PŘES FORMSPREE (AJAX / fetch) ───────────────────
-    const form       = document.getElementById('checkinForm');
-    const submitBtn  = document.getElementById('submitBtn');
-    const messageBox = document.getElementById('formMessage');
+    // ── Nahrát fotku na ImgBB a vrátit URL ────────────────
+    async function uploadToImgBB(file) {
+        return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('image', file);
 
-    const FORMSPREE_URL = 'https://formspree.io/f/mvzlqpqo';
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, true);
 
+            // Průběh uploadu
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    const pct = Math.round((e.loaded / e.total) * 100);
+                    uploadProgressBar.style.width = pct + '%';
+                    uploadStatus.textContent = `📤 Nahrávám foto... ${pct}%`;
+                }
+            };
+
+            xhr.onload = () => {
+                const data = JSON.parse(xhr.responseText);
+                if (xhr.status === 200 && data.success) {
+                    resolve(data.data.url);          // přímý odkaz na obrázek
+                } else {
+                    reject(new Error(data.error?.message || 'Chyba nahrávání na ImgBB'));
+                }
+            };
+
+            xhr.onerror = () => reject(new Error('Síťová chyba při nahrávání fotky'));
+            xhr.send(formData);
+        });
+    }
+
+    // ── Odeslání formuláře ────────────────────────────────
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();  // VŽDY zastavíme nativní odeslání
+        e.preventDefault();
 
-        // ── Validace ─────────────────────────────────────────────
+        // Validace polí
         const fullname  = document.getElementById('fullname').value.trim();
         const birthdate = document.getElementById('birthdate').value.trim();
         const idNumber  = document.getElementById('idNumber').value.trim();
@@ -412,7 +479,7 @@
             showMessage('❌ Vyplňte prosím všechna povinná pole.', 'error');
             return;
         }
-        if (!photoBase64) {
+        if (!selectedFile) {
             showMessage('❌ Nahrajte prosím fotografii občanského průkazu.', 'error');
             return;
         }
@@ -425,30 +492,49 @@
             return;
         }
 
-        // ── Odeslání ─────────────────────────────────────────────
         submitBtn.disabled = true;
-        showMessage('⏳ Odesílám formulář...', 'loading');
+        showMessage('⏳ Nahrávám fotografii...', 'loading');
 
-        // Formspree přijímá JSON
+        // Zobrazit progress bar
+        uploadProgress.style.display = 'block';
+        uploadProgressBar.style.width = '0%';
+
+        let photoUrl;
+        try {
+            photoUrl = await uploadToImgBB(selectedFile);
+            uploadProgressBar.style.width = '100%';
+            uploadStatus.textContent = '✅ Fotka nahrána';
+        } catch (err) {
+            showMessage('❌ Nepodařilo se nahrát fotografii: ' + err.message, 'error');
+            submitBtn.disabled = false;
+            uploadProgress.style.display = 'none';
+            return;
+        }
+
+        showMessage('⏳ Odesílám check-in data...', 'loading');
+
+        // Odeslat textová data + odkaz na foto přes Formspree
         const payload = {
-            _subject:          '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc',
-            Jméno:             fullname,
-            Datum_narozeni:    birthdate,
-            Cislo_OP:          idNumber,
-            email:             email,
-            Telefon:           phone,
-            Apartman:          apartment,
-            GDPR_souhlas:      'Ano – host souhlasil',
-            Zodpovednost:      'Ano – host potvrdil',
-            Foto_OP_base64:    photoBase64,   // base64 foto
+            _subject:       '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc',
+            Jméno:          fullname,
+            Datum_narozeni: birthdate,
+            Cislo_OP:       idNumber,
+            email:          email,
+            Telefon:        phone,
+            Apartman:       apartment,
+            GDPR_souhlas:   'Ano – host souhlasil',
+            Zodpovednost:   'Ano – host potvrdil',
+            Foto_OP_odkaz:  photoUrl,   // ← odkaz místo base64
         };
 
         try {
             const response = await fetch(FORMSPREE_URL, {
                 method:  'POST',
-                headers: { 'Content-Type': 'application/json',
-                           'Accept':       'application/json' },
-                body:    JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept':       'application/json'
+                },
+                body: JSON.stringify(payload),
             });
 
             const result = await response.json();
@@ -457,11 +543,10 @@
                 showMessage('✅ Check-in úspěšně odeslán! Děkujeme. Potvrzení přijde na e-mail.', 'success');
                 resetForm();
             } else {
-                // Formspree vrací pole errors
                 const errMsg = result.errors
                     ? result.errors.map(err => err.message).join(', ')
                     : 'Neznámá chyba – zkuste to prosím znovu.';
-                showMessage('❌ Chyba: ' + errMsg, 'error');
+                showMessage('❌ Chyba Formspree: ' + errMsg, 'error');
             }
         } catch (err) {
             showMessage('❌ Připojení selhalo. Zkontrolujte internet a zkuste znovu.', 'error');
@@ -471,12 +556,16 @@
         }
     });
 
+    // ── Pomocné funkce ────────────────────────────────────
     function resetForm() {
         form.reset();
-        photoBase64 = null;
+        selectedFile = null;
         photoInput.value = '';
+        uploadProgress.style.display = 'none';
+        uploadProgressBar.style.width = '0%';
+        uploadStatus.textContent = '';
         previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E";
-        setTimeout(() => messageBox.classList.remove('show'), 6000);
+        setTimeout(() => messageBox.classList.remove('show'), 7000);
     }
 
     function showMessage(msg, type) {
