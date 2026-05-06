@@ -80,7 +80,11 @@
             color: #2c3a2f;
             font-size: 0.9rem;
         }
-        input, select {
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        select {
             width: 100%;
             padding: 0.9rem 1rem;
             border: 1px solid #ddd2c5;
@@ -98,9 +102,11 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            margin-bottom: 1.5rem;
         }
         .double-group > div {
             flex: 1;
+            min-width: 180px;
         }
         .camera-area {
             background: #f9f6f2;
@@ -131,6 +137,7 @@
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 1rem;
         }
         .btn-photo:hover {
             background: #d6cbbc;
@@ -146,12 +153,14 @@
             border-radius: 20px;
             border: 1px solid #e9e2d9;
         }
-        .checkbox-group input {
+        .checkbox-group input[type="checkbox"] {
             width: 22px;
             height: 22px;
+            min-width: 22px;
             margin-top: 2px;
             flex-shrink: 0;
             accent-color: #1e3c3f;
+            cursor: pointer;
         }
         .checkbox-group label {
             font-weight: normal;
@@ -159,6 +168,7 @@
             font-size: 0.85rem;
             color: #3d4f4a;
             line-height: 1.4;
+            cursor: pointer;
         }
         .checkbox-group label strong {
             color: #1e3c3f;
@@ -232,8 +242,15 @@
             padding: 0.2rem 1rem;
             font-size: 0.7rem;
         }
+        .photo-note {
+            font-size: 0.75rem;
+            color: #7a6e60;
+            text-align: center;
+            margin-top: 0.3rem;
+        }
         @media (max-width: 700px) {
             .form-card { padding: 1.5rem; }
+            .hero h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -256,39 +273,38 @@
         <h2 style="margin-bottom: 1.2rem;">✅ Povinný check‑in formulář</h2>
         <p style="margin-bottom: 1rem; color:#5b5a56;">Podle zákona č. 326/1999 Sb. a GDPR jsme povinni evidovat totožnost hosta.</p>
         
-        <!-- FORMSUBMIT - DATA JDOU NA 4ucheckin@seznam.cz -->
-        <form action="https://formsubmit.co/4ucheckin@seznam.cz" method="POST" enctype="multipart/form-data" id="checkinForm">
-            
-            <!-- Skrytá nastavení FormSubmit -->
-            <input type="hidden" name="_subject" value="🏨 NOVÝ CHECK-IN - 4U Centre Olomouc">
-            <input type="hidden" name="_captcha" value="false">
+        <!-- Formulář odesílán přes Formspree AJAX -->
+        <form id="checkinForm" novalidate>
             
             <div class="form-row">
-                <label>Jméno a příjmení *</label>
+                <label for="fullname">Jméno a příjmení *</label>
                 <input type="text" name="Jméno" id="fullname" required placeholder="např. Jana Nováková">
             </div>
+
             <div class="double-group">
                 <div>
-                    <label>Datum narození *</label>
-                    <input type="date" name="Datum narození" id="birthdate" required>
+                    <label for="birthdate">Datum narození *</label>
+                    <input type="date" name="Datum_narozeni" id="birthdate" required>
                 </div>
                 <div>
-                    <label>Číslo OP / pasu *</label>
-                    <input type="text" name="Číslo OP" id="idNumber" required placeholder="CZ1234567">
+                    <label for="idNumber">Číslo OP / pasu *</label>
+                    <input type="text" name="Cislo_OP" id="idNumber" required placeholder="CZ1234567">
                 </div>
             </div>
+
             <div class="form-row">
-                <label>E-mail *</label>
-                <input type="email" name="E-mail" id="email" required placeholder="host@email.cz">
+                <label for="email">E-mail *</label>
+                <input type="email" name="email" id="email" required placeholder="host@email.cz">
             </div>
+
             <div class="double-group">
                 <div>
-                    <label>Telefon *</label>
+                    <label for="phone">Telefon *</label>
                     <input type="tel" name="Telefon" id="phone" required placeholder="+420 777 123 456">
                 </div>
                 <div>
-                    <label>Vyberte apartmán *</label>
-                    <select name="Apartmán" id="apartment" required>
+                    <label for="apartment">Vyberte apartmán *</label>
+                    <select name="Apartman" id="apartment" required>
                         <option value="">-- vyberte --</option>
                         <option value="Apartmán A - č.4 (jižní)">Apartmán A - č.4 (jižní)</option>
                         <option value="Apartmán B - č.4B (severní)">Apartmán B - č.4B (severní)</option>
@@ -300,124 +316,172 @@
                 <label>📸 Fotografie občanského průkazu (přední strana) *</label>
                 <div class="camera-area">
                     <div class="photo-preview">
-                        <img id="idPreview" class="preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E" alt="Náhled">
-                        <input type="file" name="Fotografie OP" id="idPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display: none;" required>
-                        <button type="button" class="btn-photo" id="takePhotoBtn">📷 Nahrát / Vyfotit (soubor)</button>
-                        <small style="color:#7a6e60;">Vyfoťte nebo nahrajte snímek OP</small>
+                        <img id="idPreview" class="preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E" alt="Náhled OP">
+                        <input type="file" id="idPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+                        <button type="button" class="btn-photo" id="takePhotoBtn">📷 Nahrát / Vyfotit foto OP</button>
                     </div>
+                    <p class="photo-note">Foto bude přiloženo k check-in záznamu (JPG nebo PNG, max. 5 MB)</p>
                 </div>
             </div>
             
             <div class="checkbox-group">
-                <input type="checkbox" name="GDPR souhlas" id="gdprCheck" required>
+                <input type="checkbox" id="gdprCheck" required>
                 <label for="gdprCheck">
                     <strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.
                 </label>
             </div>
             
             <div class="checkbox-group">
-                <input type="checkbox" name="Zodpovědnost za škody" id="damageCheck" required>
+                <input type="checkbox" id="damageCheck" required>
                 <label for="damageCheck">
                     <strong>Zodpovědnost za škody</strong> – Beru na vědomí, že v případě vzniklých škod, které nebudou nahlášeny bezprostředně po příjezdu a prokážou se jako způsobené mnou nebo mými hosty, nesu plnou odpovědnost za jejich úhradu.
                 </label>
             </div>
             
             <div class="gdpr-note">
-                ⚖️ <strong>GDPR & ochrana osobních údajů</strong> – Odesláním souhlasíte s podmínkami.
+                ⚖️ <strong>GDPR & ochrana osobních údajů</strong> – Odesláním souhlasíte s podmínkami zpracování.
             </div>
             
             <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN</button>
             <div id="formMessage" class="message-box"></div>
         </form>
     </div>
+
     <footer>
         © 4U Centre Apartments Olomouc | kontakt: 4ucheckin@seznam.cz
     </footer>
 </div>
 
-<!-- Skrytý iframe pro odeslání bez opuštění stránky -->
-<iframe name="hiddenFrame" style="display:none"></iframe>
-
 <script>
-    // Ovládání fotografie
-    const photoInput = document.getElementById('idPhotoInput');
-    const takeBtn = document.getElementById('takePhotoBtn');
-    const previewImg = document.getElementById('idPreview');
-    
+    // ── FOTO PREVIEW ──────────────────────────────────────────────
+    const photoInput  = document.getElementById('idPhotoInput');
+    const takeBtn     = document.getElementById('takePhotoBtn');
+    const previewImg  = document.getElementById('idPreview');
+    let   photoBase64 = null;   // uložíme base64 pro odeslání
+
     takeBtn.addEventListener('click', () => photoInput.click());
-    
+
     photoInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if (file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg')) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { previewImg.src = ev.target.result; };
-            reader.readAsDataURL(file);
-        } else if (file) {
+        if (!file) return;
+
+        const allowed = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!allowed.includes(file.type)) {
             alert('Prosím nahrajte JPG nebo PNG obrázek.');
             photoInput.value = '';
+            photoBase64 = null;
+            return;
         }
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Fotografie je příliš velká. Maximum je 5 MB.');
+            photoInput.value = '';
+            photoBase64 = null;
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            previewImg.src = ev.target.result;
+            // Uložit base64 (odstraníme prefix "data:image/...;base64,")
+            photoBase64 = ev.target.result;
+        };
+        reader.readAsDataURL(file);
     });
-    
-    const form = document.getElementById('checkinForm');
-    const submitBtn = document.getElementById('submitBtn');
+
+    // ── ODESLÁNÍ PŘES FORMSPREE (AJAX / fetch) ───────────────────
+    const form       = document.getElementById('checkinForm');
+    const submitBtn  = document.getElementById('submitBtn');
     const messageBox = document.getElementById('formMessage');
-    let formSubmitted = false;
-    
-    // Nastavení targetu na iframe
-    form.target = 'hiddenFrame';
-    
-    form.addEventListener('submit', function(e) {
-        // Kontrola fotky
-        const photoFile = document.getElementById('idPhotoInput').files[0];
-        if (!photoFile) {
-            e.preventDefault();
+
+    const FORMSPREE_URL = 'https://formspree.io/f/mvzlqpqo';
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();  // VŽDY zastavíme nativní odeslání
+
+        // ── Validace ─────────────────────────────────────────────
+        const fullname  = document.getElementById('fullname').value.trim();
+        const birthdate = document.getElementById('birthdate').value.trim();
+        const idNumber  = document.getElementById('idNumber').value.trim();
+        const email     = document.getElementById('email').value.trim();
+        const phone     = document.getElementById('phone').value.trim();
+        const apartment = document.getElementById('apartment').value;
+        const gdpr      = document.getElementById('gdprCheck').checked;
+        const damage    = document.getElementById('damageCheck').checked;
+
+        if (!fullname || !birthdate || !idNumber || !email || !phone || !apartment) {
+            showMessage('❌ Vyplňte prosím všechna povinná pole.', 'error');
+            return;
+        }
+        if (!photoBase64) {
             showMessage('❌ Nahrajte prosím fotografii občanského průkazu.', 'error');
             return;
         }
-        
-        // Kontrola velikosti
-        if (photoFile.size > 10 * 1024 * 1024) {
-            e.preventDefault();
-            showMessage('❌ Fotografie je příliš velká (max. 10 MB).', 'error');
-            return;
-        }
-        
-        // Kontrola GDPR
-        if (!document.getElementById('gdprCheck').checked) {
-            e.preventDefault();
+        if (!gdpr) {
             showMessage('❌ Musíte souhlasit se zpracováním osobních údajů.', 'error');
             return;
         }
-        
-        // Kontrola zodpovědnosti
-        if (!document.getElementById('damageCheck').checked) {
-            e.preventDefault();
+        if (!damage) {
             showMessage('❌ Musíte potvrdit zodpovědnost za případné škody.', 'error');
             return;
         }
-        
-        showMessage('⏳ Odesílám...', 'loading');
+
+        // ── Odeslání ─────────────────────────────────────────────
         submitBtn.disabled = true;
-        formSubmitted = true;
-        
-        // Úspěšná zpráva se zobrazí po odeslání
-        setTimeout(() => {
-            if (formSubmitted) {
+        showMessage('⏳ Odesílám formulář...', 'loading');
+
+        // Formspree přijímá JSON
+        const payload = {
+            _subject:          '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc',
+            Jméno:             fullname,
+            Datum_narozeni:    birthdate,
+            Cislo_OP:          idNumber,
+            email:             email,
+            Telefon:           phone,
+            Apartman:          apartment,
+            GDPR_souhlas:      'Ano – host souhlasil',
+            Zodpovednost:      'Ano – host potvrdil',
+            Foto_OP_base64:    photoBase64,   // base64 foto
+        };
+
+        try {
+            const response = await fetch(FORMSPREE_URL, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json',
+                           'Accept':       'application/json' },
+                body:    JSON.stringify(payload),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
                 showMessage('✅ Check-in úspěšně odeslán! Děkujeme. Potvrzení přijde na e-mail.', 'success');
-                form.reset();
-                previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E";
-                photoInput.value = '';
-                submitBtn.disabled = false;
-                formSubmitted = false;
-                
-                setTimeout(() => messageBox.classList.remove('show'), 5000);
+                resetForm();
+            } else {
+                // Formspree vrací pole errors
+                const errMsg = result.errors
+                    ? result.errors.map(err => err.message).join(', ')
+                    : 'Neznámá chyba – zkuste to prosím znovu.';
+                showMessage('❌ Chyba: ' + errMsg, 'error');
             }
-        }, 1500);
+        } catch (err) {
+            showMessage('❌ Připojení selhalo. Zkontrolujte internet a zkuste znovu.', 'error');
+            console.error('Formspree error:', err);
+        } finally {
+            submitBtn.disabled = false;
+        }
     });
-    
+
+    function resetForm() {
+        form.reset();
+        photoBase64 = null;
+        photoInput.value = '';
+        previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E";
+        setTimeout(() => messageBox.classList.remove('show'), 6000);
+    }
+
     function showMessage(msg, type) {
         messageBox.textContent = msg;
-        messageBox.className = 'message-box show ' + type;
+        messageBox.className   = 'message-box show ' + type;
     }
 </script>
 </body>
