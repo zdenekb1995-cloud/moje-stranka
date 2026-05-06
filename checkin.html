@@ -12,62 +12,73 @@
         }
 
         body {
-            background: #f4f0eb;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            color: #2c2b28;
+            background: #0a0a0a;
+            font-family: 'Segoe UI', 'Poppins', Roboto, 'Helvetica Neue', sans-serif;
+            color: #e0d6c8;
             line-height: 1.4;
             padding: 2rem 1rem;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
+        /* ZLATO-ČERNÝ DESIGN */
         .hero {
             text-align: center;
             margin-bottom: 2rem;
+            border-bottom: 2px solid #c9a03d;
+            padding-bottom: 1rem;
         }
         .hero h1 {
-            font-size: 2.5rem;
-            letter-spacing: 2px;
-            font-weight: 600;
-            color: #1e3c3f;
+            font-size: 2.8rem;
+            letter-spacing: 3px;
+            font-weight: 700;
+            color: #c9a03d;
+            text-shadow: 0 0 8px rgba(201,160,61,0.3);
         }
         .hero .sub {
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            color: #a07e5c;
+            color: #b8933a;
             font-weight: 500;
-            border-top: 1px solid #ddd;
-            display: inline-block;
-            padding-top: 0.3rem;
-            margin-top: 0.3rem;
+            letter-spacing: 2px;
         }
 
-        .address-card {
-            background: white;
-            border-radius: 28px;
-            padding: 1.6rem 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-            border: 1px solid #e9e2d9;
-            text-align: center;
+        /* JAZYKOVÉ PŘEPÍNÁNÍ */
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
-        .address-card h3 {
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #1e3c3f;
+        .lang-btn {
+            background: transparent;
+            border: 1px solid #c9a03d;
+            color: #c9a03d;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .lang-btn.active {
+            background: #c9a03d;
+            color: #0a0a0a;
+        }
+        .lang-btn:hover {
+            background: #c9a03d20;
         }
 
         .form-card {
-            background: white;
+            background: #11100e;
             border-radius: 32px;
             padding: 2rem;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.05);
-            border: 1px solid #e9e2d9;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,160,61,0.2);
             margin-bottom: 2rem;
+            border: 1px solid rgba(201,160,61,0.3);
         }
 
         .form-row {
@@ -77,7 +88,7 @@
             font-weight: 600;
             display: block;
             margin-bottom: 0.5rem;
-            color: #2c3a2f;
+            color: #d4bb77;
             font-size: 0.9rem;
         }
         input[type="text"],
@@ -87,16 +98,17 @@
         select {
             width: 100%;
             padding: 0.9rem 1rem;
-            border: 1px solid #ddd2c5;
+            border: 1px solid #2a2a28;
             border-radius: 24px;
             font-size: 1rem;
-            background: #fefcf9;
+            background: #1c1b19;
+            color: #f0e6d8;
             transition: 0.2s;
         }
         input:focus, select:focus {
             outline: none;
-            border-color: #a07e5c;
-            box-shadow: 0 0 0 3px rgba(160,126,92,0.2);
+            border-color: #c9a03d;
+            box-shadow: 0 0 0 3px rgba(201,160,61,0.3);
         }
         .double-group {
             display: flex;
@@ -109,59 +121,63 @@
             min-width: 180px;
         }
         .camera-area {
-            background: #f9f6f2;
+            background: #1a1917;
             border-radius: 28px;
             padding: 1.2rem;
-            border: 1px solid #e2d9d0;
+            border: 1px solid #2f2d29;
             margin-top: 0.5rem;
         }
         .photo-preview {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
         .preview-img {
             max-width: 100%;
-            max-height: 200px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            background: #fff;
+            max-height: 150px;
+            border-radius: 16px;
+            border: 1px solid #c9a03d;
+            background: #0a0a0a;
             object-fit: contain;
         }
         .btn-photo {
-            background: #e8e0d7;
-            border: none;
+            background: #2a2620;
+            border: 1px solid #c9a03d;
+            color: #c9a03d;
             padding: 0.5rem 1.2rem;
             border-radius: 40px;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .btn-photo:hover {
-            background: #d6cbbc;
+            background: #c9a03d;
+            color: #0a0a0a;
         }
 
         .upload-progress {
             width: 100%;
-            background: #e9e2d9;
+            background: #2a2620;
             border-radius: 20px;
             height: 6px;
             overflow: hidden;
             display: none;
+            margin-top: 8px;
         }
         .upload-progress-bar {
             height: 100%;
-            background: #1e3c3f;
+            background: #c9a03d;
             border-radius: 20px;
             width: 0%;
             transition: width 0.4s;
         }
         .upload-status {
-            font-size: 0.8rem;
-            color: #a07e5c;
+            font-size: 0.75rem;
+            color: #b8933a;
             text-align: center;
+            margin-top: 5px;
         }
 
         .checkbox-group {
@@ -169,10 +185,10 @@
             display: flex;
             align-items: flex-start;
             gap: 0.8rem;
-            background: #fefcf9;
+            background: #1a1917;
             padding: 1rem;
             border-radius: 20px;
-            border: 1px solid #e9e2d9;
+            border: 1px solid #2f2d29;
         }
         .checkbox-group input[type="checkbox"] {
             width: 22px;
@@ -180,33 +196,34 @@
             min-width: 22px;
             margin-top: 2px;
             flex-shrink: 0;
-            accent-color: #1e3c3f;
+            accent-color: #c9a03d;
             cursor: pointer;
         }
         .checkbox-group label {
             font-weight: normal;
             margin-bottom: 0;
             font-size: 0.85rem;
-            color: #3d4f4a;
+            color: #cabb9b;
             line-height: 1.4;
             cursor: pointer;
         }
         .checkbox-group label strong {
-            color: #1e3c3f;
+            color: #c9a03d;
         }
 
         .gdpr-note {
             font-size: 0.75rem;
-            background: #f4efea;
+            background: #1c1a17;
             padding: 1rem;
             border-radius: 20px;
-            color: #4e5c54;
+            color: #aa9f88;
             margin-top: 1rem;
             text-align: center;
+            border-left: 3px solid #c9a03d;
         }
         .btn-submit {
-            background: #1e3c3f;
-            color: white;
+            background: #c9a03d;
+            color: #0a0a0a;
             border: none;
             padding: 1rem 1.8rem;
             font-size: 1.1rem;
@@ -218,10 +235,11 @@
             margin-top: 1rem;
         }
         .btn-submit:hover {
-            background: #123135;
+            background: #b3872c;
+            transform: scale(0.98);
         }
         .btn-submit:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
         }
         .message-box {
@@ -236,94 +254,91 @@
             display: block;
         }
         .message-box.success {
-            background: #e6f4ef;
-            color: #2c6e5c;
-            border: 1px solid #bdd9cf;
+            background: #1e2a1c;
+            color: #c9d4b6;
+            border: 1px solid #c9a03d;
         }
         .message-box.error {
-            background: #fef0ed;
-            color: #b1624b;
-            border: 1px solid #f0cfc5;
+            background: #2a1c1a;
+            color: #e0a28a;
+            border: 1px solid #c95a3d;
         }
         .message-box.loading {
-            background: #fef8f0;
-            color: #a07e5c;
-            border: 1px solid #f0e2d0;
+            background: #1e1c18;
+            color: #c9a03d;
+            border: 1px solid #c9a03d;
         }
         footer {
             text-align: center;
-            font-size: 0.75rem;
-            color: #8f8b84;
+            font-size: 0.7rem;
+            color: #5e5a52;
             margin-top: 2rem;
         }
-        .badge {
-            display: inline-block;
-            background: #e9dfd4;
-            border-radius: 40px;
-            padding: 0.2rem 1rem;
-            font-size: 0.7rem;
-        }
         .photo-note {
-            font-size: 0.75rem;
-            color: #7a6e60;
+            font-size: 0.7rem;
+            color: #8a7e66;
             text-align: center;
             margin-top: 0.3rem;
         }
+        .section-title {
+            margin: 1rem 0 1rem 0;
+            font-size: 1rem;
+            border-left: 3px solid #c9a03d;
+            padding-left: 12px;
+            color: #c9a03d;
+        }
         @media (max-width: 700px) {
             .form-card { padding: 1.5rem; }
-            .hero h1 { font-size: 1.8rem; }
+            .hero h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="hero">
-        <h1>4U Centre APARTMENTS</h1>
-        <div class="sub">OLOMOUC — Váš domov v srdci města</div>
-        <p style="margin-top: 0.8rem;">✨ Plně vybavené apartmány 1+kk | Wi-Fi | Kuchyň | TV | Soukromá koupelna</p>
+    <div class="lang-switch">
+        <button class="lang-btn active" data-lang="cs">🇨🇿 ČESKY</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 ENGLISH</button>
+        <button class="lang-btn" data-lang="de">🇩🇪 DEUTSCH</button>
     </div>
 
-    <div class="address-card">
-        <h3>📍 Adresa pro check‑in</h3>
-        <p><strong>Tř. Svobody 1234/28, 779 00 Olomouc</strong><br>
-        (vchod z pasáže, 2. patro – apartmány č. 4 a 4B)</p>
-        <div class="badge" style="margin-top: 8px;">PŘÍMÁ REZERVACE – garance nejnižší ceny</div>
+    <div class="hero">
+        <h1>4U Centre APARTMENTS</h1>
+        <div class="sub">LUXUS & KOMFORT V CENTRU OLOMOUCE</div>
     </div>
 
     <div class="form-card">
-        <h2 style="margin-bottom: 1.2rem;">✅ Povinný check‑in formulář</h2>
-        <p style="margin-bottom: 1rem; color:#5b5a56;">Podle zákona č. 326/1999 Sb. a GDPR jsme povinni evidovat totožnost hosta.</p>
+        <h2 id="formTitle" style="margin-bottom: 1.2rem; color:#c9a03d;">✅ Povinný check‑in formulář</h2>
+        <p id="formDesc" style="margin-bottom: 1rem; color:#aa9f88;">Podle zákona č. 326/1999 Sb. a GDPR evidujeme totožnost hosta.</p>
 
         <form id="checkinForm" novalidate>
-
             <div class="form-row">
-                <label for="fullname">Jméno a příjmení *</label>
+                <label id="labelName">Jméno a příjmení *</label>
                 <input type="text" name="Jméno" id="fullname" required placeholder="např. Jana Nováková">
             </div>
 
             <div class="double-group">
                 <div>
-                    <label for="birthdate">Datum narození *</label>
+                    <label id="labelBirth">Datum narození *</label>
                     <input type="date" name="Datum_narozeni" id="birthdate" required>
                 </div>
                 <div>
-                    <label for="idNumber">Číslo OP / pasu *</label>
+                    <label id="labelIdNum">Číslo OP / pasu *</label>
                     <input type="text" name="Cislo_OP" id="idNumber" required placeholder="CZ1234567">
                 </div>
             </div>
 
             <div class="form-row">
-                <label for="email">E-mail *</label>
+                <label id="labelEmail">E-mail *</label>
                 <input type="email" name="email" id="email" required placeholder="host@email.cz">
             </div>
 
             <div class="double-group">
                 <div>
-                    <label for="phone">Telefon *</label>
+                    <label id="labelPhone">Telefon *</label>
                     <input type="tel" name="Telefon" id="phone" required placeholder="+420 777 123 456">
                 </div>
                 <div>
-                    <label for="apartment">Vyberte apartmán *</label>
+                    <label id="labelApartment">Vyberte apartmán *</label>
                     <select name="Apartman" id="apartment" required>
                         <option value="">-- vyberte --</option>
                         <option value="Apartmán A - č.4 (jižní)">Apartmán A - č.4 (jižní)</option>
@@ -332,40 +347,58 @@
                 </div>
             </div>
 
+            <!-- FRONT SIDE PHOTO -->
             <div class="form-row">
-                <label>📸 Fotografie občanského průkazu (přední strana) *</label>
+                <label id="labelPhotoFront">📸 Fotografie OP – PŘEDNÍ strana *</label>
                 <div class="camera-area">
                     <div class="photo-preview">
-                        <img id="idPreview" class="preview-img"
-                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E"
-                             alt="Náhled OP">
-                        <input type="file" id="idPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
-                        <button type="button" class="btn-photo" id="takePhotoBtn">📷 Nahrát / Vyfotit foto OP</button>
-                        <div class="upload-progress" id="uploadProgress">
-                            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                        <img id="frontPreview" class="preview-img"
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Epřední strana%3C/text%3E%3C/svg%3E"
+                             alt="Přední strana OP">
+                        <input type="file" id="frontPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+                        <button type="button" class="btn-photo" id="takeFrontPhotoBtn">📷 Nahrát PŘEDNÍ stranu OP</button>
+                        <div class="upload-progress" id="frontUploadProgress">
+                            <div class="upload-progress-bar" id="frontProgressBar"></div>
                         </div>
-                        <div class="upload-status" id="uploadStatus"></div>
+                        <div class="upload-status" id="frontUploadStatus"></div>
                     </div>
-                    <p class="photo-note">Foto se nahraje na bezpečné úložiště a odkaz přijde do e-mailu (JPG nebo PNG, max. 5 MB)</p>
+                </div>
+            </div>
+
+            <!-- BACK SIDE PHOTO -->
+            <div class="form-row">
+                <label id="labelPhotoBack">📸 Fotografie OP – ZADNÍ strana *</label>
+                <div class="camera-area">
+                    <div class="photo-preview">
+                        <img id="backPreview" class="preview-img"
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Ezáda OP%3C/text%3E%3C/svg%3E"
+                             alt="Zadní strana OP">
+                        <input type="file" id="backPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+                        <button type="button" class="btn-photo" id="takeBackPhotoBtn">📷 Nahrát ZADNÍ stranu OP</button>
+                        <div class="upload-progress" id="backUploadProgress">
+                            <div class="upload-progress-bar" id="backProgressBar"></div>
+                        </div>
+                        <div class="upload-status" id="backUploadStatus"></div>
+                    </div>
                 </div>
             </div>
 
             <div class="checkbox-group">
                 <input type="checkbox" id="gdprCheck" required>
-                <label for="gdprCheck">
+                <label id="labelGdpr" for="gdprCheck">
                     <strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.
                 </label>
             </div>
 
             <div class="checkbox-group">
                 <input type="checkbox" id="damageCheck" required>
-                <label for="damageCheck">
-                    <strong>Zodpovědnost za škody</strong> – Beru na vědomí, že v případě vzniklých škod, které nebudou nahlášeny bezprostředně po příjezdu a prokážou se jako způsobené mnou nebo mými hosty, nesu plnou odpovědnost za jejich úhradu.
+                <label id="labelDamage" for="damageCheck">
+                    <strong>Zodpovědnost za škody</strong> – Beru na vědomí odpovědnost za případné škody v apartmánu.
                 </label>
             </div>
 
-            <div class="gdpr-note">
-                ⚖️ <strong>GDPR & ochrana osobních údajů</strong> – Odesláním souhlasíte s podmínkami zpracování.
+            <div class="gdpr-note" id="gdprNoteText">
+                🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie OP jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN</button>
@@ -373,205 +406,287 @@
         </form>
     </div>
 
-    <footer>
-        © 4U Centre Apartments Olomouc | kontakt: 4ucheckin@seznam.cz
-    </footer>
+    <footer>© 4U Centre Apartments Olomouc | kontakt: 4ucheckin@seznam.cz</footer>
 </div>
 
 <script>
-    // ══════════════════════════════════════════════════════
-    //  ⚙️  NASTAVENÍ – sem vlož své klíče
-    // ══════════════════════════════════════════════════════
+    // ========== API KONFIGURACE ==========
     const IMGBB_API_KEY   = '3d26ca2e85ce3764e2f7a87129d16f06';
     const FORMSPREE_URL   = 'https://formspree.io/f/mvzlqpqo';
-    // ══════════════════════════════════════════════════════
+    
+    // ========== GLOBÁLNÍ PROMĚNNÉ ==========
+    let frontFile = null;
+    let backFile = null;
+    let isSubmitting = false;
 
-    const photoInput      = document.getElementById('idPhotoInput');
-    const takeBtn         = document.getElementById('takePhotoBtn');
-    const previewImg      = document.getElementById('idPreview');
-    const uploadProgress  = document.getElementById('uploadProgress');
-    const uploadProgressBar = document.getElementById('uploadProgressBar');
-    const uploadStatus    = document.getElementById('uploadStatus');
-    const form            = document.getElementById('checkinForm');
-    const submitBtn       = document.getElementById('submitBtn');
-    const messageBox      = document.getElementById('formMessage');
+    // DOM elementy
+    const frontInput = document.getElementById('frontPhotoInput');
+    const backInput = document.getElementById('backPhotoInput');
+    const frontBtn = document.getElementById('takeFrontPhotoBtn');
+    const backBtn = document.getElementById('takeBackPhotoBtn');
+    const frontPreview = document.getElementById('frontPreview');
+    const backPreview = document.getElementById('backPreview');
+    const frontProgress = document.getElementById('frontUploadProgress');
+    const backProgress = document.getElementById('backUploadProgress');
+    const frontProgressBar = document.getElementById('frontProgressBar');
+    const backProgressBar = document.getElementById('backProgressBar');
+    const frontStatus = document.getElementById('frontUploadStatus');
+    const backStatus = document.getElementById('backUploadStatus');
+    const form = document.getElementById('checkinForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageBox = document.getElementById('formMessage');
 
-    let selectedFile = null;   // surový File objekt
+    // ========== NASTAVENÍ UPLOADU FOTEK ==========
+    function setupPhotoInput(inputEl, previewImg, progressDiv, progressBar, statusSpan, sideName) {
+        return new Promise((resolve) => {
+            inputEl.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return resolve(null);
+                
+                if (!['image/jpeg','image/png','image/jpg'].includes(file.type)) {
+                    alert(`Prosím nahrajte JPG nebo PNG (${sideName})`);
+                    inputEl.value = '';
+                    return resolve(null);
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Fotografie ${sideName} je příliš velká (max 5 MB)`);
+                    inputEl.value = '';
+                    return resolve(null);
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (ev) => { previewImg.src = ev.target.result; };
+                reader.readAsDataURL(file);
+                statusSpan.textContent = '✅ Foto připraveno';
+                statusSpan.style.color = '#b8933a';
+                resolve(file);
+            });
+        });
+    }
 
-    // ── Výběr fotky ───────────────────────────────────────
-    takeBtn.addEventListener('click', () => photoInput.click());
-
-    photoInput.addEventListener('change', (e) => {
+    // Inicializace file handlů
+    let frontFileResolver, backFileResolver;
+    frontInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if (!file) return;
-
-        const allowed = ['image/jpeg', 'image/png', 'image/jpg'];
-        if (!allowed.includes(file.type)) {
-            alert('Prosím nahrajte JPG nebo PNG obrázek.');
-            photoInput.value = '';
-            selectedFile = null;
-            return;
-        }
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Fotografie je příliš velká. Maximum je 5 MB.');
-            photoInput.value = '';
-            selectedFile = null;
-            return;
-        }
-
-        selectedFile = file;
-
-        // Zobrazit náhled
+        if (!file) { frontFile = null; return; }
+        if (!['image/jpeg','image/png','image/jpg'].includes(file.type)) { alert('Formát JPG/PNG prosím'); frontInput.value = ''; frontFile = null; return; }
+        if (file.size > 5*1024*1024) { alert('Max 5 MB'); frontInput.value = ''; frontFile = null; return; }
         const reader = new FileReader();
-        reader.onload = (ev) => { previewImg.src = ev.target.result; };
+        reader.onload = (ev) => { frontPreview.src = ev.target.result; };
         reader.readAsDataURL(file);
-
-        uploadStatus.textContent = '✅ Fotka připravena k odeslání';
+        frontFile = file;
+        frontStatus.textContent = '✅ Přední strana připravena';
     });
+    
+    backInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) { backFile = null; return; }
+        if (!['image/jpeg','image/png','image/jpg'].includes(file.type)) { alert('Formát JPG/PNG prosím'); backInput.value = ''; backFile = null; return; }
+        if (file.size > 5*1024*1024) { alert('Max 5 MB'); backInput.value = ''; backFile = null; return; }
+        const reader = new FileReader();
+        reader.onload = (ev) => { backPreview.src = ev.target.result; };
+        reader.readAsDataURL(file);
+        backFile = file;
+        backStatus.textContent = '✅ Zadní strana připravena';
+    });
+    
+    frontBtn.addEventListener('click', () => frontInput.click());
+    backBtn.addEventListener('click', () => backInput.click());
 
-    // ── Nahrát fotku na ImgBB a vrátit URL ────────────────
-    async function uploadToImgBB(file) {
+    // upload funkce
+    async function uploadToImgBB(file, progressBarElem, statusSpan) {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
             formData.append('image', file);
-
             const xhr = new XMLHttpRequest();
             xhr.open('POST', `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, true);
-
-            // Průběh uploadu
             xhr.upload.onprogress = (e) => {
-                if (e.lengthComputable) {
+                if (e.lengthComputable && progressBarElem) {
                     const pct = Math.round((e.loaded / e.total) * 100);
-                    uploadProgressBar.style.width = pct + '%';
-                    uploadStatus.textContent = `📤 Nahrávám foto... ${pct}%`;
+                    progressBarElem.style.width = pct + '%';
+                    if (statusSpan) statusSpan.textContent = `📤 nahrávání... ${pct}%`;
                 }
             };
-
             xhr.onload = () => {
                 const data = JSON.parse(xhr.responseText);
-                if (xhr.status === 200 && data.success) {
-                    resolve(data.data.url);          // přímý odkaz na obrázek
-                } else {
-                    reject(new Error(data.error?.message || 'Chyba nahrávání na ImgBB'));
-                }
+                if (xhr.status === 200 && data.success) resolve(data.data.url);
+                else reject(new Error(data.error?.message || 'Chyba uploadu'));
             };
-
-            xhr.onerror = () => reject(new Error('Síťová chyba při nahrávání fotky'));
+            xhr.onerror = () => reject(new Error('Síťová chyba'));
             xhr.send(formData);
         });
     }
 
-    // ── Odeslání formuláře ────────────────────────────────
+    // ========== ODESLÁNÍ ==========
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        // Validace polí
-        const fullname  = document.getElementById('fullname').value.trim();
+        if (isSubmitting) { showMessage('Odesílání probíhá, počkejte prosím...', 'loading'); return; }
+        
+        // validace textových polí
+        const fullname = document.getElementById('fullname').value.trim();
         const birthdate = document.getElementById('birthdate').value.trim();
-        const idNumber  = document.getElementById('idNumber').value.trim();
-        const email     = document.getElementById('email').value.trim();
-        const phone     = document.getElementById('phone').value.trim();
+        const idNumber = document.getElementById('idNumber').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
         const apartment = document.getElementById('apartment').value;
-        const gdpr      = document.getElementById('gdprCheck').checked;
-        const damage    = document.getElementById('damageCheck').checked;
-
+        const gdpr = document.getElementById('gdprCheck').checked;
+        const damage = document.getElementById('damageCheck').checked;
+        
         if (!fullname || !birthdate || !idNumber || !email || !phone || !apartment) {
-            showMessage('❌ Vyplňte prosím všechna povinná pole.', 'error');
-            return;
+            showMessage('❌ Vyplňte všechna povinná pole.', 'error'); return;
         }
-        if (!selectedFile) {
-            showMessage('❌ Nahrajte prosím fotografii občanského průkazu.', 'error');
-            return;
-        }
-        if (!gdpr) {
-            showMessage('❌ Musíte souhlasit se zpracováním osobních údajů.', 'error');
-            return;
-        }
-        if (!damage) {
-            showMessage('❌ Musíte potvrdit zodpovědnost za případné škody.', 'error');
-            return;
-        }
-
+        if (!email.includes('@') || !email.includes('.')) { showMessage('❌ Zadejte platný e-mail.', 'error'); return; }
+        if (!frontFile) { showMessage('❌ Nahrajte prosím PŘEDNÍ stranu OP.', 'error'); return; }
+        if (!backFile) { showMessage('❌ Nahrajte prosím ZADNÍ stranu OP.', 'error'); return; }
+        if (!gdpr || !damage) { showMessage('❌ Musíte souhlasit s podmínkami.', 'error'); return; }
+        
+        isSubmitting = true;
         submitBtn.disabled = true;
-        showMessage('⏳ Nahrávám fotografii...', 'loading');
-
-        // Zobrazit progress bar
-        uploadProgress.style.display = 'block';
-        uploadProgressBar.style.width = '0%';
-
-        let photoUrl;
+        showMessage('⏳ Nahrávám fotografie...', 'loading');
+        
+        // Reset progress baru
+        frontProgress.style.display = 'block';
+        backProgress.style.display = 'block';
+        frontProgressBar.style.width = '0%';
+        backProgressBar.style.width = '0%';
+        frontStatus.textContent = '⏳ nahrávání přední...';
+        backStatus.textContent = '⏳ nahrávání zadní...';
+        
+        let frontUrl = null, backUrl = null;
         try {
-            photoUrl = await uploadToImgBB(selectedFile);
-            uploadProgressBar.style.width = '100%';
-            uploadStatus.textContent = '✅ Fotka nahrána';
+            frontUrl = await uploadToImgBB(frontFile, frontProgressBar, frontStatus);
+            frontProgressBar.style.width = '100%';
+            frontStatus.textContent = '✅ přední strana nahrána';
+            
+            backUrl = await uploadToImgBB(backFile, backProgressBar, backStatus);
+            backProgressBar.style.width = '100%';
+            backStatus.textContent = '✅ zadní strana nahrána';
         } catch (err) {
-            showMessage('❌ Nepodařilo se nahrát fotografii: ' + err.message, 'error');
-            submitBtn.disabled = false;
-            uploadProgress.style.display = 'none';
+            showMessage('❌ Chyba nahrávání fotografií: ' + err.message, 'error');
+            isSubmitting = false; submitBtn.disabled = false;
             return;
         }
-
-        showMessage('⏳ Odesílám check-in data...', 'loading');
-
-        // Odeslat textová data + odkaz na foto přes Formspree
+        
+        showMessage('⏳ Odesílám data...', 'loading');
         const payload = {
-            _subject:       '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc',
-            Jméno:          fullname,
+            _subject: '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc (front+back)',
+            Jméno: fullname,
             Datum_narozeni: birthdate,
-            Cislo_OP:       idNumber,
-            email:          email,
-            Telefon:        phone,
-            Apartman:       apartment,
-            GDPR_souhlas:   'Ano – host souhlasil',
-            Zodpovednost:   'Ano – host potvrdil',
-            Foto_OP_odkaz:  photoUrl,   // ← odkaz místo base64
+            Cislo_OP: idNumber,
+            email: email,
+            Telefon: phone,
+            Apartman: apartment,
+            GDPR_souhlas: 'Ano',
+            Zodpovednost: 'Ano',
+            Foto_OP_predni: frontUrl,
+            Foto_OP_zadni: backUrl,
+            Cas_odeslani: new Date().toLocaleString('cs-CZ')
         };
-
+        
         try {
             const response = await fetch(FORMSPREE_URL, {
-                method:  'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept':       'application/json'
-                },
-                body: JSON.stringify(payload),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload)
             });
-
             const result = await response.json();
-
             if (response.ok) {
                 showMessage('✅ Check-in úspěšně odeslán! Děkujeme. Potvrzení přijde na e-mail.', 'success');
                 resetForm();
             } else {
-                const errMsg = result.errors
-                    ? result.errors.map(err => err.message).join(', ')
-                    : 'Neznámá chyba – zkuste to prosím znovu.';
-                showMessage('❌ Chyba Formspree: ' + errMsg, 'error');
+                const errMsg = result.errors ? result.errors.map(e => e.message).join(', ') : 'Chyba odeslání';
+                showMessage('❌ Chyba: ' + errMsg, 'error');
             }
         } catch (err) {
-            showMessage('❌ Připojení selhalo. Zkontrolujte internet a zkuste znovu.', 'error');
-            console.error('Formspree error:', err);
+            showMessage('❌ Selhalo spojení, zkuste to znovu.', 'error');
         } finally {
+            isSubmitting = false;
             submitBtn.disabled = false;
         }
     });
-
-    // ── Pomocné funkce ────────────────────────────────────
+    
     function resetForm() {
         form.reset();
-        selectedFile = null;
-        photoInput.value = '';
-        uploadProgress.style.display = 'none';
-        uploadProgressBar.style.width = '0%';
-        uploadStatus.textContent = '';
-        previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E";
-        setTimeout(() => messageBox.classList.remove('show'), 7000);
+        frontFile = null; backFile = null;
+        frontInput.value = ''; backInput.value = '';
+        frontPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Epřední strana%3C/text%3E%3C/svg%3E";
+        backPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3Ezáda OP%3C/text%3E%3C/svg%3E";
+        frontStatus.textContent = ''; backStatus.textContent = '';
+        frontProgress.style.display = 'none'; backProgress.style.display = 'none';
+        setTimeout(() => messageBox.classList.remove('show'), 5000);
     }
-
+    
     function showMessage(msg, type) {
         messageBox.textContent = msg;
-        messageBox.className   = 'message-box show ' + type;
+        messageBox.className = 'message-box show ' + type;
+        if (type !== 'loading') setTimeout(() => messageBox.classList.remove('show'), 5000);
     }
+    
+    // ========== JAZYKOVÁ MUTACE ==========
+    const translations = {
+        cs: {
+            formTitle: "✅ Povinný check‑in formulář",
+            formDesc: "Podle zákona č. 326/1999 Sb. a GDPR evidujeme totožnost hosta.",
+            labelName: "Jméno a příjmení *", labelBirth: "Datum narození *", labelIdNum: "Číslo OP / pasu *",
+            labelEmail: "E-mail *", labelPhone: "Telefon *", labelApartment: "Vyberte apartmán *",
+            labelPhotoFront: "📸 Fotografie OP – PŘEDNÍ strana *", labelPhotoBack: "📸 Fotografie OP – ZADNÍ strana *",
+            labelGdpr: "<strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.",
+            labelDamage: "<strong>Zodpovědnost za škody</strong> – Beru na vědomí odpovědnost za případné škody v apartmánu.",
+            gdprNote: "🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie OP jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.",
+            btnSubmit: "🏨 ODESLAT CHECK-IN"
+        },
+        en: {
+            formTitle: "✅ Mandatory check-in form",
+            formDesc: "According to Act No. 326/1999 Coll. and GDPR, we are required to register guest identity.",
+            labelName: "Full name *", labelBirth: "Date of birth *", labelIdNum: "ID / Passport number *",
+            labelEmail: "Email *", labelPhone: "Phone *", labelApartment: "Select apartment *",
+            labelPhotoFront: "📸 ID photo – FRONT side *", labelPhotoBack: "📸 ID photo – BACK side *",
+            labelGdpr: "<strong>I consent to the processing of personal data</strong> under GDPR.",
+            labelDamage: "<strong>Liability for damages</strong> – I acknowledge liability for any damages caused in the apartment.",
+            gdprNote: "🔒 <strong>GDPR & data protection</strong> – Your personal data and ID photos are processed solely for accommodation registration according to Act No. 326/1999 Coll. Data is not shared with third parties, is not stored long-term, and serves only for guest identification. After your stay, it is securely deleted.",
+            btnSubmit: "🏨 SUBMIT CHECK-IN"
+        },
+        de: {
+            formTitle: "✅ Pflicht-Check-in-Formular",
+            formDesc: "Gemäß Gesetz Nr. 326/1999 Sb. und GDPR müssen wir die Identität des Gastes erfassen.",
+            labelName: "Vor- und Nachname *", labelBirth: "Geburtsdatum *", labelIdNum: "Personalausweis / Pass-Nr. *",
+            labelEmail: "E-Mail *", labelPhone: "Telefon *", labelApartment: "Apartment wählen *",
+            labelPhotoFront: "📸 Foto des Ausweises – VORDERSEITE *", labelPhotoBack: "📸 Foto des Ausweises – RÜCKSEITE *",
+            labelGdpr: "<strong>Ich stimme der Verarbeitung personenbezogener Daten</strong> gemäß GDPR zu.",
+            labelDamage: "<strong>Haftung für Schäden</strong> – Ich übernehme die Haftung für eventuelle Schäden im Apartment.",
+            gdprNote: "🔒 <strong>GDPR & Datenschutz</strong> – Ihre personenbezogenen Daten und Ausweisfotos werden ausschließlich für die Meldeverpflichtung gemäß Gesetz Nr. 326/1999 Sb. verarbeitet. Die Daten werden nicht an Dritte weitergegeben, nicht langfristig gespeichert und dienen nur zur Identifikation des Gastes. Nach Ihrem Aufenthalt werden sie sicher gelöscht.",
+            btnSubmit: "🏨 CHECK-IN SENDEN"
+        }
+    };
+    
+    function setLanguage(lang) {
+        const t = translations[lang];
+        if (!t) return;
+        document.getElementById('formTitle').innerHTML = t.formTitle;
+        document.getElementById('formDesc').innerHTML = t.formDesc;
+        document.getElementById('labelName').innerHTML = t.labelName;
+        document.getElementById('labelBirth').innerHTML = t.labelBirth;
+        document.getElementById('labelIdNum').innerHTML = t.labelIdNum;
+        document.getElementById('labelEmail').innerHTML = t.labelEmail;
+        document.getElementById('labelPhone').innerHTML = t.labelPhone;
+        document.getElementById('labelApartment').innerHTML = t.labelApartment;
+        document.getElementById('labelPhotoFront').innerHTML = t.labelPhotoFront;
+        document.getElementById('labelPhotoBack').innerHTML = t.labelPhotoBack;
+        document.getElementById('labelGdpr').innerHTML = t.labelGdpr;
+        document.getElementById('labelDamage').innerHTML = t.labelDamage;
+        document.getElementById('gdprNoteText').innerHTML = t.gdprNote;
+        document.getElementById('submitBtn').innerHTML = t.btnSubmit;
+        
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.dataset.lang === lang) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+    }
+    
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
+    setLanguage('cs');
 </script>
 </body>
 </html>
