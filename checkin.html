@@ -214,6 +214,11 @@
             color: #b1624b;
             border: 1px solid #f0cfc5;
         }
+        .message-box.loading {
+            background: #fef8f0;
+            color: #a07e5c;
+            border: 1px solid #f0e2d0;
+        }
         footer {
             text-align: center;
             font-size: 0.75rem;
@@ -249,39 +254,41 @@
 
     <div class="form-card">
         <h2 style="margin-bottom: 1.2rem;">✅ Povinný check‑in formulář</h2>
-        <p style="margin-bottom: 1rem; color:#5b5a56;">Podle zákona č. 326/1999 Sb. a GDPR jsme povinni evidovat totožnost hosta. Vyplňte prosím všechny údaje a vyfoťte svůj občanský průkaz.</p>
+        <p style="margin-bottom: 1rem; color:#5b5a56;">Podle zákona č. 326/1999 Sb. a GDPR jsme povinni evidovat totožnost hosta.</p>
         
-        <!-- DŮLEŽITÉ: action míří na Formspree, target na iframe (aby zůstala stránka) -->
-        <form action="https://formspree.io/f/mvzlqpqo" method="POST" enctype="multipart/form-data" target="hiddenFrame" id="checkinForm">
+        <!-- FORMSUBMIT - DATA JDOU NA 4ucheckin@seznam.cz -->
+        <form action="https://formsubmit.co/4ucheckin@seznam.cz" method="POST" enctype="multipart/form-data" id="checkinForm">
             
-            <input type="hidden" name="_subject" value="Nový check-in hosta - 4U Centre Olomouc">
+            <!-- Skrytá nastavení FormSubmit -->
+            <input type="hidden" name="_subject" value="🏨 NOVÝ CHECK-IN - 4U Centre Olomouc">
+            <input type="hidden" name="_captcha" value="false">
             
             <div class="form-row">
                 <label>Jméno a příjmení *</label>
-                <input type="text" name="jmeno" id="fullname" required placeholder="např. Jana Nováková">
+                <input type="text" name="Jméno" id="fullname" required placeholder="např. Jana Nováková">
             </div>
             <div class="double-group">
                 <div>
                     <label>Datum narození *</label>
-                    <input type="date" name="datum_narozeni" id="birthdate" required>
+                    <input type="date" name="Datum narození" id="birthdate" required>
                 </div>
                 <div>
                     <label>Číslo OP / pasu *</label>
-                    <input type="text" name="cislo_op" id="idNumber" required placeholder="CZ1234567">
+                    <input type="text" name="Číslo OP" id="idNumber" required placeholder="CZ1234567">
                 </div>
             </div>
             <div class="form-row">
-                <label>E-mail * (potvrzení)</label>
-                <input type="email" name="email" id="email" required placeholder="host@email.cz">
+                <label>E-mail *</label>
+                <input type="email" name="E-mail" id="email" required placeholder="host@email.cz">
             </div>
             <div class="double-group">
                 <div>
                     <label>Telefon *</label>
-                    <input type="tel" name="telefon" id="phone" required placeholder="+420 777 123 456">
+                    <input type="tel" name="Telefon" id="phone" required placeholder="+420 777 123 456">
                 </div>
                 <div>
                     <label>Vyberte apartmán *</label>
-                    <select name="apartman" id="apartment" required>
+                    <select name="Apartmán" id="apartment" required>
                         <option value="">-- vyberte --</option>
                         <option value="Apartmán A - č.4 (jižní)">Apartmán A - č.4 (jižní)</option>
                         <option value="Apartmán B - č.4B (severní)">Apartmán B - č.4B (severní)</option>
@@ -294,42 +301,42 @@
                 <div class="camera-area">
                     <div class="photo-preview">
                         <img id="idPreview" class="preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E" alt="Náhled">
-                        <input type="file" name="fotografie_op" id="idPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display: none;" required>
+                        <input type="file" name="Fotografie OP" id="idPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display: none;" required>
                         <button type="button" class="btn-photo" id="takePhotoBtn">📷 Nahrát / Vyfotit (soubor)</button>
-                        <small style="color:#7a6e60;">Vyfoťte nebo nahrajte snímek OP, bude bezpečně odeslán.</small>
+                        <small style="color:#7a6e60;">Vyfoťte nebo nahrajte snímek OP</small>
                     </div>
                 </div>
             </div>
             
             <div class="checkbox-group">
-                <input type="checkbox" name="gdpr_souhlas" id="gdprCheck" required>
+                <input type="checkbox" name="GDPR souhlas" id="gdprCheck" required>
                 <label for="gdprCheck">
-                    <strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR. Vaše údaje jsou zpracovávány výhradně za účelem splnění zákonné povinnosti ubytovatele (evidence hostů).
+                    <strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.
                 </label>
             </div>
             
             <div class="checkbox-group">
-                <input type="checkbox" name="zodpovednost" id="damageCheck" required>
+                <input type="checkbox" name="Zodpovědnost za škody" id="damageCheck" required>
                 <label for="damageCheck">
                     <strong>Zodpovědnost za škody</strong> – Beru na vědomí, že v případě vzniklých škod, které nebudou nahlášeny bezprostředně po příjezdu a prokážou se jako způsobené mnou nebo mými hosty, nesu plnou odpovědnost za jejich úhradu.
                 </label>
             </div>
             
             <div class="gdpr-note">
-                ⚖️ <strong>GDPR & ochrana osobních údajů</strong> – Odesláním tohoto formuláře potvrzujete, že jste seznámeni s podmínkami ochrany osobních dat a souhlasíte s nimi.
+                ⚖️ <strong>GDPR & ochrana osobních údajů</strong> – Odesláním souhlasíte s podmínkami.
             </div>
             
-            <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN & REZERVOVAT</button>
+            <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN</button>
             <div id="formMessage" class="message-box"></div>
         </form>
     </div>
     <footer>
-        © 4U Centre Apartments Olomouc | přímá správa objektu | kontakt: recepce@4uolomouc.cz
+        © 4U Centre Apartments Olomouc | kontakt: 4ucheckin@seznam.cz
     </footer>
 </div>
 
-<!-- Skrytý iframe pro odeslání formuláře bez opuštění stránky -->
-<iframe name="hiddenFrame" style="display:none" onload="handleFormSubmit()"></iframe>
+<!-- Skrytý iframe pro odeslání bez opuštění stránky -->
+<iframe name="hiddenFrame" style="display:none"></iframe>
 
 <script>
     // Ovládání fotografie
@@ -356,8 +363,11 @@
     const messageBox = document.getElementById('formMessage');
     let formSubmitted = false;
     
-    // Validace před odesláním
+    // Nastavení targetu na iframe
+    form.target = 'hiddenFrame';
+    
     form.addEventListener('submit', function(e) {
+        // Kontrola fotky
         const photoFile = document.getElementById('idPhotoInput').files[0];
         if (!photoFile) {
             e.preventDefault();
@@ -365,53 +375,45 @@
             return;
         }
         
+        // Kontrola velikosti
         if (photoFile.size > 10 * 1024 * 1024) {
             e.preventDefault();
             showMessage('❌ Fotografie je příliš velká (max. 10 MB).', 'error');
             return;
         }
         
-        const gdprCheck = document.getElementById('gdprCheck');
-        if (!gdprCheck.checked) {
+        // Kontrola GDPR
+        if (!document.getElementById('gdprCheck').checked) {
             e.preventDefault();
-            showMessage('❌ Musíte souhlasit se zpracováním osobních údajů (GDPR).', 'error');
+            showMessage('❌ Musíte souhlasit se zpracováním osobních údajů.', 'error');
             return;
         }
         
-        const damageCheck = document.getElementById('damageCheck');
-        if (!damageCheck.checked) {
+        // Kontrola zodpovědnosti
+        if (!document.getElementById('damageCheck').checked) {
             e.preventDefault();
             showMessage('❌ Musíte potvrdit zodpovědnost za případné škody.', 'error');
             return;
         }
         
-        // Zobrazíme načítání
-        showMessage('⏳ Odesílám údaje...', 'loading');
+        showMessage('⏳ Odesílám...', 'loading');
         submitBtn.disabled = true;
         formSubmitted = true;
         
-        // Odeslání proběhne normálně do iframu
-    });
-    
-    // Funkce zavolaná po odeslání formuláře (iframe se načte)
-    function handleFormSubmit() {
-        if (!formSubmitted) return;
-        formSubmitted = false;
-        
-        // Předpokládáme, že odeslání proběhlo úspěšně
-        showMessage('✅ Check-in úspěšně dokončen! Děkujeme. Vaše data byla bezpečně uložena.', 'success');
-        
-        // Reset formuláře
-        form.reset();
-        previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E";
-        photoInput.value = '';
-        submitBtn.disabled = false;
-        
-        // Schovat zprávu po 5 sekundách
+        // Úspěšná zpráva se zobrazí po odeslání
         setTimeout(() => {
-            messageBox.classList.remove('show');
-        }, 5000);
-    }
+            if (formSubmitted) {
+                showMessage('✅ Check-in úspěšně odeslán! Děkujeme. Potvrzení přijde na e-mail.', 'success');
+                form.reset();
+                previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%23efebe6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23958876' font-size='12'%3Enahrát foto%3C/text%3E%3C/svg%3E";
+                photoInput.value = '';
+                submitBtn.disabled = false;
+                formSubmitted = false;
+                
+                setTimeout(() => messageBox.classList.remove('show'), 5000);
+            }
+        }, 1500);
+    });
     
     function showMessage(msg, type) {
         messageBox.textContent = msg;
