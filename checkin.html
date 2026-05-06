@@ -24,7 +24,6 @@
             margin: 0 auto;
         }
 
-        /* ZLATO-ČERNÝ DESIGN */
         .hero {
             text-align: center;
             margin-bottom: 2rem;
@@ -46,7 +45,6 @@
             letter-spacing: 2px;
         }
 
-        /* JAZYKOVÉ PŘEPÍNÁNÍ */
         .lang-switch {
             display: flex;
             justify-content: flex-end;
@@ -280,13 +278,6 @@
             text-align: center;
             margin-top: 0.3rem;
         }
-        .section-title {
-            margin: 1rem 0 1rem 0;
-            font-size: 1rem;
-            border-left: 3px solid #c9a03d;
-            padding-left: 12px;
-            color: #c9a03d;
-        }
         @media (max-width: 700px) {
             .form-card { padding: 1.5rem; }
             .hero h1 { font-size: 2rem; }
@@ -341,8 +332,8 @@
                     <label id="labelApartment">Vyberte apartmán *</label>
                     <select name="Apartman" id="apartment" required>
                         <option value="">-- vyberte --</option>
-                        <option value="Apartmán A - č.4 (jižní)">Apartmán A - č.4 (jižní)</option>
-                        <option value="Apartmán B - č.4B (severní)">Apartmán B - č.4B (severní)</option>
+                        <option value="Apartmán A">Apartmán A</option>
+                        <option value="Apartmán B">Apartmán B</option>
                     </select>
                 </div>
             </div>
@@ -393,7 +384,7 @@
             <div class="checkbox-group">
                 <input type="checkbox" id="damageCheck" required>
                 <label id="labelDamage" for="damageCheck">
-                    <strong>Zodpovědnost za škody</strong> – Beru na vědomí odpovědnost za případné škody v apartmánu.
+                    <strong>Zodpovědnost za škody</strong> – Beru na vědomí, že veškeré závady jsem povinen hlásit neprodleně po příjezdu. V případě, že se prokáže, že škodu v apartmánu jsem způsobil já, jsem povinen ji plně nahradit.
                 </label>
             </div>
 
@@ -436,36 +427,7 @@
     const submitBtn = document.getElementById('submitBtn');
     const messageBox = document.getElementById('formMessage');
 
-    // ========== NASTAVENÍ UPLOADU FOTEK ==========
-    function setupPhotoInput(inputEl, previewImg, progressDiv, progressBar, statusSpan, sideName) {
-        return new Promise((resolve) => {
-            inputEl.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return resolve(null);
-                
-                if (!['image/jpeg','image/png','image/jpg'].includes(file.type)) {
-                    alert(`Prosím nahrajte JPG nebo PNG (${sideName})`);
-                    inputEl.value = '';
-                    return resolve(null);
-                }
-                if (file.size > 5 * 1024 * 1024) {
-                    alert(`Fotografie ${sideName} je příliš velká (max 5 MB)`);
-                    inputEl.value = '';
-                    return resolve(null);
-                }
-                
-                const reader = new FileReader();
-                reader.onload = (ev) => { previewImg.src = ev.target.result; };
-                reader.readAsDataURL(file);
-                statusSpan.textContent = '✅ Foto připraveno';
-                statusSpan.style.color = '#b8933a';
-                resolve(file);
-            });
-        });
-    }
-
-    // Inicializace file handlů
-    let frontFileResolver, backFileResolver;
+    // Nahrávání fotek
     frontInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) { frontFile = null; return; }
@@ -475,7 +437,7 @@
         reader.onload = (ev) => { frontPreview.src = ev.target.result; };
         reader.readAsDataURL(file);
         frontFile = file;
-        frontStatus.textContent = '✅ Přední strana připravena';
+        frontStatus.textContent = '✅ Foto připraveno';
     });
     
     backInput.addEventListener('change', (e) => {
@@ -487,13 +449,12 @@
         reader.onload = (ev) => { backPreview.src = ev.target.result; };
         reader.readAsDataURL(file);
         backFile = file;
-        backStatus.textContent = '✅ Zadní strana připravena';
+        backStatus.textContent = '✅ Foto připraveno';
     });
     
     frontBtn.addEventListener('click', () => frontInput.click());
     backBtn.addEventListener('click', () => backInput.click());
 
-    // upload funkce
     async function uploadToImgBB(file, progressBarElem, statusSpan) {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
@@ -517,12 +478,11 @@
         });
     }
 
-    // ========== ODESLÁNÍ ==========
+    // ODESLÁNÍ
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (isSubmitting) { showMessage('Odesílání probíhá, počkejte prosím...', 'loading'); return; }
         
-        // validace textových polí
         const fullname = document.getElementById('fullname').value.trim();
         const birthdate = document.getElementById('birthdate').value.trim();
         const idNumber = document.getElementById('idNumber').value.trim();
@@ -544,23 +504,19 @@
         submitBtn.disabled = true;
         showMessage('⏳ Nahrávám fotografie...', 'loading');
         
-        // Reset progress baru
         frontProgress.style.display = 'block';
         backProgress.style.display = 'block';
         frontProgressBar.style.width = '0%';
         backProgressBar.style.width = '0%';
-        frontStatus.textContent = '⏳ nahrávání přední...';
-        backStatus.textContent = '⏳ nahrávání zadní...';
         
         let frontUrl = null, backUrl = null;
         try {
             frontUrl = await uploadToImgBB(frontFile, frontProgressBar, frontStatus);
             frontProgressBar.style.width = '100%';
-            frontStatus.textContent = '✅ přední strana nahrána';
-            
+            frontStatus.textContent = '✅ nahráno';
             backUrl = await uploadToImgBB(backFile, backProgressBar, backStatus);
             backProgressBar.style.width = '100%';
-            backStatus.textContent = '✅ zadní strana nahrána';
+            backStatus.textContent = '✅ nahráno';
         } catch (err) {
             showMessage('❌ Chyba nahrávání fotografií: ' + err.message, 'error');
             isSubmitting = false; submitBtn.disabled = false;
@@ -577,7 +533,7 @@
             Telefon: phone,
             Apartman: apartment,
             GDPR_souhlas: 'Ano',
-            Zodpovednost: 'Ano',
+            Zodpovednost: 'Ano - s hlášením závad při příjezdu',
             Foto_OP_predni: frontUrl,
             Foto_OP_zadni: backUrl,
             Cas_odeslani: new Date().toLocaleString('cs-CZ')
@@ -622,7 +578,7 @@
         if (type !== 'loading') setTimeout(() => messageBox.classList.remove('show'), 5000);
     }
     
-    // ========== JAZYKOVÁ MUTACE ==========
+    // ========== JAZYKOVÁ MUTACE (KOMPLETNÍ VČETNĚ TLAČÍTEK A STATUSŮ) ==========
     const translations = {
         cs: {
             formTitle: "✅ Povinný check‑in formulář",
@@ -630,10 +586,12 @@
             labelName: "Jméno a příjmení *", labelBirth: "Datum narození *", labelIdNum: "Číslo OP / pasu *",
             labelEmail: "E-mail *", labelPhone: "Telefon *", labelApartment: "Vyberte apartmán *",
             labelPhotoFront: "📸 Fotografie OP – PŘEDNÍ strana *", labelPhotoBack: "📸 Fotografie OP – ZADNÍ strana *",
+            btnPhotoFront: "📷 Nahrát PŘEDNÍ stranu OP", btnPhotoBack: "📷 Nahrát ZADNÍ stranu OP",
             labelGdpr: "<strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.",
-            labelDamage: "<strong>Zodpovědnost za škody</strong> – Beru na vědomí odpovědnost za případné škody v apartmánu.",
+            labelDamage: "<strong>Zodpovědnost za škody</strong> – Beru na vědomí, že veškeré závady jsem povinen hlásit neprodleně po příjezdu. V případě, že se prokáže, že škodu v apartmánu jsem způsobil já, jsem povinen ji plně nahradit.",
             gdprNote: "🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie OP jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.",
-            btnSubmit: "🏨 ODESLAT CHECK-IN"
+            btnSubmit: "🏨 ODESLAT CHECK-IN",
+            uploadReady: "✅ Foto připraveno", uploadProgress: "📤 nahrávání...", uploadDone: "✅ nahráno", uploadError: "❌ Chyba uploadu"
         },
         en: {
             formTitle: "✅ Mandatory check-in form",
@@ -641,21 +599,25 @@
             labelName: "Full name *", labelBirth: "Date of birth *", labelIdNum: "ID / Passport number *",
             labelEmail: "Email *", labelPhone: "Phone *", labelApartment: "Select apartment *",
             labelPhotoFront: "📸 ID photo – FRONT side *", labelPhotoBack: "📸 ID photo – BACK side *",
+            btnPhotoFront: "📷 Upload FRONT side of ID", btnPhotoBack: "📷 Upload BACK side of ID",
             labelGdpr: "<strong>I consent to the processing of personal data</strong> under GDPR.",
-            labelDamage: "<strong>Liability for damages</strong> – I acknowledge liability for any damages caused in the apartment.",
+            labelDamage: "<strong>Liability for damages</strong> – I acknowledge that I must report any defects immediately upon arrival. If it is proven that I caused damage to the apartment, I am obliged to fully compensate it.",
             gdprNote: "🔒 <strong>GDPR & data protection</strong> – Your personal data and ID photos are processed solely for accommodation registration according to Act No. 326/1999 Coll. Data is not shared with third parties, is not stored long-term, and serves only for guest identification. After your stay, it is securely deleted.",
-            btnSubmit: "🏨 SUBMIT CHECK-IN"
+            btnSubmit: "🏨 SUBMIT CHECK-IN",
+            uploadReady: "✅ Photo ready", uploadProgress: "📤 uploading...", uploadDone: "✅ uploaded", uploadError: "❌ Upload error"
         },
         de: {
             formTitle: "✅ Pflicht-Check-in-Formular",
             formDesc: "Gemäß Gesetz Nr. 326/1999 Sb. und GDPR müssen wir die Identität des Gastes erfassen.",
             labelName: "Vor- und Nachname *", labelBirth: "Geburtsdatum *", labelIdNum: "Personalausweis / Pass-Nr. *",
             labelEmail: "E-Mail *", labelPhone: "Telefon *", labelApartment: "Apartment wählen *",
-            labelPhotoFront: "📸 Foto des Ausweises – VORDERSEITE *", labelPhotoBack: "📸 Foto des Ausweises – RÜCKSEITE *",
+            labelPhotoFront: "📸 Ausweisfoto – VORDERSEITE *", labelPhotoBack: "📸 Ausweisfoto – RÜCKSEITE *",
+            btnPhotoFront: "📷 VORDERSEITE des Ausweises hochladen", btnPhotoBack: "📷 RÜCKSEITE des Ausweises hochladen",
             labelGdpr: "<strong>Ich stimme der Verarbeitung personenbezogener Daten</strong> gemäß GDPR zu.",
-            labelDamage: "<strong>Haftung für Schäden</strong> – Ich übernehme die Haftung für eventuelle Schäden im Apartment.",
+            labelDamage: "<strong>Haftung für Schäden</strong> – Ich bestätige, dass ich alle Mängel sofort nach der Ankunft melden muss. Sollte nachgewiesen werden, dass ich den Schaden in der Wohnung verursacht habe, bin ich verpflichtet, diesen vollständig zu ersetzen.",
             gdprNote: "🔒 <strong>GDPR & Datenschutz</strong> – Ihre personenbezogenen Daten und Ausweisfotos werden ausschließlich für die Meldeverpflichtung gemäß Gesetz Nr. 326/1999 Sb. verarbeitet. Die Daten werden nicht an Dritte weitergegeben, nicht langfristig gespeichert und dienen nur zur Identifikation des Gastes. Nach Ihrem Aufenthalt werden sie sicher gelöscht.",
-            btnSubmit: "🏨 CHECK-IN SENDEN"
+            btnSubmit: "🏨 CHECK-IN SENDEN",
+            uploadReady: "✅ Foto bereit", uploadProgress: "📤 hochladen...", uploadDone: "✅ hochgeladen", uploadError: "❌ Fehler beim Hochladen"
         }
     };
     
@@ -672,6 +634,8 @@
         document.getElementById('labelApartment').innerHTML = t.labelApartment;
         document.getElementById('labelPhotoFront').innerHTML = t.labelPhotoFront;
         document.getElementById('labelPhotoBack').innerHTML = t.labelPhotoBack;
+        document.getElementById('takeFrontPhotoBtn').innerHTML = t.btnPhotoFront;
+        document.getElementById('takeBackPhotoBtn').innerHTML = t.btnPhotoBack;
         document.getElementById('labelGdpr').innerHTML = t.labelGdpr;
         document.getElementById('labelDamage').innerHTML = t.labelDamage;
         document.getElementById('gdprNoteText').innerHTML = t.gdprNote;
