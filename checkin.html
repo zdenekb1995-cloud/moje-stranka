@@ -55,12 +55,13 @@
             background: transparent;
             border: 1px solid #c9a03d;
             color: #c9a03d;
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 0.6rem;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.2s;
-            font-size: 0.85rem;
+            font-size: 1.5rem;
+            line-height: 1;
         }
         .lang-btn.active {
             background: #c9a03d;
@@ -216,9 +217,10 @@
             border-radius: 20px;
             color: #aa9f88;
             margin-top: 1rem;
-            text-align: center;
             border-left: 3px solid #c9a03d;
+            line-height: 1.65;
         }
+        .gdpr-note strong { color: #c9a03d; }
         .btn-submit {
             background: #c9a03d;
             color: #0a0a0a;
@@ -281,9 +283,9 @@
 <body>
 <div class="container">
     <div class="lang-switch">
-        <button class="lang-btn active" data-lang="cs">🇨🇿 ČESKY</button>
-        <button class="lang-btn" data-lang="en">🇬🇧 ENGLISH</button>
-        <button class="lang-btn" data-lang="de">🇩🇪 DEUTSCH</button>
+        <button class="lang-btn active" data-lang="cs">🇨🇿</button>
+        <button class="lang-btn" data-lang="en">🇬🇧</button>
+        <button class="lang-btn" data-lang="de">🇩🇪</button>
     </div>
 
     <div class="hero">
@@ -292,7 +294,7 @@
     </div>
 
     <div class="form-card">
-        <h2 id="formTitle" style="margin-bottom: 1.2rem; color:#c9a03d;">✅ Povinný check‑in formulář</h2>
+        <h2 id="formTitle" style="margin-bottom: 1.2rem; color:#c9a03d;">✅ Povinný check&#8209;in formulář</h2>
         <p id="formDesc" style="margin-bottom: 1rem; color:#aa9f88;">Podle zákona č. 326/1999 Sb. a GDPR evidujeme totožnost hosta.</p>
 
         <form id="checkinForm" novalidate>
@@ -307,9 +309,17 @@
                     <input type="date" name="Datum_narozeni" id="birthdate" required>
                 </div>
                 <div>
-                    <label id="labelIdNum">Číslo OP / pasu *</label>
-                    <input type="text" name="Cislo_OP" id="idNumber" required placeholder="CZ1234567">
+                    <label id="labelCheckin">Datum příjezdu *</label>
+                    <input type="date" name="Datum_prijezdu" id="checkinDate" required>
                 </div>
+            </div>
+
+            <div class="double-group">
+                <div>
+                    <label id="labelCheckout">Datum odjezdu *</label>
+                    <input type="date" name="Datum_odjezdu" id="checkoutDate" required>
+                </div>
+                <div></div>
             </div>
 
             <div class="form-row">
@@ -338,8 +348,8 @@
                 <div class="camera-area">
                     <div class="photo-preview">
                         <img id="frontPreview" class="preview-img"
-                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EFront side%3C/text%3E%3C/svg%3E"
-                             alt="Front side of ID">
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EP%C5%99edn%C3%AD%20strana%20dokladu%3C/text%3E%3C/svg%3E"
+                             alt="Přední strana dokladu" id="frontPreviewImg">
                         <input type="file" id="frontPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
                         <button type="button" class="btn-photo" id="takeFrontPhotoBtn">📷 Nahrát přední stranu dokladu</button>
                         <div class="upload-progress" id="frontUploadProgress">
@@ -356,8 +366,8 @@
                 <div class="camera-area">
                     <div class="photo-preview">
                         <img id="backPreview" class="preview-img"
-                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EBack side%3C/text%3E%3C/svg%3E"
-                             alt="Back side of ID">
+                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EZadn%C3%AD%20strana%20dokladu%3C/text%3E%3C/svg%3E"
+                             alt="Zadní strana dokladu" id="backPreviewImg">
                         <input type="file" id="backPhotoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
                         <button type="button" class="btn-photo" id="takeBackPhotoBtn">📷 Nahrát zadní stranu dokladu</button>
                         <div class="upload-progress" id="backUploadProgress">
@@ -371,7 +381,7 @@
             <div class="checkbox-group">
                 <input type="checkbox" id="gdprCheck" required>
                 <label id="labelGdpr" for="gdprCheck">
-                    <strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.
+                    <strong>Souhlasím se zpracováním svých osobních údajů</strong> v rozsahu nezbytném pro evidenci ubytovaných osob, ověření totožnosti a splnění zákonných povinností provozovatele.
                 </label>
             </div>
 
@@ -383,7 +393,12 @@
             </div>
 
             <div class="gdpr-note" id="gdprNoteText">
-                🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie dokladu jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.
+                🔒 <strong>Souhlas se zpracováním osobních údajů a podmínky ubytování</strong><br><br>
+                Souhlasím se zpracováním svých osobních údajů v rozsahu nezbytném pro účely evidence ubytovaných osob, ověření totožnosti hosta, splnění zákonných povinností provozovatele ubytování a ochrany majetku a práv provozovatele.<br><br>
+                <strong>Evidence a ověření totožnosti</strong><br>
+                Host bere na vědomí, že provozovatel je oprávněn požadovat předložení platného dokladu totožnosti a pořízení jeho fotografie nebo kopie za účelem: ověření identity hosta; splnění povinností dle platných právních předpisů, zejména zákona č. 326/1999 Sb., o pobytu cizinců na území České republiky; prevence podvodného jednání, poškození majetku, neuhrazených pobytů a zajištění bezpečnosti ubytovacího zařízení.<br><br>
+                <strong>Ochrana osobních údajů (GDPR)</strong><br>
+                Osobní údaje jsou zpracovávány v souladu s Nařízením Evropského parlamentu a Rady (EU) 2016/679 (GDPR), zákonem č. 110/2019 Sb., o zpracování osobních údajů, a souvisejícími právními předpisy České republiky. Zpracovávány jsou pouze údaje nezbytné pro výše uvedené účely a pouze po dobu nezbytně nutnou k naplnění zákonných povinností nebo ochraně oprávněných zájmů provozovatele. Údaje nejsou prodávány ani poskytovány třetím stranám, s výjimkou případů stanovených právními předpisy nebo oprávněných požadavků orgánů veřejné moci. Fotografie nebo kopie dokladu totožnosti nejsou uchovávány déle, než je nezbytné pro ověření identity hosta a ochranu oprávněných zájmů provozovatele. Po splnění účelu jsou bezpečně odstraněny.
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">🏨 ODESLAT CHECK-IN</button>
@@ -404,7 +419,6 @@
     let backFile = null;
     let isSubmitting = false;
 
-    // DOM elementy
     const phoneInput = document.getElementById('phone');
     const frontInput = document.getElementById('frontPhotoInput');
     const backInput = document.getElementById('backPhotoInput');
@@ -422,40 +436,25 @@
     const submitBtn = document.getElementById('submitBtn');
     const messageBox = document.getElementById('formMessage');
 
-    // ========== OMEZENÍ TELEFONNÍHO ČÍSLA POUZE NA ČÍSLICE A ZNAMÉNKO + ==========
     phoneInput.addEventListener('input', function(e) {
-        // Povolené znaky: číslice 0-9 a znaménko + (pouze na začátku)
         let value = this.value;
-        // Odstraní vše co není číslice nebo +
         let filtered = value.replace(/[^\d+]/g, '');
-        // Znaménko + smí být pouze na začátku a maximálně jednou
         let plusCount = (filtered.match(/\+/g) || []).length;
-        if (plusCount > 1) {
-            filtered = filtered.replace(/\+/g, '');
-            filtered = '+' + filtered;
-        }
-        if (filtered.startsWith('+')) {
-            filtered = '+' + filtered.slice(1).replace(/\+/g, '');
-        } else {
-            filtered = filtered.replace(/\+/g, '');
-        }
+        if (plusCount > 1) { filtered = filtered.replace(/\+/g, ''); filtered = '+' + filtered; }
+        if (filtered.startsWith('+')) { filtered = '+' + filtered.slice(1).replace(/\+/g, ''); }
+        else { filtered = filtered.replace(/\+/g, ''); }
         this.value = filtered;
     });
     
-    // Blokování vložení nepovolených znaků při paste
     phoneInput.addEventListener('paste', function(e) {
         e.preventDefault();
         let pastedText = (e.clipboardData || window.clipboardData).getData('text');
         let filtered = pastedText.replace(/[^\d+]/g, '');
-        if (filtered.startsWith('+')) {
-            filtered = '+' + filtered.slice(1).replace(/\+/g, '');
-        } else {
-            filtered = filtered.replace(/\+/g, '');
-        }
+        if (filtered.startsWith('+')) { filtered = '+' + filtered.slice(1).replace(/\+/g, ''); }
+        else { filtered = filtered.replace(/\+/g, ''); }
         this.value = filtered;
     });
 
-    // Nahrávání fotek
     frontInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) { frontFile = null; return; }
@@ -506,33 +505,32 @@
         });
     }
 
-    // ODESLÁNÍ
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (isSubmitting) { showMessage('Odesílání probíhá, počkejte prosím...', 'loading'); return; }
         
-        const fullname = document.getElementById('fullname').value.trim();
-        const birthdate = document.getElementById('birthdate').value.trim();
-        const idNumber = document.getElementById('idNumber').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const apartment = document.getElementById('apartment').value;
-        const gdpr = document.getElementById('gdprCheck').checked;
-        const damage = document.getElementById('damageCheck').checked;
+        const fullname     = document.getElementById('fullname').value.trim();
+        const birthdate    = document.getElementById('birthdate').value.trim();
+        const checkinDate  = document.getElementById('checkinDate').value.trim();
+        const checkoutDate = document.getElementById('checkoutDate').value.trim();
+        const email        = document.getElementById('email').value.trim();
+        const phone        = document.getElementById('phone').value.trim();
+        const apartment    = document.getElementById('apartment').value;
+        const gdpr         = document.getElementById('gdprCheck').checked;
+        const damage       = document.getElementById('damageCheck').checked;
         
-        if (!fullname || !birthdate || !idNumber || !email || !phone || !apartment) {
+        if (!fullname || !birthdate || !checkinDate || !checkoutDate || !email || !phone || !apartment) {
             showMessage('❌ Vyplňte všechna povinná pole.', 'error'); return;
         }
         if (!email.includes('@') || !email.includes('.')) { showMessage('❌ Zadejte platný e-mail.', 'error'); return; }
         
-        // Validace telefonu - musí obsahovat alespoň 9 číslic
         const phoneDigits = phone.replace(/\D/g, '');
         if (phoneDigits.length < 9) {
             showMessage('❌ Zadejte platné telefonní číslo (min. 9 číslic).', 'error'); return;
         }
         
         if (!frontFile) { showMessage('❌ Nahrajte prosím PŘEDNÍ stranu dokladu.', 'error'); return; }
-        if (!backFile) { showMessage('❌ Nahrajte prosím ZADNÍ stranu dokladu.', 'error'); return; }
+        if (!backFile)  { showMessage('❌ Nahrajte prosím ZADNÍ stranu dokladu.', 'error'); return; }
         if (!gdpr || !damage) { showMessage('❌ Musíte souhlasit s podmínkami.', 'error'); return; }
         
         isSubmitting = true;
@@ -560,10 +558,11 @@
         
         showMessage('⏳ Odesílám data...', 'loading');
         const payload = {
-            _subject: '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc (front+back)',
+            _subject: '🏨 NOVÝ CHECK-IN – 4U Centre Olomouc',
             Jméno: fullname,
             Datum_narozeni: birthdate,
-            Cislo_OP: idNumber,
+            Datum_prijezdu: checkinDate,
+            Datum_odjezdu: checkoutDate,
             email: email,
             Telefon: phone,
             Apartman: apartment,
@@ -600,8 +599,8 @@
         form.reset();
         frontFile = null; backFile = null;
         frontInput.value = ''; backInput.value = '';
-        frontPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EFront side%3C/text%3E%3C/svg%3E";
-        backPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EBack side%3C/text%3E%3C/svg%3E";
+        frontPreview.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EP%C5%99edn%C3%AD%20strana%20dokladu%3C/text%3E%3C/svg%3E";
+        backPreview.src  = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EZadn%C3%AD%20strana%20dokladu%3C/text%3E%3C/svg%3E";
         frontStatus.textContent = ''; backStatus.textContent = '';
         frontProgress.style.display = 'none'; backProgress.style.display = 'none';
         setTimeout(() => messageBox.classList.remove('show'), 5000);
@@ -616,66 +615,69 @@
     // ========== JAZYKOVÁ MUTACE ==========
     const translations = {
         cs: {
-            formTitle: "✅ Povinný check‑in formulář",
+            formTitle: "✅ Povinný check&#8209;in formulář",
             formDesc: "Podle zákona č. 326/1999 Sb. a GDPR evidujeme totožnost hosta.",
-            labelName: "Jméno a příjmení *", 
-            labelBirth: "Datum narození *", 
-            labelIdNum: "Číslo OP / pasu *",
-            labelEmail: "E-mail *", 
-            labelPhone: "Telefon *", 
+            labelName: "Jméno a příjmení *",
+            labelBirth: "Datum narození *",
+            labelCheckin: "Datum příjezdu *",
+            labelCheckout: "Datum odjezdu *",
+            labelEmail: "E-mail *",
+            labelPhone: "Telefon *",
             labelApartment: "Vyberte apartmán *",
-            labelPhotoFront: "📸 Přední strana dokladu *", 
+            labelPhotoFront: "📸 Přední strana dokladu *",
             labelPhotoBack: "📸 Zadní strana dokladu *",
-            btnPhotoFront: "📷 Nahrát přední stranu dokladu", 
+            btnPhotoFront: "📷 Nahrát přední stranu dokladu",
             btnPhotoBack: "📷 Nahrát zadní stranu dokladu",
-            labelGdpr: "<strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.",
+            labelGdpr: "<strong>Souhlasím se zpracováním svých osobních údajů</strong> v rozsahu nezbytném pro evidenci ubytovaných osob, ověření totožnosti a splnění zákonných povinností provozovatele.",
             labelDamage: "<strong>Zodpovědnost za škody</strong> – Beru na vědomí, že veškeré závady jsem povinen hlásit neprodleně po příjezdu. V případě, že se prokáže, že škodu v apartmánu jsem způsobil já, jsem povinen ji plně nahradit.",
-            gdprNote: "🔒 <strong>GDPR & ochrana údajů</strong> – Vaše osobní údaje a fotografie dokladu jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta po dobu nezbytně nutnou. Po skončení pobytu jsou bezpečně odstraněny.",
+            gdprNote: "🔒 <strong>Souhlas se zpracováním osobních údajů a podmínky ubytování</strong><br><br>Souhlasím se zpracováním svých osobních údajů v rozsahu nezbytném pro účely evidence ubytovaných osob, ověření totožnosti hosta, splnění zákonných povinností provozovatele ubytování a ochrany majetku a práv provozovatele.<br><br><strong>Evidence a ověření totožnosti</strong><br>Host bere na vědomí, že provozovatel je oprávněn požadovat předložení platného dokladu totožnosti a pořízení jeho fotografie nebo kopie za účelem: ověření identity hosta; splnění povinností dle platných právních předpisů, zejména zákona č. 326/1999 Sb., o pobytu cizinců na území České republiky; prevence podvodného jednání, poškození majetku, neuhrazených pobytů a zajištění bezpečnosti ubytovacího zařízení.<br><br><strong>Ochrana osobních údajů (GDPR)</strong><br>Osobní údaje jsou zpracovávány v souladu s Nařízením Evropského parlamentu a Rady (EU) 2016/679 (GDPR), zákonem č. 110/2019 Sb., o zpracování osobních údajů, a souvisejícími právními předpisy České republiky. Zpracovávány jsou pouze údaje nezbytné pro výše uvedené účely a pouze po dobu nezbytně nutnou k naplnění zákonných povinností nebo ochraně oprávněných zájmů provozovatele. Údaje nejsou prodávány ani poskytovány třetím stranám, s výjimkou případů stanovených právními předpisy nebo oprávněných požadavků orgánů veřejné moci. Fotografie nebo kopie dokladu totožnosti nejsou uchovávány déle, než je nezbytné pro ověření identity hosta a ochranu oprávněných zájmů provozovatele. Po splnění účelu jsou bezpečně odstraněny.",
             btnSubmit: "🏨 ODESLAT CHECK-IN",
-            uploadReady: "✅ Foto připraveno", 
-            uploadProgress: "📤 nahrávání...", 
+            uploadReady: "✅ Foto připraveno",
+            uploadProgress: "📤 nahrávání...",
             uploadDone: "✅ nahráno"
         },
         en: {
-            formTitle: "✅ Mandatory check-in form",
-            formDesc: "According to Act No. 326/1999 Coll. and GDPR, we are required to register guest identity.",
-            labelName: "Full name *", 
-            labelBirth: "Date of birth *", 
-            labelIdNum: "ID / Passport number *",
-            labelEmail: "Email *", 
-            labelPhone: "Phone *", 
+            formTitle: "✅ Mandatory check&#8209;in form",
+            formDesc: "Pursuant to Act No. 326/1999 Coll. and GDPR, we are required to verify guest identity.",
+            labelName: "Full name *",
+            labelBirth: "Date of birth *",
+            labelCheckin: "Check-in date *",
+            labelCheckout: "Check-out date *",
+            labelEmail: "E-mail *",
+            labelPhone: "Phone *",
             labelApartment: "Select apartment *",
-            labelPhotoFront: "📸 Front side of ID document *", 
-            labelPhotoBack: "📸 Back side of ID document *",
-            btnPhotoFront: "📷 Upload front side of ID document", 
-            btnPhotoBack: "📷 Upload back side of ID document",
-            labelGdpr: "<strong>I consent to the processing of personal data</strong> under GDPR.",
-            labelDamage: "<strong>Liability for damages</strong> – I acknowledge that I must report any defects immediately upon arrival. If it is proven that I caused damage to the apartment, I am obliged to fully compensate it.",
-            gdprNote: "🔒 <strong>GDPR & data protection</strong> – Your personal data and ID document photos are processed solely for accommodation registration according to Act No. 326/1999 Coll. Data is not shared with third parties, is not stored long-term, and serves only for guest identification. After your stay, it is securely deleted.",
+            labelPhotoFront: "📸 Front side of ID / passport *",
+            labelPhotoBack: "📸 Back side of ID / passport *",
+            btnPhotoFront: "📷 Upload front side of ID",
+            btnPhotoBack: "📷 Upload back side of ID",
+            labelGdpr: "<strong>I consent to the processing of my personal data</strong> to the extent necessary for guest registration, identity verification and fulfilment of the accommodation operator's legal obligations.",
+            labelDamage: "<strong>Liability for damages</strong> – I acknowledge that I must report any defects or damage immediately upon arrival. In case of proven damage caused by me, I am fully liable to compensate it.",
+            gdprNote: "🔒 <strong>Consent to personal data processing &amp; accommodation conditions</strong><br><br>I consent to the processing of my personal data to the extent necessary for the purposes of guest registration, identity verification, fulfilment of the accommodation operator's legal obligations, and protection of the operator's property and rights.<br><br><strong>Guest registration &amp; identity verification</strong><br>The guest acknowledges that the operator is entitled to request a valid identity document and to take a photograph or copy thereof for the purposes of: verifying the guest's identity; fulfilling obligations under applicable law, in particular Act No. 326/1999 Coll. on the residence of foreign nationals in the Czech Republic; preventing fraud, property damage, unpaid stays, and ensuring the security of the accommodation facility.<br><br><strong>Personal data protection (GDPR)</strong><br>Personal data is processed in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council (GDPR), Act No. 110/2019 Coll. on personal data processing, and related Czech legislation. Only data necessary for the above purposes is processed, and only for the period strictly necessary to fulfil legal obligations or protect the operator's legitimate interests. Data is not sold or shared with third parties, except as required by law or upon legitimate requests from public authorities. Photographs or copies of identity documents are not retained longer than necessary to verify the guest's identity and protect the operator's legitimate interests. Once the purpose is fulfilled, they are securely deleted.",
             btnSubmit: "🏨 SUBMIT CHECK-IN",
-            uploadReady: "✅ Photo ready", 
-            uploadProgress: "📤 uploading...", 
+            uploadReady: "✅ Photo ready",
+            uploadProgress: "📤 uploading...",
             uploadDone: "✅ uploaded"
         },
         de: {
-            formTitle: "✅ Pflicht-Check-in-Formular",
-            formDesc: "Gemäß Gesetz Nr. 326/1999 Sb. und GDPR müssen wir die Identität des Gastes erfassen.",
-            labelName: "Vor- und Nachname *", 
-            labelBirth: "Geburtsdatum *", 
-            labelIdNum: "Personalausweis / Pass-Nr. *",
-            labelEmail: "E-Mail *", 
-            labelPhone: "Telefon *", 
-            labelApartment: "Apartment wählen *",
-            labelPhotoFront: "📸 Vorderseite des Ausweisdokuments *", 
-            labelPhotoBack: "📸 Rückseite des Ausweisdokuments *",
-            btnPhotoFront: "📷 Vorderseite des Ausweisdokuments hochladen", 
-            btnPhotoBack: "📷 Rückseite des Ausweisdokuments hochladen",
-            labelGdpr: "<strong>Ich stimme der Verarbeitung personenbezogener Daten</strong> gemäß GDPR zu.",
-            labelDamage: "<strong>Haftung für Schäden</strong> – Ich bestätige, dass ich alle Mängel sofort nach der Ankunft melden muss. Sollte nachgewiesen werden, dass ich den Schaden in der Wohnung verursacht habe, bin ich verpflichtet, diesen vollständig zu ersetzen.",
-            gdprNote: "🔒 <strong>GDPR & Datenschutz</strong> – Ihre personenbezogenen Daten und Fotos des Ausweisdokuments werden ausschließlich für die Meldeverpflichtung gemäß Gesetz Nr. 326/1999 Sb. verarbeitet. Die Daten werden nicht an Dritte weitergegeben, nicht langfristig gespeichert und dienen nur zur Identifikation des Gastes. Nach Ihrem Aufenthalt werden sie sicher gelöscht.",
-            btnSubmit: "🏨 CHECK-IN SENDEN",
-            uploadReady: "✅ Foto bereit", 
-            uploadProgress: "📤 hochladen...", 
+            formTitle: "✅ Pflichtformular Check&#8209;in",
+            formDesc: "Gemäß Gesetz Nr. 326/1999 Sb. und DSGVO sind wir verpflichtet, die Identität des Gastes zu erfassen.",
+            labelName: "Vor- und Nachname *",
+            labelBirth: "Geburtsdatum *",
+            labelCheckin: "Anreisedatum *",
+            labelCheckout: "Abreisedatum *",
+            labelEmail: "E-Mail *",
+            labelPhone: "Telefon *",
+            labelApartment: "Apartment auswählen *",
+            labelPhotoFront: "📸 Vorderseite des Ausweises / Reisepasses *",
+            labelPhotoBack: "📸 Rückseite des Ausweises / Reisepasses *",
+            btnPhotoFront: "📷 Vorderseite hochladen",
+            btnPhotoBack: "📷 Rückseite hochladen",
+            labelGdpr: "<strong>Ich stimme der Verarbeitung meiner personenbezogenen Daten</strong> im erforderlichen Umfang für die Gästeregistrierung, Identitätsprüfung und Erfüllung der gesetzlichen Pflichten des Unterkunftsbetreibers zu.",
+            labelDamage: "<strong>Haftung für Schäden</strong> – Ich bestätige, dass ich alle Mängel und Schäden unmittelbar nach Ankunft melden muss. Bei nachgewiesenem Schaden bin ich verpflichtet, diesen vollständig zu ersetzen.",
+            gdprNote: "🔒 <strong>Einwilligung zur Datenverarbeitung &amp; Unterkunftsbedingungen</strong><br><br>Ich stimme der Verarbeitung meiner personenbezogenen Daten im erforderlichen Umfang für die Zwecke der Gästeregistrierung, Identitätsprüfung, Erfüllung der gesetzlichen Pflichten des Unterkunftsbetreibers sowie zum Schutz des Eigentums und der Rechte des Betreibers zu.<br><br><strong>Registrierung &amp; Identitätsprüfung</strong><br>Der Gast nimmt zur Kenntnis, dass der Betreiber berechtigt ist, die Vorlage eines gültigen Ausweisdokuments sowie die Anfertigung einer Fotografie oder Kopie davon zu verlangen, und zwar zum Zweck: der Identitätsprüfung des Gastes; der Erfüllung von Verpflichtungen nach geltendem Recht, insbesondere Gesetz Nr. 326/1999 Sb. über den Aufenthalt von Ausländern in der Tschechischen Republik; der Prävention von Betrug, Sachschäden, unbezahlten Aufenthalten und zur Sicherung der Unterkunft.<br><br><strong>Datenschutz (DSGVO)</strong><br>Personenbezogene Daten werden gemäß der Verordnung (EU) 2016/679 (DSGVO), dem tschechischen Gesetz Nr. 110/2019 Sb. über die Verarbeitung personenbezogener Daten und den damit verbundenen tschechischen Rechtsvorschriften verarbeitet. Es werden nur die für die genannten Zwecke erforderlichen Daten und nur für den unbedingt notwendigen Zeitraum verarbeitet. Daten werden nicht verkauft oder an Dritte weitergegeben, außer in gesetzlich vorgeschriebenen Fällen oder auf berechtigte Anfragen von Behörden. Fotos oder Kopien von Ausweisdokumenten werden nicht länger aufbewahrt, als für die Identitätsprüfung und den Schutz der berechtigten Interessen des Betreibers erforderlich. Nach Erfüllung des Zwecks werden sie sicher gelöscht.",
+            btnSubmit: "🏨 CHECK-IN ABSENDEN",
+            uploadReady: "✅ Foto bereit",
+            uploadProgress: "📤 hochladen...",
             uploadDone: "✅ hochgeladen"
         }
     };
@@ -687,7 +689,8 @@
         document.getElementById('formDesc').innerHTML = t.formDesc;
         document.getElementById('labelName').innerHTML = t.labelName;
         document.getElementById('labelBirth').innerHTML = t.labelBirth;
-        document.getElementById('labelIdNum').innerHTML = t.labelIdNum;
+        document.getElementById('labelCheckin').innerHTML = t.labelCheckin;
+        document.getElementById('labelCheckout').innerHTML = t.labelCheckout;
         document.getElementById('labelEmail').innerHTML = t.labelEmail;
         document.getElementById('labelPhone').innerHTML = t.labelPhone;
         document.getElementById('labelApartment').innerHTML = t.labelApartment;
@@ -700,6 +703,23 @@
         document.getElementById('gdprNoteText').innerHTML = t.gdprNote;
         document.getElementById('submitBtn').innerHTML = t.btnSubmit;
         
+        // Update placeholder SVGs based on language
+        const svgFront = {
+            cs: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EP%C5%99edn%C3%AD%20strana%20dokladu%3C/text%3E%3C/svg%3E",
+            en: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EFront side%3C/text%3E%3C/svg%3E",
+            de: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EVorderseite%3C/text%3E%3C/svg%3E"
+        };
+        const svgBack = {
+            cs: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EZadn%C3%AD%20strana%20dokladu%3C/text%3E%3C/svg%3E",
+            en: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3EBack side%3C/text%3E%3C/svg%3E",
+            de: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect width='200' height='120' fill='%231c1b19'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a03d' font-size='12'%3ER%C3%BCckseite%3C/text%3E%3C/svg%3E"
+        };
+        // Only update placeholder if no real photo loaded
+        const fp = document.getElementById('frontPreview');
+        if (fp && !frontFile) fp.src = svgFront[lang] || svgFront.cs;
+        const bp = document.getElementById('backPreview');
+        if (bp && !backFile) bp.src = svgBack[lang] || svgBack.cs;
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.dataset.lang === lang) btn.classList.add('active');
             else btn.classList.remove('active');
