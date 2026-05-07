@@ -41,13 +41,14 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.12);
             color: #6B8DA8;
-            padding: 0.35rem 1rem;
+            padding: 0.3rem 0.6rem;
             border-radius: 40px;
             cursor: pointer;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.78rem;
+            font-size: 1.5rem;
             font-weight: 600;
             transition: all 0.2s;
+            line-height: 1;
         }
         .lang-btn.active {
             background: linear-gradient(135deg, #1F5E72, #44A6B3);
@@ -320,6 +321,7 @@
             line-height: 1.65;
         }
         .gdpr-note strong { color: #44A6B3; }
+        .gdpr-note br + strong { display: inline-block; margin-top: 0.3rem; }
 
         /* ── SUBMIT ── */
         .btn-submit {
@@ -387,9 +389,9 @@
 
     <!-- LANG -->
     <div class="lang-switch">
-        <button class="lang-btn active" data-lang="cs">🇨🇿 ČESKY</button>
-        <button class="lang-btn" data-lang="en">🇬🇧 ENGLISH</button>
-        <button class="lang-btn" data-lang="de">🇩🇪 DEUTSCH</button>
+        <button class="lang-btn active" data-lang="cs">🇨🇿</button>
+        <button class="lang-btn" data-lang="en">🇬🇧</button>
+        <button class="lang-btn" data-lang="de">🇩🇪</button>
     </div>
 
     <!-- HERO -->
@@ -418,9 +420,17 @@
                     <input type="date" name="Datum_narozeni" id="birthdate" required>
                 </div>
                 <div>
-                    <label id="labelIdNum">Číslo OP / pasu *</label>
-                    <input type="text" name="Cislo_OP" id="idNumber" required placeholder="CZ1234567">
+                    <label id="labelCheckin">Datum příjezdu *</label>
+                    <input type="date" name="Datum_prijezdu" id="checkinDate" required>
                 </div>
+            </div>
+
+            <div class="double-group">
+                <div>
+                    <label id="labelCheckout">Datum odjezdu *</label>
+                    <input type="date" name="Datum_odjezdu" id="checkoutDate" required>
+                </div>
+                <div></div>
             </div>
 
             <div class="form-row">
@@ -437,9 +447,9 @@
                     <label id="labelApartment">Vyberte apartmán *</label>
                     <select name="Apartman" id="apartment" required>
                         <option value="">— vyberte —</option>
-                        <option value="Apartmán 40m² – Litovelská 2b (1 490 Kč/noc)">Apartmán 40m² | 1 490 Kč/noc | Litovelská</option>
-                        <option value="Apartmán 34m² – Litovelská 2b (1 420 Kč/noc)">Apartmán 34m² | 1 420 Kč/noc | Litovelská</option>
-                        <option value="Apartmán Letců 29 (1 320 Kč/noc)">Apartmán Letců 29 | 1 320 Kč/noc</option>
+                        <option value="Apartmán 40m² – Litovelská 2b">Apartmán 40m² – Litovelská 2b</option>
+                        <option value="Apartmán 34m² – Litovelská 2b">Apartmán 34m² – Litovelská 2b</option>
+                        <option value="Apartmán Letců 29">Apartmán Letců 29</option>
                     </select>
                 </div>
             </div>
@@ -503,7 +513,12 @@
             </div>
 
             <div class="gdpr-note" id="gdprNoteText">
-                🔒 <strong>GDPR &amp; ochrana údajů</strong> – Vaše osobní údaje a fotografie dokladu jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány a slouží pouze k identifikaci hosta. Po skončení pobytu jsou bezpečně odstraněny.
+                🔒 <strong>Souhlas se zpracováním osobních údajů a podmínky ubytování</strong><br><br>
+                Souhlasím se zpracováním svých osobních údajů v rozsahu nezbytném pro účely evidence ubytovaných osob, ověření totožnosti hosta, splnění zákonných povinností provozovatele ubytování a ochrany majetku a práv provozovatele.<br><br>
+                <strong>Evidence a ověření totožnosti</strong><br>
+                Host bere na vědomí, že provozovatel je oprávněn požadovat předložení platného dokladu totožnosti a pořízení jeho fotografie nebo kopie za účelem: ověření identity hosta; splnění povinností dle platných právních předpisů, zejména zákona č. 326/1999 Sb., o pobytu cizinců na území České republiky; prevence podvodného jednání, poškození majetku, neuhrazených pobytů a zajištění bezpečnosti ubytovacího zařízení.<br><br>
+                <strong>Ochrana osobních údajů (GDPR)</strong><br>
+                Osobní údaje jsou zpracovávány v souladu s Nařízením Evropského parlamentu a Rady (EU) 2016/679 (GDPR), zákonem č. 110/2019 Sb., o zpracování osobních údajů, a souvisejícími právními předpisy České republiky. Zpracovávány jsou pouze údaje nezbytné pro výše uvedené účely a pouze po dobu nezbytně nutnou k naplnění zákonných povinností nebo ochraně oprávněných zájmů provozovatele. Údaje nejsou prodávány ani poskytovány třetím stranám, s výjimkou případů stanovených právními předpisy nebo oprávněných požadavků orgánů veřejné moci. Fotografie nebo kopie dokladu totožnosti nejsou uchovávány déle, než je nezbytné pro ověření identity hosta a ochranu oprávněných zájmů provozovatele. Po splnění účelu jsou bezpečně odstraněny.
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
@@ -623,14 +638,15 @@
 
         const fullname  = $('fullname').value.trim();
         const birthdate = $('birthdate').value.trim();
-        const idNumber  = $('idNumber').value.trim();
+        const checkinDate = $('checkinDate').value.trim();
+        const checkoutDate = $('checkoutDate').value.trim();
         const email     = $('email').value.trim();
         const phone     = $('phone').value.trim();
         const apartment = $('apartment').value;
         const gdpr      = $('gdprCheck').checked;
         const damage    = $('damageCheck').checked;
 
-        if (!fullname || !birthdate || !idNumber || !email || !phone || !apartment) {
+        if (!fullname || !birthdate || !checkinDate || !checkoutDate || !email || !phone || !apartment) {
             showMessage('❌ Vyplňte všechna povinná pole.', 'error'); return;
         }
         if (!email.includes('@') || !email.includes('.')) {
@@ -670,7 +686,8 @@
             _subject: '🏨 NOVÝ CHECK-IN – 4U Olomouc',
             Jméno: fullname,
             Datum_narozeni: birthdate,
-            Cislo_OP: idNumber,
+            Datum_prijezdu: checkinDate,
+            Datum_odjezdu: checkoutDate,
             email: email,
             Telefon: phone,
             Apartman: apartment,
@@ -714,7 +731,8 @@
             formDesc: 'Podle zákona č. 326/1999 Sb. a GDPR evidujeme totožnost hosta.',
             labelName: 'Jméno a příjmení *',
             labelBirth: 'Datum narození *',
-            labelIdNum: 'Číslo OP / pasu *',
+            labelCheckin: 'Datum příjezdu *',
+            labelCheckout: 'Datum odjezdu *',
             labelEmail: 'E-mail *',
             labelPhone: 'Telefon *',
             labelApartment: 'Vyberte apartmán *',
@@ -722,9 +740,9 @@
             labelPhotoBack:  '📸 Zadní strana dokladu *',
             btnFront: '📷 Nahrát přední stranu dokladu',
             btnBack:  '📷 Nahrát zadní stranu dokladu',
-            labelGdpr:   '<strong>Souhlasím se zpracováním osobních údajů</strong> dle nařízení GDPR.',
+            labelGdpr:   '<strong>Souhlasím se zpracováním svých osobních údajů</strong> v rozsahu nezbytném pro evidenci ubytovaných osob, ověření totožnosti a splnění zákonných povinností provozovatele.',
             labelDamage: '<strong>Zodpovědnost za škody</strong> – Beru na vědomí, že veškeré závady jsem povinen hlásit neprodleně po příjezdu. V případě prokázané škody jsem povinen ji plně nahradit.',
-            gdprNote: '🔒 <strong>GDPR &amp; ochrana údajů</strong> – Vaše osobní údaje a fotografie dokladu jsou zpracovány výhradně pro účely ubytovací evidence dle zákona č. 326/1999 Sb. Údaje nejsou předávány třetím stranám, nejsou dlouhodobě uchovávány. Po skončení pobytu jsou bezpečně odstraněny.',
+            gdprNote: '🔒 <strong>Souhlas se zpracováním osobních údajů a podmínky ubytování</strong><br><br>Souhlasím se zpracováním svých osobních údajů v rozsahu nezbytném pro účely evidence ubytovaných osob, ověření totožnosti hosta, splnění zákonných povinností provozovatele ubytování a ochrany majetku a práv provozovatele.<br><br><strong>Evidence a ověření totožnosti</strong><br>Host bere na vědomí, že provozovatel je oprávněn požadovat předložení platného dokladu totožnosti a pořízení jeho fotografie nebo kopie za účelem: ověření identity hosta; splnění povinností dle platných právních předpisů, zejména zákona č. 326/1999 Sb., o pobytu cizinců na území České republiky; prevence podvodného jednání, poškození majetku, neuhrazených pobytů a zajištění bezpečnosti ubytovacího zařízení.<br><br><strong>Ochrana osobních údajů (GDPR)</strong><br>Osobní údaje jsou zpracovávány v souladu s Nařízením Evropského parlamentu a Rady (EU) 2016/679 (GDPR), zákonem č. 110/2019 Sb., o zpracování osobních údajů, a souvisejícími právními předpisy České republiky. Zpracovávány jsou pouze údaje nezbytné pro výše uvedené účely a pouze po dobu nezbytně nutnou k naplnění zákonných povinností nebo ochraně oprávněných zájmů provozovatele. Údaje nejsou prodávány ani poskytovány třetím stranám, s výjimkou případů stanovených právními předpisy nebo oprávněných požadavků orgánů veřejné moci. Fotografie nebo kopie dokladu totožnosti nejsou uchovávány déle, než je nezbytné pro ověření identity hosta a ochranu oprávněných zájmů provozovatele. Po splnění účelu jsou bezpečně odstraněny.',
             btnSubmit: '<i class="fas fa-paper-plane"></i> &nbsp;ODESLAT CHECK-IN'
         },
         en: {
@@ -733,43 +751,45 @@
             cardTitle1: '<i class="fas fa-user"></i> &nbsp;Mandatory check-in form',
             cardTitle2: '<i class="fas fa-id-card"></i> &nbsp;Identity document',
             cardTitle3: '<i class="fas fa-shield-alt"></i> &nbsp;Consent &amp; conditions',
-            formDesc: 'According to Act No. 326/1999 Coll. and GDPR, we are required to register guest identity.',
+            formDesc: 'Pursuant to Act No. 326/1999 Coll. and GDPR, we are required to verify guest identity.',
             labelName: 'Full Name *',
             labelBirth: 'Date of Birth *',
-            labelIdNum: 'ID / Passport Number *',
-            labelEmail: 'Email *',
+            labelCheckin: 'Check-in Date *',
+            labelCheckout: 'Check-out Date *',
+            labelEmail: 'E-mail *',
             labelPhone: 'Phone *',
             labelApartment: 'Select Apartment *',
-            labelPhotoFront: '📸 Front side of ID document *',
-            labelPhotoBack:  '📸 Back side of ID document *',
+            labelPhotoFront: '📸 Front side of ID / passport *',
+            labelPhotoBack:  '📸 Back side of ID / passport *',
             btnFront: '📷 Upload front side of ID',
             btnBack:  '📷 Upload back side of ID',
-            labelGdpr:   '<strong>I consent to the processing of personal data</strong> in accordance with GDPR.',
-            labelDamage: '<strong>Liability for damages</strong> – I acknowledge that I must report any defects immediately upon arrival. If it is proven that I caused damage, I am obliged to fully compensate it.',
-            gdprNote: '🔒 <strong>GDPR &amp; data protection</strong> – Your personal data and ID photos are processed solely for accommodation registration under Act No. 326/1999 Coll. Data is not shared with third parties and is securely deleted after your stay.',
+            labelGdpr:   '<strong>I consent to the processing of my personal data</strong> to the extent necessary for guest registration, identity verification and fulfilment of the accommodation operator\'s legal obligations.',
+            labelDamage: '<strong>Liability for damages</strong> – I acknowledge that I must report any defects or damage immediately upon arrival. In case of proven damage caused by me, I am fully liable to compensate it.',
+            gdprNote: '🔒 <strong>Consent to personal data processing &amp; accommodation conditions</strong><br><br>I consent to the processing of my personal data to the extent necessary for the purposes of guest registration, identity verification, fulfilment of the accommodation operator\'s legal obligations, and protection of the operator\'s property and rights.<br><br><strong>Guest registration &amp; identity verification</strong><br>The guest acknowledges that the operator is entitled to request a valid identity document and to take a photograph or copy thereof for the purposes of: verifying the guest\'s identity; fulfilling obligations under applicable law, in particular Act No. 326/1999 Coll. on the residence of foreign nationals in the Czech Republic; preventing fraud, property damage, unpaid stays, and ensuring the security of the accommodation facility.<br><br><strong>Personal data protection (GDPR)</strong><br>Personal data is processed in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council (GDPR), Act No. 110/2019 Coll. on personal data processing, and related Czech legislation. Only data necessary for the above purposes is processed, and only for the period strictly necessary to fulfil legal obligations or protect the operator\'s legitimate interests. Data is not sold or shared with third parties, except as required by law or upon legitimate requests from public authorities. Photographs or copies of identity documents are not retained longer than necessary to verify the guest\'s identity and protect the operator\'s legitimate interests. Once the purpose is fulfilled, they are securely deleted.',
             btnSubmit: '<i class="fas fa-paper-plane"></i> &nbsp;SUBMIT CHECK-IN'
         },
         de: {
             heroTitle: '4U OLOMOUC<br>CHECK-IN',
             heroSub: 'Luxus-Kurzzeitapartments · Kostenloses Parken',
-            cardTitle1: '<i class="fas fa-user"></i> &nbsp;Pflicht-Check-in-Formular',
+            cardTitle1: '<i class="fas fa-user"></i> &nbsp;Pflichtformular Check-in',
             cardTitle2: '<i class="fas fa-id-card"></i> &nbsp;Ausweisdokument',
-            cardTitle3: '<i class="fas fa-shield-alt"></i> &nbsp;Zustimmung &amp; Bedingungen',
-            formDesc: 'Gemäß Gesetz Nr. 326/1999 Sb. und DSGVO erfassen wir die Identität des Gastes.',
+            cardTitle3: '<i class="fas fa-shield-alt"></i> &nbsp;Einwilligung &amp; Bedingungen',
+            formDesc: 'Gemäß Gesetz Nr. 326/1999 Sb. und DSGVO sind wir verpflichtet, die Identität des Gastes zu erfassen.',
             labelName: 'Vor- und Nachname *',
             labelBirth: 'Geburtsdatum *',
-            labelIdNum: 'Personalausweis / Passnummer *',
+            labelCheckin: 'Anreisedatum *',
+            labelCheckout: 'Abreisedatum *',
             labelEmail: 'E-Mail *',
             labelPhone: 'Telefon *',
-            labelApartment: 'Apartment wählen *',
-            labelPhotoFront: '📸 Vorderseite des Ausweises *',
-            labelPhotoBack:  '📸 Rückseite des Ausweises *',
+            labelApartment: 'Apartment auswählen *',
+            labelPhotoFront: '📸 Vorderseite des Ausweises / Reisepasses *',
+            labelPhotoBack:  '📸 Rückseite des Ausweises / Reisepasses *',
             btnFront: '📷 Vorderseite hochladen',
             btnBack:  '📷 Rückseite hochladen',
-            labelGdpr:   '<strong>Ich stimme der Verarbeitung personenbezogener Daten</strong> gemäß DSGVO zu.',
-            labelDamage: '<strong>Haftung für Schäden</strong> – Ich bestätige, dass ich alle Mängel sofort nach Ankunft melden muss. Bei nachgewiesenem Schaden bin ich verpflichtet, diesen vollständig zu ersetzen.',
-            gdprNote: '🔒 <strong>DSGVO &amp; Datenschutz</strong> – Ihre Daten und Ausweisfotos werden ausschließlich für die Meldepflicht gemäß Gesetz Nr. 326/1999 Sb. verarbeitet und nach dem Aufenthalt sicher gelöscht.',
-            btnSubmit: '<i class="fas fa-paper-plane"></i> &nbsp;CHECK-IN SENDEN'
+            labelGdpr:   '<strong>Ich stimme der Verarbeitung meiner personenbezogenen Daten</strong> im erforderlichen Umfang für die Gästeregistrierung, Identitätsprüfung und Erfüllung der gesetzlichen Pflichten des Unterkunftsbetreibers zu.',
+            labelDamage: '<strong>Haftung für Schäden</strong> – Ich bestätige, dass ich alle Mängel und Schäden unmittelbar nach Ankunft melden muss. Bei nachgewiesenem Schaden bin ich verpflichtet, diesen vollständig zu ersetzen.',
+            gdprNote: '🔒 <strong>Einwilligung zur Datenverarbeitung &amp; Unterkunftsbedingungen</strong><br><br>Ich stimme der Verarbeitung meiner personenbezogenen Daten im erforderlichen Umfang für die Zwecke der Gästeregistrierung, Identitätsprüfung, Erfüllung der gesetzlichen Pflichten des Unterkunftsbetreibers sowie zum Schutz des Eigentums und der Rechte des Betreibers zu.<br><br><strong>Registrierung &amp; Identitätsprüfung</strong><br>Der Gast nimmt zur Kenntnis, dass der Betreiber berechtigt ist, die Vorlage eines gültigen Ausweisdokuments sowie die Anfertigung einer Fotografie oder Kopie davon zu verlangen, und zwar zum Zweck: der Identitätsprüfung des Gastes; der Erfüllung von Verpflichtungen nach geltendem Recht, insbesondere Gesetz Nr. 326/1999 Sb. über den Aufenthalt von Ausländern in der Tschechischen Republik; der Prävention von Betrug, Sachschäden, unbezahlten Aufenthalten und zur Sicherung der Unterkunft.<br><br><strong>Datenschutz (DSGVO)</strong><br>Personenbezogene Daten werden gemäß der Verordnung (EU) 2016/679 (DSGVO), dem tschechischen Gesetz Nr. 110/2019 Sb. über die Verarbeitung personenbezogener Daten und den damit verbundenen tschechischen Rechtsvorschriften verarbeitet. Es werden nur die für die genannten Zwecke erforderlichen Daten und nur für den unbedingt notwendigen Zeitraum verarbeitet. Daten werden nicht verkauft oder an Dritte weitergegeben, außer in gesetzlich vorgeschriebenen Fällen oder auf berechtigte Anfragen von Behörden. Fotos oder Kopien von Ausweisdokumenten werden nicht länger aufbewahrt, als für die Identitätsprüfung und den Schutz der berechtigten Interessen des Betreibers erforderlich. Nach Erfüllung des Zwecks werden sie sicher gelöscht.',
+            btnSubmit: '<i class="fas fa-paper-plane"></i> &nbsp;CHECK-IN ABSENDEN'
         }
     };
 
@@ -784,7 +804,8 @@
         $('formDesc').innerHTML         = t.formDesc;
         $('labelName').innerHTML        = t.labelName;
         $('labelBirth').innerHTML       = t.labelBirth;
-        $('labelIdNum').innerHTML       = t.labelIdNum;
+        $('labelCheckin').innerHTML     = t.labelCheckin;
+        $('labelCheckout').innerHTML    = t.labelCheckout;
         $('labelEmail').innerHTML       = t.labelEmail;
         $('labelPhone').innerHTML       = t.labelPhone;
         $('labelApartment').innerHTML   = t.labelApartment;
