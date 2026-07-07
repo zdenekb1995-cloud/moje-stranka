@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartmán A | 4U Centre Apartments</title>
+<meta name="description" content="Světlý apartmán 1+kk ve 2. patře v centru Olomouce. Wi-Fi, vybavená kuchyně, Smart TV, pračka. Rezervujte přes Booking.com nebo Airbnb.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="nav-transparent">
+
+<!-- ===== PRELOADER ===== -->
+<div id="preloader" aria-hidden="true">
+  <div class="loader-logo">
+    <div class="loader-logo-inner">
+      <div class="loader-word">4U <em>Centre</em> Apartments</div>
+      <div class="loader-sub">Olomouc</div>
+    </div>
+  </div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- ===== NAVIGACE ===== -->
+<header class="site-header">
+  <nav id="mainNav">
+    <a class="nav-brand" href="index.html" aria-label="4U Centre Apartments — úvod">
+      <span class="brand-lockup">
+        <span class="brand-top"><span class="b1">4U</span><span class="b2">Centre</span><span class="b3">APARTMENTS</span></span>
+        <span class="brand-bottom"><span class="rule"></span><span class="city">Olomouc</span><span class="rule"></span></span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#byty" data-i18n="nav_byty">Byty</a></li>
+      <li><a href="index.html#ceny" data-i18n="nav_ceny">Ceny</a></li>
+      <li><a href="index.html#okoli" data-i18n="nav_okoli">Okolí</a></li>
+      <li><a href="index.html#kontakt" data-i18n="nav_kontakt">Kontakt</a></li>
+      <li><a href="checkin.html" data-i18n="nav_checkin">Check-in</a></li>
+      <li class="nav-cta"><a href="index.html#rezervace" data-i18n="nav_rezervovat">Rezervovat</a></li>
+    </ul>
+    <button id="mobileMenuBtn" aria-label="Otevřít menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+<ul id="mobileMenu">
+  <li><a href="index.html#byty" data-i18n="nav_byty">Byty</a></li>
+  <li><a href="index.html#ceny" data-i18n="nav_ceny">Ceny</a></li>
+  <li><a href="index.html#okoli" data-i18n="nav_okoli">Okolí</a></li>
+  <li><a href="index.html#kontakt" data-i18n="nav_kontakt">Kontakt</a></li>
+  <li><a href="checkin.html" data-i18n="nav_checkin">Check-in</a></li>
+  <li class="nav-cta"><a href="index.html#rezervace" data-i18n="nav_rezervovat">Rezervovat</a></li>
+</ul>
+
+<!-- ===== HERO S FOTOGRAFIÍ ===== -->
+<section class="detail-hero" style="background-image:url('4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b1.jpeg')">
+  <div class="detail-hero-inner">
+    <span class="detail-badge" data-i18n="aptA_badge">Světlý apartmán 1+kk</span>
+    <h1 data-i18n="aptA_title">Apartmán A</h1>
+    <p class="address">📌 <span data-i18n="aptA_address">2. patro · Klidná ulice v centru Olomouce</span></p>
+  </div>
+</section>
+
+<div class="detail-wrap">
+  <a href="index.html" class="back-btn">← <span data-i18n="detail_back">Zpět na hlavní stránku</span></a>
+
+  <!-- GALERIE -->
+  <div class="detail-gallery-main reveal visible" id="detailGallery"
+    data-images='["4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b1.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b2.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b3.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b4.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b5.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b6.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b7.jpeg"]'>
+    <img id="mainImg" src="4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b1.jpeg" alt="Apartmán A">
+    <button class="gal-btn gal-prev" aria-label="Předchozí fotografie">‹</button>
+    <button class="gal-btn gal-next" aria-label="Další fotografie">›</button>
+    <span class="gal-counter" id="galCounter">1 / 7</span>
+  </div>
+  <div class="detail-thumbs" id="galleryThumbs"></div>
+
+  <!-- OBSAH -->
+  <div class="detail-grid">
+    <div class="detail-desc reveal visible">
+      <h2>✨ <span data-i18n="detail_about">O apartmánu</span></h2>
+      <p data-i18n="aptA_p1">Apartmán A je světlý a moderně zařízený byt 1+kk ve 2. patře s výhledem do klidné ulice. Ideální volba pro páry, jednotlivce i služební cesty. Byt je vybavený veškerým potřebným vybavením pro pohodlný a příjemný pobyt v srdci Olomouce.</p>
+      <p data-i18n="aptA_p2">Po náročném dni plném poznávání Olomouce se můžete těšit na odpočinek v pohodlné posteli s kvalitním povlečením. Kuchyň je plně vybavená – najdete zde lednici, mikrovlnnou troubu, varnou desku, rychlovarnou konvici a veškeré nádobí.</p>
+      <p data-i18n="aptA_p3">Apartmán se nachází v docházkové vzdálenosti od všech hlavních památek, restaurací i obchodů. Přesto je ulice klidná a tichá, takže vás nic neruší.</p>
+      <div class="detail-features">
+        <div class="detail-feature"><span>📶</span><span data-i18n="f_wifi">Wi-Fi zdarma</span></div>
+        <div class="detail-feature"><span>🍳</span><span data-i18n="f_kitchen">Vybavená kuchyně</span></div>
+        <div class="detail-feature"><span>🚿</span><span data-i18n="f_bath">Soukromá koupelna</span></div>
+        <div class="detail-feature"><span>📺</span><span data-i18n="f_tv">Smart TV</span></div>
+        <div class="detail-feature"><span>🛏️</span><span data-i18n="f_bed">Pohodlná postel</span></div>
+        <div class="detail-feature"><span>🏙️</span><span data-i18n="f_center">Centrum města</span></div>
+        <div class="detail-feature"><span>🧺</span><span data-i18n="f_wash">Pračka</span></div>
+        <div class="detail-feature"><span>❄️</span><span data-i18n="f_fridge">Lednice</span></div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="detail-sidebar reveal visible">
+      <p class="price" data-i18n="price_label">Dle Booking.com</p>
+      <p class="price-note" data-i18n="price_note">nebo na vyžádání po domluvě</p>
+      <a class="btn btn-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">🏨 <span data-i18n="btn_book_booking">Rezervovat na Booking.com</span></a>
+      <a class="btn btn-airbnb" href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" rel="noopener">🏠 <span data-i18n="btn_book_airbnb">Rezervovat na Airbnb</span></a>
+      <div class="detail-info">
+        <div class="detail-info-item"><span class="ico">🛏️</span><span data-i18n="info_bed">1× manželská postel</span></div>
+        <div class="detail-info-item"><span class="ico">👥</span><span data-i18n="info_capacity">Maximální kapacita: 2 osoby</span></div>
+        <div class="detail-info-item"><span class="ico">📏</span><span data-i18n="info_size_a">Velikost: cca 35 m²</span></div>
+        <div class="detail-info-item"><span class="ico">🏢</span><span data-i18n="info_floor">2. patro (bez výtahu)</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+<div id="lightbox" aria-hidden="true">
+  <button class="lb-close" aria-label="Zavřít">×</button>
+  <button class="gal-btn gal-prev" aria-label="Předchozí">‹</button>
+  <img id="lightboxImg" src="" alt="Fotografie apartmánu">
+  <button class="gal-btn gal-next" aria-label="Další">›</button>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <p class="footer-brand-name">4U Centre Apartments</p>
+      <p class="footer-brand-sub">4U Centre Apartments s.r.o. · Olomouc</p>
+    </div>
+    <nav class="footer-nav">
+      <a href="index.html#byty" data-i18n="nav_byty">Byty</a>
+      <a href="index.html#ceny" data-i18n="nav_ceny">Ceny</a>
+      <a href="index.html#okoli" data-i18n="nav_okoli">Okolí</a>
+      <a href="index.html#kontakt" data-i18n="nav_kontakt">Kontakt</a>
+    </nav>
+    <div class="footer-pills">
+      <a class="footer-pill p-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking</a>
+      <a class="footer-pill p-airbnb" href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" rel="noopener">Airbnb A</a>
+    </div>
+  </div>
+  <p class="footer-copy" data-i18n="footer_copy">© 2026 4U Centre Apartments s.r.o. Všechna práva vyhrazena.</p>
+</footer>
+
+<!-- ===== JAZYKOVÝ PANEL ===== -->
+<div id="languageSwitcher" role="group" aria-label="Výběr jazyka">
+  <div class="lang-option active" data-lang="cs" title="Čeština">🇨🇿</div>
+  <div class="lang-option" data-lang="en" title="English">🇬🇧</div>
+  <div class="lang-option" data-lang="de" title="Deutsch">🇩🇪</div>
+</div>
+
+<!-- ===== COOKIE LIŠTA ===== -->
+<div id="cookieBanner" role="dialog" aria-label="Souhlas s cookies">
+  <h4>🍪 <span data-i18n="cookie_title">Cookies</span></h4>
+  <p data-i18n="cookie_text">Tento web používá pouze nezbytné cookies pro správné fungování stránky a uložení vaší jazykové preference. Žádné sledovací ani marketingové cookies nepoužíváme.</p>
+  <div class="cookie-actions">
+    <button class="btn btn-gold" id="cookieAccept" data-i18n="cookie_accept">Rozumím</button>
+    <button class="btn btn-cookie-decline" id="cookieDecline" data-i18n="cookie_decline">Odmítnout</button>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
