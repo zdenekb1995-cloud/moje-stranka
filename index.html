@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4U Centre Apartments | Krátkodobý pronájem v centru Olomouce</title>
-<meta name="description" content="Dva moderní apartmány 1+kk ve 2. patře v srdci Olomouce. WiFi, koupelna, plně vybavená kuchyně, TV. Rezervujte přes Booking.com nebo Airbnb.">
+<title>FAQ — Časté dotazy | 4U Centre Apartments</title>
+<meta name="description" content="Odpovědi na nejčastější otázky k pobytu v 4U Centre Apartments Olomouc — rezervace, check-in, parkování, Wi-Fi a další.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="nav-transparent">
+<body class="nav-solid">
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
 <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a15 15 0 0 1 19 0M5.5 12.5a10 10 0 0 1 13 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></symbol>
@@ -42,7 +42,7 @@
 <symbol id="i-airbnb-brand" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.5" fill="#FF385C"/><path fill="#ffffff" d="M12 4.8c-1.05 0-1.8.62-2.22 1.55L6.4 14.1c-.75 1.8.53 3.7 2.42 3.7.98 0 2-.55 3.18-1.75 1.18 1.2 2.2 1.75 3.18 1.75 1.89 0 3.17-1.9 2.42-3.7l-3.38-7.75C13.8 5.42 13.05 4.8 12 4.8zm0 1.9c.3 0 .52.2.7.6l3.3 7.6c.32.8-.22 1.6-1.02 1.6-.62 0-1.42-.5-2.32-1.5.92-1.25 1.44-2.4 1.44-3.3 0-1.25-.9-2.1-2.1-2.1s-2.1.85-2.1 2.1c0 .9.52 2.05 1.44 3.3-.9 1-1.7 1.5-2.32 1.5-.8 0-1.34-.8-1.02-1.6l3.3-7.6c.18-.4.4-.6.7-.6zm0 4.6c.42 0 .72.3.72.75 0 .5-.3 1.2-.72 1.95-.42-.75-.72-1.45-.72-1.95 0-.45.3-.75.72-.75z"/></symbol>
 </svg>
 
-<!-- ===== PRELOADER — naklánějící se logo ===== -->
+<!-- ===== PRELOADER ===== -->
 <div id="preloader" aria-hidden="true">
   <div class="loader-logo">
     <div class="loader-logo-inner">
@@ -63,311 +63,99 @@
       </span>
     </a>
     <ul class="nav-links">
-      <li class="has-dropdown"><a href="#byty"><span data-i18n="nav_byty">Byty</span><span class="caret"></span></a>
+      <li class="has-dropdown"><a href="index.html#byty"><span data-i18n="nav_byty">Byty</span><span class="caret"></span></a>
         <ul class="nav-dropdown">
-          <li><a href="apartman-a.html"><svg class="icon"><use href="#i-bed"/></svg><span data-i18n="apt_a_name">Apartmán A</span></a></li>
-          <li><a href="apartman-b.html"><svg class="icon"><use href="#i-terrace"/></svg><span data-i18n="apt_b_name">Apartmán B s terasou</span></a></li>
+          <li><a href="apartman-a.html"><svg class="icon"><use href="#i-bed"/></svg><span data-i18n="apt_a_name">Apartmán s ložnicí</span></a></li>
+          <li><a href="apartman-b.html"><svg class="icon"><use href="#i-terrace"/></svg><span data-i18n="apt_b_name">Apartmán s ložnicí a terasou</span></a></li>
         </ul>
       </li>
-      <li><a href="#ceny" data-i18n="nav_ceny">Ceny</a></li>
-      <li><a href="#okoli" data-i18n="nav_okoli">Okolí</a></li>
+      <li><a href="index.html#ceny" data-i18n="nav_ceny">Ceny</a></li>
+      <li><a href="index.html#okoli" data-i18n="nav_okoli">Okolí</a></li>
       <li><a href="faq.html" data-i18n="nav_faq">FAQ</a></li>
-      <li><a href="#kontakt" data-i18n="nav_kontakt">Kontakt</a></li>
+      <li><a href="index.html#kontakt" data-i18n="nav_kontakt">Kontakt</a></li>
       <li><a href="checkin.html" data-i18n="nav_checkin">Check-in</a></li>
-      <li class="nav-cta"><a href="#rezervace" data-i18n="nav_rezervovat">Rezervovat</a></li>
+      <li class="nav-cta"><a href="index.html#rezervace" data-i18n="nav_rezervovat">Rezervovat</a></li>
     </ul>
     <button id="mobileMenuBtn" aria-label="Otevřít menu"><span></span><span></span><span></span></button>
   </nav>
 </header>
 <ul id="mobileMenu">
-  <li><a href="#byty" data-i18n="nav_byty">Byty</a></li>
-  <li class="sub"><a href="apartman-a.html" data-i18n="apt_a_name">Apartmán A</a></li>
-  <li class="sub"><a href="apartman-b.html" data-i18n="apt_b_name">Apartmán B s terasou</a></li>
-  <li><a href="#ceny" data-i18n="nav_ceny">Ceny</a></li>
-  <li><a href="#okoli" data-i18n="nav_okoli">Okolí</a></li>
+  <li><a href="index.html#byty" data-i18n="nav_byty">Byty</a></li>
+  <li class="sub"><a href="apartman-a.html" data-i18n="apt_a_name">Apartmán s ložnicí</a></li>
+  <li class="sub"><a href="apartman-b.html" data-i18n="apt_b_name">Apartmán s ložnicí a terasou</a></li>
+  <li><a href="index.html#ceny" data-i18n="nav_ceny">Ceny</a></li>
+  <li><a href="index.html#okoli" data-i18n="nav_okoli">Okolí</a></li>
   <li><a href="faq.html" data-i18n="nav_faq">FAQ</a></li>
-  <li><a href="#kontakt" data-i18n="nav_kontakt">Kontakt</a></li>
+  <li><a href="index.html#kontakt" data-i18n="nav_kontakt">Kontakt</a></li>
   <li><a href="checkin.html" data-i18n="nav_checkin">Check-in</a></li>
-  <li class="nav-cta"><a href="#rezervace" data-i18n="nav_rezervovat">Rezervovat</a></li>
+  <li class="nav-cta"><a href="index.html#rezervace" data-i18n="nav_rezervovat">Rezervovat</a></li>
 </ul>
 
-<!-- ===== HERO ===== -->
-<section class="hero" id="uvod">
-  <div class="hero-bg">
-    <div class="hero-half left" style="background-image:url('4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b1.jpeg')"></div>
-    <div class="hero-divider"></div>
-    <div class="hero-half right" style="background-image:url('4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b21.jpeg')"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="particles" aria-hidden="true"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow" data-i18n="hero_eyebrow">4U Centre Apartments s.r.o. · Olomouc</p>
-    <h1>
-      <span class="line-1" data-i18n="hero_line1">Váš domov</span>
-      <span class="line-2" data-i18n="hero_line2">v srdci Olomouce</span>
-    </h1>
-    <p class="hero-text" data-i18n="hero_text">Dva moderní apartmány 1+kk ve druhém patře — plně vybavené, s Wi-Fi, kuchyní, TV a soukromou koupelnou.</p>
-    <div class="hero-actions">
-      <a class="btn btn-ghost" href="#byty" data-i18n="hero_btn1">Prohlédnout byty</a>
-      <a class="btn btn-gold" href="#rezervace" data-i18n="hero_btn2">Rezervovat pobyt</a>
-    </div>
-    <div class="guarantee-badge"><svg class="icon"><use href="#i-star"/></svg><span data-i18n="guarantee">Garance nejlepší ceny při přímé rezervaci</span></div>
-  </div>
-  <a class="hero-scroll" href="#byty"><span data-i18n="hero_scroll">Objevte více</span></a>
+<!-- ===== ZÁHLAVÍ STRÁNKY ===== -->
+<section class="page-hero">
+  <svg class="icon"><use href="#i-question"/></svg>
+  <p class="section-eyebrow" style="color:var(--gold)" data-i18n="faq_eyebrow">Máte otázky?</p>
+  <h1><span data-i18n="faq_title_1">Časté</span> <em data-i18n="faq_title_2">dotazy</em></h1>
+  <p data-i18n="faq_sub">Odpovědi na nejčastější otázky našich hostů. Nenašli jste, co hledáte? Ozvěte se nám.</p>
 </section>
 
-<!-- ===== BYTY ===== -->
-<section id="byty">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="section-eyebrow" data-i18n="apt_eyebrow">Naše apartmány</p>
-      <h2 class="section-title"><span data-i18n="apt_title_1">Dva útulné</span> <em data-i18n="apt_title_2">apartmány</em></h2>
-      <div class="section-rule"></div>
-    </div>
+<div class="faq-wrap">
+  <details class="faq-item" open>
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q1"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a1"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q2"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a2"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q3"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a3"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q4"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a4"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q5"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a5"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q6"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a6"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q7"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a7"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q8"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a8"></p>
+  </details>
+  <details class="faq-item">
+    <summary><svg class="icon"><use href="#i-question"/></svg><span data-i18n="faq_q9"></span><span class="faq-plus">+</span></summary>
+    <p class="faq-answer" data-i18n="faq_a9"></p>
+  </details>
 
-    <div class="apt-grid">
-      <!-- Apartmán A -->
-      <article class="apt-card reveal" data-tilt="5">
-        <div class="apt-gallery" data-images='["4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b1.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b2.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b3.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b4.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b5.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b6.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b7.jpeg"]'>
-          <img src="4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 1/b1.jpeg" alt="Apartmán A — interiér" loading="lazy">
-          <button class="gal-btn gal-prev" aria-label="Předchozí fotografie">‹</button>
-          <button class="gal-btn gal-next" aria-label="Další fotografie">›</button>
-        </div>
-        <div class="gal-dots"></div>
-        <div class="apt-body card-depth">
-          <div class="apt-title-row">
-            <h3 class="apt-title" data-i18n="apt_a_name">Apartmán A</h3>
-            <div class="apt-tags"><span class="apt-tag">1+kk</span><span class="apt-tag">2. patro</span></div>
-          </div>
-          <p class="apt-desc" data-i18n="apt_a_desc">Světlý a moderní apartmán 1+kk ve 2. patře s výhledem do klidné ulice. Ideální pro páry i cestující za prací.</p>
-          <div class="apt-features">
-            <div class="apt-feature"><svg class="icon"><use href="#i-wifi"/></svg><span data-i18n="f_wifi">Wi-Fi zdarma</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-kitchen"/></svg><span data-i18n="f_kitchen">Vybavená kuchyně</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-bath"/></svg><span data-i18n="f_bath">Soukromá koupelna</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-tv"/></svg><span data-i18n="f_tv">Smart TV</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-bed"/></svg><span data-i18n="f_bed">Pohodlná postel</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-city"/></svg><span data-i18n="f_center">Centrum města</span></div>
-          </div>
-          <div class="apt-cta">
-            <div class="apt-price-row">
-              <span class="apt-price" data-i18n="price_label">Dle Booking.com</span>
-              <span class="apt-price-note" data-i18n="price_note">nebo na vyžádání po domluvě</span>
-            </div>
-            <div class="apt-buttons">
-              <a class="btn btn-sm btn-outline-gold" href="apartman-a.html" data-i18n="btn_detail">Detail bytu</a>
-              <a class="btn btn-sm btn-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking.com</a>
-              <a class="btn btn-sm btn-airbnb" href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" rel="noopener">Airbnb</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Apartmán B -->
-      <article class="apt-card reveal reveal-delay-1" data-tilt="5">
-        <div class="apt-gallery" data-images='["4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b21.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b22.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b23.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b24.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b25.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b26.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b27.jpeg","4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b28.jpeg"]'>
-          <span class="apt-badge" data-i18n="badge_terrace">Soukromá terasa</span>
-          <img src="4U Centre Apartments _ Krátkodobý pronájem v centru Olomouce_files/Byt 2/b21.jpeg" alt="Apartmán B s terasou — interiér" loading="lazy">
-          <button class="gal-btn gal-prev" aria-label="Předchozí fotografie">‹</button>
-          <button class="gal-btn gal-next" aria-label="Další fotografie">›</button>
-        </div>
-        <div class="gal-dots"></div>
-        <div class="apt-body card-depth">
-          <div class="apt-title-row">
-            <h3 class="apt-title" data-i18n="apt_b_name">Apartmán B s terasou</h3>
-            <div class="apt-tags"><span class="apt-tag">1+kk</span><span class="apt-tag">2. patro</span></div>
-          </div>
-          <p class="apt-desc" data-i18n="apt_b_desc">Stylový apartmán 1+kk ve 2. patře s ložnicí a vlastní terasou. Výrazná designová stěna dodává bytu jedinečný charakter.</p>
-          <div class="apt-features">
-            <div class="apt-feature"><svg class="icon"><use href="#i-wifi"/></svg><span data-i18n="f_wifi">Wi-Fi zdarma</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-kitchen"/></svg><span data-i18n="f_kitchen">Vybavená kuchyně</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-bath"/></svg><span data-i18n="f_bath">Soukromá koupelna</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-tv"/></svg><span data-i18n="f_tv">Smart TV</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-terrace"/></svg><span data-i18n="f_terrace">Soukromá terasa</span></div>
-            <div class="apt-feature"><svg class="icon"><use href="#i-city"/></svg><span data-i18n="f_center">Centrum města</span></div>
-          </div>
-          <div class="apt-cta">
-            <div class="apt-price-row">
-              <span class="apt-price" data-i18n="price_label">Dle Booking.com</span>
-              <span class="apt-price-note" data-i18n="price_note">nebo na vyžádání po domluvě</span>
-            </div>
-            <div class="apt-buttons">
-              <a class="btn btn-sm btn-outline-gold" href="apartman-b.html" data-i18n="btn_detail">Detail bytu</a>
-              <a class="btn btn-sm btn-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking.com</a>
-              <a class="btn btn-sm btn-airbnb" href="https://www.airbnb.co.uk/rooms/1435491007157769047" target="_blank" rel="noopener">Airbnb</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CENY ===== -->
-<section id="ceny" class="bg-alt">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="section-eyebrow" data-i18n="price_eyebrow">Ceník</p>
-      <h2 class="section-title"><span data-i18n="price_title_1">Garance nejlepší ceny</span> <em data-i18n="price_title_2">Při rezervaci na webu</em></h2>
-      <div class="section-rule"></div>
-      <p class="section-sub" data-i18n="price_sub">Aktuální ceny najdete na Booking.com — nebo nás kontaktujte přímo pro rezervaci na vyžádání po domluvě.</p>
-    </div>
-    <div class="price-grid">
-      <div class="price-card reveal" data-tilt="4">
-        <h3 data-i18n="apt_a_name">Apartmán A</h3>
-        <p class="spec">1+kk · 2. patro</p>
-        <p class="price-value" data-i18n="price_label">Dle Booking.com</p>
-        <p class="price-note" data-i18n="price_note">nebo na vyžádání po domluvě</p>
-        <ul class="price-list">
-          <li><span class="check">✓</span><span data-i18n="f_wifi">Wi-Fi zdarma</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_kitchen">Vybavená kuchyně</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_bath">Soukromá koupelna</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_tv">Smart TV</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_bed_full">Pohodlná postel s povlečením</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_center_full">Centrum Olomouce</span></li>
-        </ul>
-        <div class="apt-buttons">
-          <a class="btn btn-sm btn-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking</a>
-          <a class="btn btn-sm btn-airbnb" href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" rel="noopener">Airbnb</a>
-        </div>
+  <div class="contact-card reveal visible" style="margin-top:50px">
+    <h3 data-i18n="book_direct_title">Napište nám</h3>
+    <p class="sub" data-i18n="guarantee">Garance nejlepší ceny při přímé rezervaci</p>
+    <div class="contact-row">
+      <svg class="icon"><use href="#i-phone"/></svg>
+      <div>
+        <p class="label" data-i18n="label_phone">Telefon</p>
+        <a href="tel:+420728948738">+420 728 948 738</a>
       </div>
-      <div class="price-card reveal reveal-delay-1" data-tilt="4">
-        <h3 data-i18n="apt_b_name">Apartmán B s terasou</h3>
-        <p class="spec">1+kk · 2. patro</p>
-        <p class="price-value" data-i18n="price_label">Dle Booking.com</p>
-        <p class="price-note" data-i18n="price_note">nebo na vyžádání po domluvě</p>
-        <ul class="price-list">
-          <li><span class="check">✓</span><span data-i18n="f_wifi">Wi-Fi zdarma</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_kitchen">Vybavená kuchyně</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_bath">Soukromá koupelna</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_terrace">Soukromá terasa</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_bed_full">Pohodlná postel s povlečením</span></li>
-          <li><span class="check">✓</span><span data-i18n="f_center_full">Centrum Olomouce</span></li>
-        </ul>
-        <div class="apt-buttons">
-          <a class="btn btn-sm btn-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking</a>
-          <a class="btn btn-sm btn-airbnb" href="https://www.airbnb.co.uk/rooms/1435491007157769047" target="_blank" rel="noopener">Airbnb</a>
-        </div>
+    </div>
+    <div class="contact-row">
+      <svg class="icon"><use href="#i-mail"/></svg>
+      <div>
+        <p class="label" data-i18n="label_email">E-mail</p>
+        <a href="mailto:4u.apartmentsss@gmail.com">4u.apartmentsss@gmail.com</a>
       </div>
     </div>
   </div>
-</section>
-
-<!-- ===== OKOLÍ ===== -->
-<section id="okoli">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="section-eyebrow" data-i18n="around_eyebrow">V okolí</p>
-      <h2 class="section-title"><span data-i18n="around_title_1">Vše</span> <em data-i18n="around_title_2">poblíž</em></h2>
-      <div class="section-rule"></div>
-      <p class="section-sub" data-i18n="around_sub">Naše apartmány se nacházejí v samém centru Olomouce — vše co potřebujete je na dosah pěší chůze.</p>
-    </div>
-    <div class="around-grid">
-      <div class="around-card reveal">
-        <div class="around-head"><span class="ico"><svg class="icon"><use href="#i-landmark"/></svg></span><h3 data-i18n="around_attractions">Turistické atrakce</h3></div>
-        <ul>
-          <li><span data-i18n="a_palace">Arcibiskupský palác</span><span class="dist">1,2 km</span></li>
-          <li><span data-i18n="a_column">Sloup Nejsvětější Trojice</span><span class="dist">1,2 km</span></li>
-          <li><span data-i18n="a_square">Horní náměstí</span><span class="dist">1,3 km</span></li>
-          <li><span data-i18n="a_clock">Orloj</span><span class="dist">1,5 km</span></li>
-        </ul>
-      </div>
-      <div class="around-card reveal reveal-delay-1">
-        <div class="around-head"><span class="ico"><svg class="icon"><use href="#i-coffee"/></svg></span><h3 data-i18n="around_food">Restaurace a kavárny</h3></div>
-        <ul>
-          <li><span data-i18n="r_bubble">Bubble Mania (kavárna/bar)</span><span class="dist">350 m</span></li>
-          <li><span data-i18n="r_atmosphere">Atmosphere (restaurace)</span><span class="dist">400 m</span></li>
-          <li><span data-i18n="r_santovka">Šantovka OC – jídelní zóna</span><span class="dist">400 m</span></li>
-        </ul>
-      </div>
-      <div class="around-card reveal reveal-delay-2">
-        <div class="around-head"><span class="ico"><svg class="icon"><use href="#i-train"/></svg></span><h3 data-i18n="around_transport">Veřejná doprava</h3></div>
-        <ul>
-          <li><span data-i18n="t_tram">Tramvaj – zastávka Envelopa</span><span class="dist">300 m</span></li>
-          <li><span data-i18n="t_train1">Vlak – Olomouc-Smetanovy sady</span><span class="dist">800 m</span></li>
-          <li><span data-i18n="t_train2">Vlak – Olomouc-Nová Ulice</span><span class="dist">1,5 km</span></li>
-          <li><span data-i18n="t_bus">Autobus – Autobusové nádraží</span><span class="dist">2,2 km</span></li>
-        </ul>
-      </div>
-      <div class="around-card reveal reveal-delay-3">
-        <div class="around-head"><span class="ico"><svg class="icon"><use href="#i-plane"/></svg></span><h3 data-i18n="around_airport">Nejbližší letiště</h3></div>
-        <ul>
-          <li><span data-i18n="air_ostrava">Letiště Leoše Janáčka Ostrava</span><span class="dist">73 km</span></li>
-          <li><span data-i18n="air_brno">Letiště Brno Tuřany</span><span class="dist">73 km</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== REZERVACE ===== -->
-<section id="rezervace" class="bg-alt">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="section-eyebrow" data-i18n="book_eyebrow">Rezervace</p>
-      <h2 class="section-title"><span data-i18n="book_title_1">Rezervujte</span> <em data-i18n="book_title_2">snadno</em></h2>
-      <div class="section-rule"></div>
-      <p class="section-sub" data-i18n="book_sub">Vyberte si způsob rezervace, který vám vyhovuje — přes ověřenou platformu, nebo nás kontaktujte napřímo.</p>
-    </div>
-    <div class="booking-grid">
-      <a class="booking-card c-booking reveal" data-tilt="7" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">
-        <span class="ico"><svg class="icon-brand"><use href="#i-booking-brand"/></svg></span>
-        <h3>Booking.com</h3>
-        <p data-i18n="book_both">Oba apartmány</p>
-      </a>
-      <a class="booking-card c-airbnb reveal reveal-delay-1" data-tilt="7" href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" rel="noopener">
-        <span class="ico"><svg class="icon-brand"><use href="#i-airbnb-brand"/></svg></span>
-        <h3>Airbnb</h3>
-        <p data-i18n="book_a">Apartmán A</p>
-      </a>
-      <a class="booking-card c-airbnb reveal reveal-delay-2" data-tilt="7" href="https://www.airbnb.co.uk/rooms/1435491007157769047" target="_blank" rel="noopener">
-        <span class="ico"><svg class="icon-brand"><use href="#i-airbnb-brand"/></svg></span>
-        <h3>Airbnb</h3>
-        <p data-i18n="book_b">Apartmán B</p>
-      </a>
-      <a class="booking-card reveal reveal-delay-3" data-tilt="7" href="#kontakt" style="background: linear-gradient(150deg, var(--gold), var(--gold-dark)); border-color: var(--gold);">
-        <span class="ico" style="background: rgba(255,255,255,0.2);"><svg class="icon"><use href="#i-mail"/></svg></span>
-        <h3 style="color:#fff" data-i18n="book_direct_title">Napište nám</h3>
-        <p style="color:rgba(255,255,255,0.85)" data-i18n="guarantee">Garance nejlepší ceny při přímé rezervaci</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== KONTAKT ===== -->
-<section id="kontakt">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="section-eyebrow" data-i18n="contact_eyebrow">Kontakt</p>
-      <h2 class="section-title"><span data-i18n="contact_title_1">Jsme tu</span> <em data-i18n="contact_title_2">pro vás</em></h2>
-      <div class="section-rule"></div>
-    </div>
-    <div class="contact-card reveal">
-      <h3>4U Centre Apartments s.r.o.</h3>
-      <p class="sub" data-i18n="contact_sub_card">Olomouc, Česká republika</p>
-      <div class="contact-row">
-        <svg class="icon"><use href="#i-phone"/></svg>
-        <div>
-          <p class="label" data-i18n="label_phone">Telefon</p>
-          <a href="tel:+420728948738">+420 728 948 738</a>
-        </div>
-      </div>
-      <div class="contact-row">
-        <svg class="icon"><use href="#i-mail"/></svg>
-        <div>
-          <p class="label" data-i18n="label_email">E-mail</p>
-          <a href="mailto:4u.apartmentsss@gmail.com">4u.apartmentsss@gmail.com</a>
-        </div>
-      </div>
-      <hr class="contact-divider">
-      <p class="contact-note" data-i18n="contact_or">Nebo rezervujte přímo přes:</p>
-      <div class="contact-buttons">
-        <a class="btn btn-sm btn-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking.com</a>
-        <a class="btn btn-sm btn-airbnb" href="https://www.airbnb.cz/rooms/1435552358723079171" target="_blank" rel="noopener">Airbnb A</a>
-        <a class="btn btn-sm btn-airbnb" href="https://www.airbnb.co.uk/rooms/1435491007157769047" target="_blank" rel="noopener">Airbnb B</a>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 <!-- ===== FOOTER ===== -->
 <footer class="site-footer">
@@ -377,10 +165,10 @@
       <p class="footer-brand-sub">4U Centre Apartments s.r.o. · Olomouc</p>
     </div>
     <nav class="footer-nav">
-      <a href="#byty" data-i18n="nav_byty">Byty</a>
-      <a href="#ceny" data-i18n="nav_ceny">Ceny</a>
-      <a href="#okoli" data-i18n="nav_okoli">Okolí</a>
-      <a href="#kontakt" data-i18n="nav_kontakt">Kontakt</a>
+      <a href="index.html#byty" data-i18n="nav_byty">Byty</a>
+      <a href="index.html#ceny" data-i18n="nav_ceny">Ceny</a>
+      <a href="index.html#okoli" data-i18n="nav_okoli">Okolí</a>
+      <a href="index.html#kontakt" data-i18n="nav_kontakt">Kontakt</a>
     </nav>
     <div class="footer-pills">
       <a class="footer-pill p-booking" href="https://www.booking.com/hotel/cz/4u-centre-apartments.cs.html" target="_blank" rel="noopener">Booking</a>
