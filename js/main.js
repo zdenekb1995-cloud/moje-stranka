@@ -31,19 +31,19 @@ const I18N = {
     hero_scroll: 'Objevte více',
     // Byty
     apt_eyebrow: 'Naše apartmány', apt_title_1: 'Dva útulné', apt_title_2: 'apartmány',
-    apt_a_name: 'Apartmán A',
+    apt_a_name: 'Apartmán s ložnicí',
     apt_a_desc: 'Světlý a moderní apartmán 1+kk ve 2. patře s výhledem do klidné ulice. Ideální pro páry i cestující za prací.',
-    apt_b_name: 'Apartmán B s terasou',
+    apt_b_name: 'Apartmán s ložnicí a terasou',
     apt_b_desc: 'Stylový apartmán 1+kk ve 2. patře s ložnicí a vlastní terasou. Výrazná designová stěna dodává bytu jedinečný charakter.',
     badge_terrace: 'Soukromá terasa',
     f_wifi: 'Wi-Fi zdarma', f_kitchen: 'Vybavená kuchyně', f_bath: 'Soukromá koupelna',
     f_tv: 'Smart TV', f_bed: 'Pohodlná postel', f_center: 'Centrum města',
     f_wash: 'Pračka', f_fridge: 'Lednice', f_terrace: 'Soukromá terasa', f_design: 'Designová stěna',
-    price_label: 'Dle Booking.com', price_note: 'nebo na vyžádání po domluvě',
+    price_label: 'Dle Booking.com', price_note: 'nebo přímo u nás — garance nejlepší ceny',
     btn_detail: 'Detail bytu',
     // Ceny
     price_eyebrow: 'Ceník', price_title_1: 'Ceny dle', price_title_2: 'Booking.com',
-    price_sub: 'Aktuální ceny najdete na Booking.com — nebo nás kontaktujte přímo pro rezervaci na vyžádání po domluvě.',
+    price_sub: 'Aktuální ceny najdete na Booking.com — při přímé rezervaci e-mailem nebo telefonem vám garantujeme nejlepší cenu.',
     f_bed_full: 'Pohodlná postel s povlečením', f_center_full: 'Centrum Olomouce',
     // Okolí
     around_eyebrow: 'V okolí', around_title_1: 'Vše', around_title_2: 'poblíž',
@@ -57,7 +57,7 @@ const I18N = {
     // Rezervace
     book_eyebrow: 'Rezervace', book_title_1: 'Rezervujte', book_title_2: 'snadno',
     book_sub: 'Vyberte si způsob rezervace, který vám vyhovuje — přes ověřenou platformu, nebo nás kontaktujte napřímo.',
-    book_both: 'Oba apartmány', book_a: 'Apartmán A', book_b: 'Apartmán B',
+    book_both: 'Oba apartmány', book_a: 'Apartmán s ložnicí', book_b: 'Apartmán s ložnicí a terasou',
     book_direct_title: 'Napište nám', book_direct_sub: 'Rezervace na vyžádání po domluvě',
     // Kontakt
     contact_eyebrow: 'Kontakt', contact_title_1: 'Jsme tu', contact_title_2: 'pro vás',
@@ -70,21 +70,21 @@ const I18N = {
     cookie_title: 'Cookies', cookie_text: 'Tento web používá pouze nezbytné cookies pro správné fungování stránky a uložení vaší jazykové preference. Žádné sledovací ani marketingové cookies nepoužíváme.',
     cookie_accept: 'Rozumím', cookie_decline: 'Odmítnout',
     // Detail A
-    aptA_title: 'Apartmán A', aptA_address: '2. patro · Klidná ulice v centru Olomouce',
+    aptA_title: 'Apartmán s ložnicí', aptA_address: '2. patro · Klidná ulice v centru Olomouce',
     aptA_badge: 'Světlý apartmán 1+kk',
     detail_back: 'Zpět na hlavní stránku', detail_about: 'O apartmánu',
-    aptA_p1: 'Apartmán A je světlý a moderně zařízený byt 1+kk ve 2. patře s výhledem do klidné ulice. Ideální volba pro páry, jednotlivce i služební cesty. Byt je vybavený veškerým potřebným vybavením pro pohodlný a příjemný pobyt v srdci Olomouce.',
+    aptA_p1: 'Apartmán s ložnicí je světlý a moderně zařízený byt 1+kk ve 2. patře s výhledem do klidné ulice. Ideální volba pro páry, jednotlivce i služební cesty. Byt je vybavený veškerým potřebným vybavením pro pohodlný a příjemný pobyt v srdci Olomouce.',
     aptA_p2: 'Po náročném dni plném poznávání Olomouce se můžete těšit na odpočinek v pohodlné posteli s kvalitním povlečením. Kuchyň je plně vybavená – najdete zde lednici, mikrovlnnou troubu, varnou desku, rychlovarnou konvici a veškeré nádobí.',
     aptA_p3: 'Apartmán se nachází v docházkové vzdálenosti od všech hlavních památek, restaurací i obchodů. Přesto je ulice klidná a tichá, takže vás nic neruší.',
     btn_book_booking: 'Rezervovat na Booking.com', btn_book_airbnb: 'Rezervovat na Airbnb',
     info_bed: '1× manželská postel', info_capacity: 'Maximální kapacita: 2 osoby',
     info_size_a: 'Velikost: cca 35 m²', info_floor: '2. patro (bez výtahu)',
     // Detail B
-    aptB_title: 'Apartmán B s terasou', aptB_address: '2. patro · S vlastní terasou a designovou stěnou',
+    aptB_title: 'Apartmán s ložnicí a terasou', aptB_address: '2. patro · S vlastní terasou a designovou stěnou',
     aptB_badge: 'Soukromá terasa',
-    aptB_p1: 'Apartmán B je stylově zařízený byt 1+kk ve 2. patře, který vyniká především svou vlastní terasou – ideálním místem pro ranní kávu nebo večerní odpočinek. Výrazná designová stěna dodává bytu jedinečný charakter a moderní šmrnc.',
+    aptB_p1: 'Apartmán s ložnicí a terasou je stylově zařízený byt 1+kk ve 2. patře, který vyniká především svou vlastní terasou – ideálním místem pro ranní kávu nebo večerní odpočinek. Výrazná designová stěna dodává bytu jedinečný charakter a moderní šmrnc.',
     aptB_p2: 'Byt je vybaven samostatnou ložnicí s pohodlnou manželskou postelí, plně vybavenou kuchyní a moderní koupelnou. Terasa je orientovaná do klidného dvora, takže si zde můžete vychutnat klid a soukromí.',
-    aptB_p3: 'Stejně jako Apartmán A se i tento byt nachází v samém centru Olomouce, jen pár minut chůze od Horního náměstí, Sloupu Nejsvětější Trojice a dalších památek.',
+    aptB_p3: 'Stejně jako druhý apartmán se i tento byt nachází v samém centru Olomouce, jen pár minut chůze od Horního náměstí, Sloupu Nejsvětější Trojice a dalších památek.',
     info_terrace: 'Vlastní terasa', info_size_b: 'Velikost: cca 38 m²'
   },
   en: {
@@ -95,18 +95,18 @@ const I18N = {
     hero_btn1: 'View apartments', hero_btn2: 'Book your stay',
     hero_scroll: 'Discover more',
     apt_eyebrow: 'Our apartments', apt_title_1: 'Two cozy', apt_title_2: 'apartments',
-    apt_a_name: 'Apartment A',
+    apt_a_name: 'Apartment with bedroom',
     apt_a_desc: 'Bright and modern 1+kk apartment on the 2nd floor overlooking a quiet street. Ideal for couples and business travelers.',
-    apt_b_name: 'Apartment B with terrace',
+    apt_b_name: 'Apartment with bedroom and terrace',
     apt_b_desc: 'Stylish 1+kk apartment on the 2nd floor with a bedroom and private terrace. A striking feature wall gives it a unique character.',
     badge_terrace: 'Private terrace',
     f_wifi: 'Free Wi-Fi', f_kitchen: 'Equipped kitchen', f_bath: 'Private bathroom',
     f_tv: 'Smart TV', f_bed: 'Comfortable bed', f_center: 'City center',
     f_wash: 'Washing machine', f_fridge: 'Fridge', f_terrace: 'Private terrace', f_design: 'Design wall',
-    price_label: 'According to Booking.com', price_note: 'or on request by agreement',
+    price_label: 'According to Booking.com', price_note: 'or directly with us — best price guarantee',
     btn_detail: 'Apartment detail',
     price_eyebrow: 'Price list', price_title_1: 'Prices via', price_title_2: 'Booking.com',
-    price_sub: 'Current prices can be found on Booking.com — or contact us directly for a booking on request.',
+    price_sub: 'Current prices can be found on Booking.com — for direct bookings by e-mail or phone we guarantee the best price.',
     f_bed_full: 'Comfortable bed with bedding', f_center_full: 'Center of Olomouc',
     around_eyebrow: 'Neighborhood', around_title_1: 'Everything', around_title_2: 'nearby',
     around_sub: 'Our apartments are located in the very center of Olomouc — everything you need is within walking distance.',
@@ -118,7 +118,7 @@ const I18N = {
     air_ostrava: 'Leoš Janáček Airport Ostrava', air_brno: 'Brno–Tuřany Airport',
     book_eyebrow: 'Booking', book_title_1: 'Book', book_title_2: 'easily',
     book_sub: 'Choose the booking method that suits you — through a verified platform, or contact us directly.',
-    book_both: 'Both apartments', book_a: 'Apartment A', book_b: 'Apartment B',
+    book_both: 'Both apartments', book_a: 'Apartment with bedroom', book_b: 'Apartment with bedroom and terrace',
     book_direct_title: 'Contact us', book_direct_sub: 'Booking on request by agreement',
     contact_eyebrow: 'Contact', contact_title_1: 'We are here', contact_title_2: 'for you',
     contact_sub_card: 'Olomouc, Czech Republic',
@@ -127,20 +127,20 @@ const I18N = {
     footer_copy: '© 2026 4U Centre Apartments s.r.o. All rights reserved.',
     cookie_title: 'Cookies', cookie_text: 'This website uses only essential cookies for proper functioning and to store your language preference. We do not use any tracking or marketing cookies.',
     cookie_accept: 'Got it', cookie_decline: 'Decline',
-    aptA_title: 'Apartment A', aptA_address: '2nd floor · Quiet street in the center of Olomouc',
+    aptA_title: 'Apartment with bedroom', aptA_address: '2nd floor · Quiet street in the center of Olomouc',
     aptA_badge: 'Bright 1+kk apartment',
     detail_back: 'Back to main page', detail_about: 'About the apartment',
-    aptA_p1: 'Apartment A is a bright and modernly furnished 1+kk studio on the 2nd floor overlooking a quiet street. An ideal choice for couples, solo travelers and business trips. The apartment is equipped with everything you need for a comfortable stay in the heart of Olomouc.',
+    aptA_p1: 'The Apartment with bedroom is a bright and modernly furnished 1+kk studio on the 2nd floor overlooking a quiet street. An ideal choice for couples, solo travelers and business trips. The apartment is equipped with everything you need for a comfortable stay in the heart of Olomouc.',
     aptA_p2: 'After a busy day exploring Olomouc, you can look forward to rest in a comfortable bed with quality bedding. The kitchen is fully equipped — you will find a fridge, microwave, hob, kettle and all utensils.',
     aptA_p3: 'The apartment is within walking distance of all the main sights, restaurants and shops. Yet the street is quiet and peaceful, so nothing disturbs you.',
     btn_book_booking: 'Book on Booking.com', btn_book_airbnb: 'Book on Airbnb',
     info_bed: '1× double bed', info_capacity: 'Maximum capacity: 2 persons',
     info_size_a: 'Size: approx. 35 m²', info_floor: '2nd floor (no elevator)',
-    aptB_title: 'Apartment B with terrace', aptB_address: '2nd floor · With private terrace and design wall',
+    aptB_title: 'Apartment with bedroom and terrace', aptB_address: '2nd floor · With private terrace and design wall',
     aptB_badge: 'Private terrace',
-    aptB_p1: 'Apartment B is a stylishly furnished 1+kk studio on the 2nd floor, distinguished above all by its own terrace — the ideal spot for morning coffee or evening relaxation. A striking design wall gives the apartment a unique character and modern flair.',
+    aptB_p1: 'The Apartment with bedroom and terrace is a stylishly furnished 1+kk studio on the 2nd floor, distinguished above all by its own terrace — the ideal spot for morning coffee or evening relaxation. A striking design wall gives the apartment a unique character and modern flair.',
     aptB_p2: 'The apartment features a separate bedroom with a comfortable double bed, a fully equipped kitchen and a modern bathroom. The terrace faces a quiet courtyard, so you can enjoy peace and privacy.',
-    aptB_p3: "Like Apartment A, this apartment is located in the very center of Olomouc, just a few minutes' walk from the Upper Square, the Holy Trinity Column and other attractions.",
+    aptB_p3: "Like our second apartment, this one is located in the very center of Olomouc, just a few minutes' walk from the Upper Square, the Holy Trinity Column and other attractions.",
     info_terrace: 'Private terrace', info_size_b: 'Size: approx. 38 m²'
   },
   de: {
@@ -151,18 +151,18 @@ const I18N = {
     hero_btn1: 'Apartments ansehen', hero_btn2: 'Aufenthalt buchen',
     hero_scroll: 'Mehr entdecken',
     apt_eyebrow: 'Unsere Apartments', apt_title_1: 'Zwei gemütliche', apt_title_2: 'Apartments',
-    apt_a_name: 'Apartment A',
+    apt_a_name: 'Apartment mit Schlafzimmer',
     apt_a_desc: 'Helles und modernes 1+kk Apartment im 2. Stock mit Blick auf eine ruhige Straße. Ideal für Paare und Geschäftsreisende.',
-    apt_b_name: 'Apartment B mit Terrasse',
+    apt_b_name: 'Apartment mit Schlafzimmer und Terrasse',
     apt_b_desc: 'Stylisches 1+kk Apartment im 2. Stock mit Schlafzimmer und eigener Terrasse. Eine markante Designwand verleiht einen einzigartigen Charakter.',
     badge_terrace: 'Private Terrasse',
     f_wifi: 'Kostenloses WLAN', f_kitchen: 'Ausgestattete Küche', f_bath: 'Eigenes Bad',
     f_tv: 'Smart TV', f_bed: 'Bequemes Bett', f_center: 'Stadtzentrum',
     f_wash: 'Waschmaschine', f_fridge: 'Kühlschrank', f_terrace: 'Private Terrasse', f_design: 'Designwand',
-    price_label: 'Laut Booking.com', price_note: 'oder auf Anfrage nach Vereinbarung',
+    price_label: 'Laut Booking.com', price_note: 'oder direkt bei uns — Bestpreisgarantie',
     btn_detail: 'Apartment-Detail',
     price_eyebrow: 'Preisliste', price_title_1: 'Preise laut', price_title_2: 'Booking.com',
-    price_sub: 'Aktuelle Preise finden Sie auf Booking.com — oder kontaktieren Sie uns direkt für eine Buchung auf Anfrage.',
+    price_sub: 'Aktuelle Preise finden Sie auf Booking.com — bei Direktbuchung per E-Mail oder Telefon garantieren wir Ihnen den besten Preis.',
     f_bed_full: 'Bequemes Bett mit Bettwäsche', f_center_full: 'Zentrum von Olomouc',
     around_eyebrow: 'Umgebung', around_title_1: 'Alles', around_title_2: 'in der Nähe',
     around_sub: 'Unsere Apartments befinden sich im Herzen von Olomouc — alles, was Sie brauchen, ist zu Fuß erreichbar.',
@@ -174,7 +174,7 @@ const I18N = {
     air_ostrava: 'Flughafen Leoš Janáček Ostrava', air_brno: 'Flughafen Brno-Tuřany',
     book_eyebrow: 'Buchung', book_title_1: 'Einfach', book_title_2: 'buchen',
     book_sub: 'Wählen Sie die Buchungsmethode, die zu Ihnen passt — über eine verifizierte Plattform oder direkt bei uns.',
-    book_both: 'Beide Apartments', book_a: 'Apartment A', book_b: 'Apartment B',
+    book_both: 'Beide Apartments', book_a: 'Apartment mit Schlafzimmer', book_b: 'Apartment mit Schlafzimmer und Terrasse',
     book_direct_title: 'Schreiben Sie uns', book_direct_sub: 'Buchung auf Anfrage nach Vereinbarung',
     contact_eyebrow: 'Kontakt', contact_title_1: 'Wir sind', contact_title_2: 'für Sie da',
     contact_sub_card: 'Olomouc, Tschechische Republik',
@@ -183,26 +183,27 @@ const I18N = {
     footer_copy: '© 2026 4U Centre Apartments s.r.o. Alle Rechte vorbehalten.',
     cookie_title: 'Cookies', cookie_text: 'Diese Website verwendet nur notwendige Cookies für die korrekte Funktion und zur Speicherung Ihrer Sprachpräferenz. Wir verwenden keine Tracking- oder Marketing-Cookies.',
     cookie_accept: 'Verstanden', cookie_decline: 'Ablehnen',
-    aptA_title: 'Apartment A', aptA_address: '2. Stock · Ruhige Straße im Zentrum von Olomouc',
+    aptA_title: 'Apartment mit Schlafzimmer', aptA_address: '2. Stock · Ruhige Straße im Zentrum von Olomouc',
     aptA_badge: 'Helles 1+kk Apartment',
     detail_back: 'Zurück zur Hauptseite', detail_about: 'Über das Apartment',
-    aptA_p1: 'Apartment A ist eine helle und modern eingerichtete 1+kk-Wohnung im 2. Stock mit Blick auf eine ruhige Straße. Ideal für Paare, Alleinreisende und Geschäftsreisen. Die Wohnung ist mit allem ausgestattet, was Sie für einen angenehmen Aufenthalt im Herzen von Olomouc benötigen.',
+    aptA_p1: 'Das Apartment mit Schlafzimmer ist eine helle und modern eingerichtete 1+kk-Wohnung im 2. Stock mit Blick auf eine ruhige Straße. Ideal für Paare, Alleinreisende und Geschäftsreisen. Die Wohnung ist mit allem ausgestattet, was Sie für einen angenehmen Aufenthalt im Herzen von Olomouc benötigen.',
     aptA_p2: 'Nach einem ereignisreichen Tag in Olomouc können Sie sich auf eine erholsame Nacht in einem bequemen Bett mit hochwertiger Bettwäsche freuen. Die Küche ist voll ausgestattet — Kühlschrank, Mikrowelle, Kochplatte, Wasserkocher und sämtliches Geschirr.',
     aptA_p3: 'Das Apartment liegt in Gehweite zu allen wichtigen Sehenswürdigkeiten, Restaurants und Geschäften. Dennoch ist die Straße ruhig und still.',
     btn_book_booking: 'Bei Booking.com buchen', btn_book_airbnb: 'Bei Airbnb buchen',
     info_bed: '1× Doppelbett', info_capacity: 'Maximale Kapazität: 2 Personen',
     info_size_a: 'Größe: ca. 35 m²', info_floor: '2. Stock (kein Aufzug)',
-    aptB_title: 'Apartment B mit Terrasse', aptB_address: '2. Stock · Mit eigener Terrasse und Designwand',
+    aptB_title: 'Apartment mit Schlafzimmer und Terrasse', aptB_address: '2. Stock · Mit eigener Terrasse und Designwand',
     aptB_badge: 'Private Terrasse',
-    aptB_p1: 'Apartment B ist eine stilvoll eingerichtete 1+kk-Wohnung im 2. Stock, die vor allem durch ihre eigene Terrasse besticht – der ideale Ort für einen morgendlichen Kaffee oder ein abendliches Entspannen. Eine markante Designwand verleiht der Wohnung einen einzigartigen Charakter.',
+    aptB_p1: 'Das Apartment mit Schlafzimmer und Terrasse ist eine stilvoll eingerichtete 1+kk-Wohnung im 2. Stock, die vor allem durch ihre eigene Terrasse besticht – der ideale Ort für einen morgendlichen Kaffee oder ein abendliches Entspannen. Eine markante Designwand verleiht der Wohnung einen einzigartigen Charakter.',
     aptB_p2: 'Die Wohnung verfügt über ein separates Schlafzimmer mit bequemem Doppelbett, eine voll ausgestattete Küche und ein modernes Badezimmer. Die Terrasse ist zum ruhigen Innenhof ausgerichtet.',
-    aptB_p3: 'Wie Apartment A befindet sich auch diese Wohnung im Herzen von Olomouc, nur wenige Gehminuten vom Oberen Ring, der Dreifaltigkeitssäule und anderen Sehenswürdigkeiten entfernt.',
+    aptB_p3: 'Wie unser zweites Apartment befindet sich auch diese Wohnung im Herzen von Olomouc, nur wenige Gehminuten vom Oberen Ring, der Dreifaltigkeitssäule und anderen Sehenswürdigkeiten entfernt.',
     info_terrace: 'Eigene Terrasse', info_size_b: 'Größe: ca. 38 m²'
   }
 };
 
 /* ---------- ROZŠÍŘENÉ PŘEKLADY (v2: garance, FAQ, GDPR, podmínky) ---------- */
 Object.assign(I18N.cs, {
+  footer_credit: 'Web vytvořil',
   nav_faq: 'FAQ',
   guarantee: 'Garance nejlepší ceny při přímé rezervaci',
   book_direct_title: 'Napište nám',
@@ -222,7 +223,7 @@ Object.assign(I18N.cs, {
   faq_q6: 'Mohu přijet s domácím mazlíčkem?',
   faq_a6: 'Pobyt s mazlíčkem je možný po předchozí domluvě. Kontaktujte nás prosím před rezervací.',
   faq_q7: 'Je v apartmánech povoleno kouření?',
-  faq_a7: 'Kouření je ve všech vnitřních prostorách zakázáno. Hosté Apartmánu B mohou využít soukromou terasu.',
+  faq_a7: 'Kouření je ve všech vnitřních prostorách zakázáno. Hosté apartmánu s ložnicí a terasou mohou využít soukromou terasu.',
   faq_q8: 'Pro kolik osob jsou apartmány vhodné?',
   faq_a8: 'Každý apartmán je určen maximálně pro 2 osoby a nabízí pohodlnou manželskou postel.',
   faq_q9: 'Jak mohu zrušit rezervaci?',
@@ -261,6 +262,7 @@ Object.assign(I18N.cs, {
   terms_p7: 'Právní vztahy neupravené těmito podmínkami se řídí právním řádem České republiky. Podmínky jsou platné a účinné od data uvedeného níže.'
 });
 Object.assign(I18N.en, {
+  footer_credit: 'Website by',
   nav_faq: 'FAQ',
   guarantee: 'Best price guarantee for direct booking',
   book_direct_title: 'Contact us',
@@ -280,7 +282,7 @@ Object.assign(I18N.en, {
   faq_q6: 'Can I bring a pet?',
   faq_a6: 'Stays with pets are possible by prior arrangement. Please contact us before booking.',
   faq_q7: 'Is smoking allowed in the apartments?',
-  faq_a7: 'Smoking is prohibited in all indoor areas. Guests of Apartment B may use the private terrace.',
+  faq_a7: 'Smoking is prohibited in all indoor areas. Guests of the apartment with bedroom and terrace may use the private terrace.',
   faq_q8: 'How many people can stay in the apartments?',
   faq_a8: 'Each apartment accommodates a maximum of 2 persons and offers a comfortable double bed.',
   faq_q9: 'How can I cancel my booking?',
@@ -319,6 +321,7 @@ Object.assign(I18N.en, {
   terms_p7: 'Legal relations not covered by these terms are governed by the laws of the Czech Republic. The terms are valid and effective from the date stated below.'
 });
 Object.assign(I18N.de, {
+  footer_credit: 'Website erstellt von',
   nav_faq: 'FAQ',
   guarantee: 'Bestpreisgarantie bei Direktbuchung',
   book_direct_title: 'Schreiben Sie uns',
@@ -338,7 +341,7 @@ Object.assign(I18N.de, {
   faq_q6: 'Kann ich mit Haustier anreisen?',
   faq_a6: 'Aufenthalte mit Haustier sind nach vorheriger Absprache möglich. Bitte kontaktieren Sie uns vor der Buchung.',
   faq_q7: 'Ist Rauchen in den Apartments erlaubt?',
-  faq_a7: 'Rauchen ist in allen Innenräumen verboten. Gäste des Apartments B können die private Terrasse nutzen.',
+  faq_a7: 'Rauchen ist in allen Innenräumen verboten. Gäste des Apartments mit Schlafzimmer und Terrasse können die private Terrasse nutzen.',
   faq_q8: 'Für wie viele Personen sind die Apartments geeignet?',
   faq_a8: 'Jedes Apartment ist für maximal 2 Personen ausgelegt und bietet ein bequemes Doppelbett.',
   faq_q9: 'Wie kann ich meine Buchung stornieren?',
@@ -376,6 +379,29 @@ Object.assign(I18N.de, {
   terms_h7: 'Schlussbestimmungen',
   terms_p7: 'Rechtsverhältnisse, die durch diese Bedingungen nicht geregelt sind, unterliegen dem Recht der Tschechischen Republik. Die Bedingungen sind ab dem unten angegebenen Datum gültig und wirksam.'
 });
+
+/* ---------- KREDIT V PATIČCE: web vytvořil 4uweb ---------- */
+(function footerCredit() {
+  const copy = document.querySelector('.footer-copy');
+  if (!copy) return;
+  const credit = document.createElement('div');
+  credit.style.cssText = 'margin-top:14px;text-align:center;font-size:0.68rem;color:rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;gap:8px;';
+  const label = document.createElement('span');
+  label.setAttribute('data-i18n', 'footer_credit');
+  label.textContent = 'Web vytvořil';
+  const link = document.createElement('a');
+  link.href = 'https://www.4uweb.cz';
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.setAttribute('aria-label', '4uweb — tvorba webů');
+  link.style.cssText = "font-family:'DM Sans','Segoe UI',sans-serif;font-weight:800;font-size:0.92rem;letter-spacing:-0.02em;color:#fff;text-decoration:none;display:inline-flex;align-items:baseline;transition:opacity 0.2s;";
+  link.innerHTML = '4uweb<span style="color:#FFB400;font-size:1.15em;line-height:0;">.</span>';
+  link.addEventListener('mouseenter', () => link.style.opacity = '0.75');
+  link.addEventListener('mouseleave', () => link.style.opacity = '1');
+  credit.appendChild(label);
+  credit.appendChild(link);
+  copy.insertAdjacentElement('afterend', credit);
+})();
 
 let cookiesAccepted = false;
 try { cookiesAccepted = localStorage.getItem('cookieConsent') === 'accepted'; } catch (e) {}
